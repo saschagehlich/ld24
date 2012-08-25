@@ -4,12 +4,19 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
   constructor: (@game, @scene, @screen) ->
     super @game, @scene, @screen
 
-    @maxSpeed = 3
+    @maxSpeed = 0.3
+
+    @powerupSpeed = false
+    @powerupSpeedEndTick = 0
 
     @handleKeyboard()
 
   tick: -> 
     super()
+
+    if @powerupSpeed and @tickCount > @powerupSpeedEndTick
+      @maxSpeed = 0.3
+      @powerupSpeed = false
 
   render: ->
     super()
@@ -20,6 +27,21 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
     finalY = (@y * @scene.zoom - finalH / 2) - @scene.scrollY
 
     @screen.render 0, 256, 256, 256, finalX, finalY, finalW, finalH
+
+  absorb: (mob) ->
+    if not @absorbing and mob.canBeAbsorbedBy(@)
+      @toScale = @scale + mob.scale / 2
+      @absorbing = true
+
+      mob.once 'absorbed', =>
+        @absorbing = false
+      mob.absorbedBy @
+
+      if mob instanceof LD24.Mobs.PowerUp
+        @powerupSpeed = true
+        @powerupSpeedEndTick = @tickCount + 60 * 10
+
+        @maxSpeed = 3
 
 
   canBeAbsorbedBy: (mob) ->

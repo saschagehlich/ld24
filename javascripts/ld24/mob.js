@@ -37,6 +37,7 @@ window.LD24.Mob = Mob = (function(_super) {
     this.absorbingMob = null;
     this.rotation = 0;
     this.speedRotation = Math.random() * 0.5;
+    this.tickCount = 0;
   }
 
   Mob.prototype.tick = function() {
@@ -72,7 +73,8 @@ window.LD24.Mob = Mob = (function(_super) {
       this.emit("absorbed");
       this.remove();
     }
-    return this.rotation += this.speedRotation;
+    this.rotation += this.speedRotation;
+    return this.tickCount++;
   };
 
   Mob.prototype.render = function() {

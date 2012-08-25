@@ -25,6 +25,8 @@ window.LD24.Mob = class Mob extends EventEmitter
     @rotation = 0
     @speedRotation = Math.random() * 0.5
 
+    @tickCount = 0
+
   tick: ->
     unless @absorbingMob?
       @speedX += (@toSpeedX - @speedX) / 20
@@ -61,6 +63,8 @@ window.LD24.Mob = class Mob extends EventEmitter
       @remove()
 
     @rotation += @speedRotation
+
+    @tickCount++
 
   render: ->
     finalW = @spriteW * @scale * @scene.zoom

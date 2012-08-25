@@ -20,12 +20,18 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     this.scene = scene;
     this.screen = screen;
     Player.__super__.constructor.call(this, this.game, this.scene, this.screen);
-    this.maxSpeed = 3;
+    this.maxSpeed = 0.3;
+    this.powerupSpeed = false;
+    this.powerupSpeedEndTick = 0;
     this.handleKeyboard();
   }
 
   Player.prototype.tick = function() {
-    return Player.__super__.tick.call(this);
+    Player.__super__.tick.call(this);
+    if (this.powerupSpeed && this.tickCount > this.powerupSpeedEndTick) {
+      this.maxSpeed = 0.3;
+      return this.powerupSpeed = false;
+    }
   };
 
   Player.prototype.render = function() {
@@ -36,6 +42,23 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     finalX = (this.x * this.scene.zoom - finalW / 2) - this.scene.scrollX;
     finalY = (this.y * this.scene.zoom - finalH / 2) - this.scene.scrollY;
     return this.screen.render(0, 256, 256, 256, finalX, finalY, finalW, finalH);
+  };
+
+  Player.prototype.absorb = function(mob) {
+    var _this = this;
+    if (!this.absorbing && mob.canBeAbsorbedBy(this)) {
+      this.toScale = this.scale + mob.scale / 2;
+      this.absorbing = true;
+      mob.once('absorbed', function() {
+        return _this.absorbing = false;
+      });
+      mob.absorbedBy(this);
+      if (mob instanceof LD24.Mobs.PowerUp) {
+        this.powerupSpeed = true;
+        this.powerupSpeedEndTick = this.tickCount + 60 * 10;
+        return this.maxSpeed = 3;
+      }
+    }
   };
 
   Player.prototype.canBeAbsorbedBy = function(mob) {
