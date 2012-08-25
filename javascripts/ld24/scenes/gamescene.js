@@ -45,12 +45,11 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
   GameScene.prototype.generateMobs = function() {
     var i, mob, _i, _results;
     _results = [];
-    for (i = _i = 0; _i < 60; i = ++_i) {
+    for (i = _i = 0; _i < 1; i = ++_i) {
       mob = new LD24.Mobs.PowerUp(this.game, this, this.screen);
-      mob.x = Math.random() * this.screen.width;
+      mob.x = this.screen.width - 100;
       mob.y = Math.random() * this.screen.height;
       mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
       _results.push(this.mobs.push(mob));
     }
     return _results;
@@ -71,6 +70,10 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     } else if (this.player.x * this.zoom + this.player.spriteW / 2 * this.zoom * this.player.scale > this.toScrollX + this.screen.width - 50) {
       this.toScrollX = this.player.x * this.zoom - this.screen.width + this.player.spriteW / 2 * this.zoom * this.player.scale + 50;
     }
+    this.toScrollX = Math.min(this.toScrollX, this.screen.width * this.zoom - this.screen.width);
+    this.toScrollX = Math.max(this.toScrollX, 0);
+    this.toScrollY = Math.min(this.toScrollY, this.screen.height * this.zoom - this.screen.height);
+    this.toScrollY = Math.max(this.toScrollY, 0);
     _ref2 = this.mobs;
     _results = [];
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {

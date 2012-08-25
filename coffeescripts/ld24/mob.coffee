@@ -40,6 +40,21 @@ window.LD24.Mob = class Mob extends EventEmitter
       @x += (@toX - @x) / 10
       @y += (@toY - @y) / 10
 
+    # boundaries!
+    if @x + @spriteW * @scale / 2 >= @screen.width and @speedX > 0
+      @speedX *= -1
+      @toSpeedX *= -1
+    else if @x <= 0 and @speedX < 0
+      @speedX *= -1
+      @toSpeedX *= -1
+
+    if @y + @spriteH * @scale / 2 >= @screen.height and @speedY > 0
+      @speedY *= -1
+      @toSpeedY *= -1
+    else if @y <= 0 and @speedY < 0
+      @speedY *= -1
+      @toSpeedY *= -1
+
     @scale += (@toScale - @scale) / 10
     if @scale < 0.01
       @emit "absorbed"

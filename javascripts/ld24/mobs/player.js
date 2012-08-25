@@ -20,7 +20,7 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     this.scene = scene;
     this.screen = screen;
     Player.__super__.constructor.call(this, this.game, this.scene, this.screen);
-    this.maxSpeed = 1;
+    this.maxSpeed = 3;
     this.handleKeyboard();
   }
 

@@ -32,13 +32,19 @@ window.LD24.Scenes.GameScene = class GameScene
           @toScrollY = @screen.height / 2 * @toZoom - @screen.height / 2
 
   generateMobs: ->
-    for i in [0...60]
+    for i in [0...1]
       mob = new LD24.Mobs.PowerUp @game, this, @screen
-      mob.x = Math.random() * @screen.width
+      mob.x = @screen.width - 100
       mob.y = Math.random() * @screen.height
 
       mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+
+      # mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
+      # if Math.round(Math.random()) is 0
+      #   mob.speedX *= -1
+      # mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+      # if Math.round(Math.random()) is 0
+      #   mob.speedY *= -1
 
       @mobs.push mob
 
@@ -60,6 +66,12 @@ window.LD24.Scenes.GameScene = class GameScene
       @toScrollX = @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale - 50
     else if @player.x * @zoom + @player.spriteW / 2 * @zoom * @player.scale > @toScrollX + @screen.width - 50
       @toScrollX = @player.x * @zoom - @screen.width + @player.spriteW / 2 * @zoom * @player.scale + 50
+
+    @toScrollX = Math.min @toScrollX, @screen.width * @zoom - @screen.width
+    @toScrollX = Math.max @toScrollX, 0
+
+    @toScrollY = Math.min @toScrollY, @screen.height * @zoom - @screen.height
+    @toScrollY = Math.max @toScrollY, 0
 
     # tick / absorb / remove mobs
     for mob in @mobs
