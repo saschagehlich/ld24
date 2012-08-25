@@ -4,14 +4,18 @@ window.LD24.Scenes.Game = class GameScene
   constructor: (@game, @screen) ->
     @offsetX = 0
     @tickCount = 0
+    @speedX = 1
 
-    @fragment = new LD24.Fragments.Basic @game, this, @screen
-    @player   = new LD24.Mobs.Player @game, this, @screen
+    @fragment     = new LD24.Fragments.Basic @game, this, @screen
+    @nextFragment = null
+
+    @player       = new LD24.Mobs.Player @game, this, @screen
 
     @mobs = []
 
   render: ->
     @fragment.render()
+    @nextFragment?.render()
     @player.render()
 
     @renderGUI()
@@ -31,10 +35,16 @@ window.LD24.Scenes.Game = class GameScene
     @screen.restore()
 
   tick: ->
-    @offsetX -= 1
+    @offsetX -= @speedX
+    @fragment.offsetX -= @speedX
+    @nextFragment?.offsetX -= @speedX
+
     @player.x = @offsetX * -1 + 20
 
+    @speedX += 0.0001
+
     @fragment.tick()
+    @nextFragment?.tick()
     @player.tick()
 
     # Randomly spawn new mobs
@@ -54,10 +64,20 @@ window.LD24.Scenes.Game = class GameScene
       mob.tick()
 
       # check for intersection with player
-      if @player.intersects mob
-        @game.pause()
+      # if @player.intersects mob
+      #   @game.pause()
 
     @tickCount++
+
+    if Math.abs(@fragment.offsetX) >= @fragment.width - @screen.width and not @nextFragment
+      @nextFragment = new LD24.Fragments.EightBit @game, this, @screen
+      @nextFragment.offsetX = @screen.width
+
+    if Math.abs(@fragment.offsetX) >= @fragment.width
+      @fragment = @nextFragment
+      @nextFragment = null
+
+      console.log "setting current fragment"
 
   getTravelledMeters: ->
     Math.round Math.abs(@offsetX) / 16

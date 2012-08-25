@@ -26,4 +26,4 @@ window.LD24.Screen = class Screen
   drawText: (text, x, y) ->
     chars = '1234567890m'
     for char, i in text
-      @render chars.indexOf(char) * 8, 16, 8, 8, x + 8 * i, y
+      @render chars.indexOf(char) * 8, @game.scene.fragment.gfx.font.spriteY, 8, 8, x + 8 * i, y

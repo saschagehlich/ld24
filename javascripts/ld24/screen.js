@@ -49,7 +49,7 @@ window.LD24.Screen = Screen = (function() {
     _results = [];
     for (i = _i = 0, _len = text.length; _i < _len; i = ++_i) {
       char = text[i];
-      _results.push(this.render(chars.indexOf(char) * 8, 16, 8, 8, x + 8 * i, y));
+      _results.push(this.render(chars.indexOf(char) * 8, this.game.scene.fragment.gfx.font.spriteY, 8, 8, x + 8 * i, y));
     }
     return _results;
   };

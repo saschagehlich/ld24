@@ -27,6 +27,13 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     return jwerty.key('space', this.jump);
   };
 
+  Player.prototype.render = function() {
+    var drawSX;
+    drawSX = this.scene.fragment.gfx.player.spriteXOffset;
+    drawSX += this.walkPosition * this.spriteW;
+    return this.screen.render(drawSX, this.scene.fragment.gfx.player.spriteY, this.spriteW, this.spriteH, this.x + this.scene.offsetX, this.y);
+  };
+
   return Player;
 
 })(LD24.Mobs.Mob);

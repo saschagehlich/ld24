@@ -4,8 +4,6 @@ JUMPSTATE_FALLING = 2
 window.LD24 ?= {}
 window.LD24.Mobs ?= {}
 window.LD24.Mobs.Mob = class Mob
-  spriteX: 16
-  spriteY: 0
   spriteW: 16
   spriteH: 16
   constructor: (@game, @scene, @screen) ->
@@ -21,6 +19,10 @@ window.LD24.Mobs.Mob = class Mob
     @jumpThresholdTolerance = 0.3
 
     @gravity = 1
+
+    @tickCount = 0
+
+    @walkPosition = 0
 
   tick: ->
     if @jumpState is JUMPSTATE_JUMPING
@@ -38,8 +40,18 @@ window.LD24.Mobs.Mob = class Mob
       @y = @screen.height - @scene.fragment.floorHeight - @spriteH
       @jumpState = null
 
+    @tickCount++
+
+    if Math.abs(Math.round(@scene.offsetX)) % 10 is 0
+      @walkPosition += 1
+
+      if @walkPosition is @scene.fragment.gfx.mob.frames
+        @walkPosition = 0
+
   render: ->
-    @screen.render @spriteX, @spriteY, @spriteW, @spriteH, @x + @scene.offsetX, @y
+    drawSX = @scene.fragment.gfx.mob.spriteXOffset
+    drawSX += @walkPosition * @spriteW
+    @screen.render drawSX, @scene.fragment.gfx.mob.spriteY, @spriteW, @spriteH, @x + @scene.offsetX, @y
 
   remove: -> 
     @removed = true

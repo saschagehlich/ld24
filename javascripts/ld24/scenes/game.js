@@ -16,20 +16,25 @@ window.LD24.Scenes.Game = GameScene = (function() {
     this.screen = screen;
     this.offsetX = 0;
     this.tickCount = 0;
+    this.speedX = 1;
     this.fragment = new LD24.Fragments.Basic(this.game, this, this.screen);
+    this.nextFragment = null;
     this.player = new LD24.Mobs.Player(this.game, this, this.screen);
     this.mobs = [];
   }
 
   GameScene.prototype.render = function() {
-    var mob, _i, _len, _ref2, _results;
+    var mob, _i, _len, _ref2, _ref3, _results;
     this.fragment.render();
+    if ((_ref2 = this.nextFragment) != null) {
+      _ref2.render();
+    }
     this.player.render();
     this.renderGUI();
-    _ref2 = this.mobs;
+    _ref3 = this.mobs;
     _results = [];
-    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-      mob = _ref2[_i];
+    for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
+      mob = _ref3[_i];
       _results.push(mob.render());
     }
     return _results;
@@ -44,10 +49,18 @@ window.LD24.Scenes.Game = GameScene = (function() {
   };
 
   GameScene.prototype.tick = function() {
-    var mob, _i, _len, _ref2;
-    this.offsetX -= 1;
+    var mob, _i, _len, _ref2, _ref3, _ref4;
+    this.offsetX -= this.speedX;
+    this.fragment.offsetX -= this.speedX;
+    if ((_ref2 = this.nextFragment) != null) {
+      _ref2.offsetX -= this.speedX;
+    }
     this.player.x = this.offsetX * -1 + 20;
+    this.speedX += 0.0001;
     this.fragment.tick();
+    if ((_ref3 = this.nextFragment) != null) {
+      _ref3.tick();
+    }
     this.player.tick();
     if (this.tickCount % 20 === 0) {
       if (Math.floor(Math.random() * 10) === 0) {
@@ -56,9 +69,9 @@ window.LD24.Scenes.Game = GameScene = (function() {
         this.mobs.push(mob);
       }
     }
-    _ref2 = this.mobs;
-    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-      mob = _ref2[_i];
+    _ref4 = this.mobs;
+    for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
+      mob = _ref4[_i];
       if (mob.x < this.offsetX * -1 - 16) {
         mob.remove();
       }
@@ -66,11 +79,17 @@ window.LD24.Scenes.Game = GameScene = (function() {
         this.mobs = _.without(this.mobs, mob);
       }
       mob.tick();
-      if (this.player.intersects(mob)) {
-        this.game.pause();
-      }
     }
-    return this.tickCount++;
+    this.tickCount++;
+    if (Math.abs(this.fragment.offsetX) >= this.fragment.width - this.screen.width && !this.nextFragment) {
+      this.nextFragment = new LD24.Fragments.EightBit(this.game, this, this.screen);
+      this.nextFragment.offsetX = this.screen.width;
+    }
+    if (Math.abs(this.fragment.offsetX) >= this.fragment.width) {
+      this.fragment = this.nextFragment;
+      this.nextFragment = null;
+      return console.log("setting current fragment");
+    }
   };
 
   GameScene.prototype.getTravelledMeters = function() {

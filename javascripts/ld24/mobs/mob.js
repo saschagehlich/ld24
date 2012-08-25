@@ -16,10 +16,6 @@ if ((_ref1 = (_base = window.LD24).Mobs) == null) {
 
 window.LD24.Mobs.Mob = Mob = (function() {
 
-  Mob.prototype.spriteX = 16;
-
-  Mob.prototype.spriteY = 0;
-
   Mob.prototype.spriteW = 16;
 
   Mob.prototype.spriteH = 16;
@@ -39,6 +35,8 @@ window.LD24.Mobs.Mob = Mob = (function() {
     this.jumpThresholdReduction = 20;
     this.jumpThresholdTolerance = 0.3;
     this.gravity = 1;
+    this.tickCount = 0;
+    this.walkPosition = 0;
   }
 
   Mob.prototype.tick = function() {
@@ -53,12 +51,22 @@ window.LD24.Mobs.Mob = Mob = (function() {
     this.y += this.gravity;
     if (this.y >= this.screen.height - this.scene.fragment.floorHeight - this.spriteH) {
       this.y = this.screen.height - this.scene.fragment.floorHeight - this.spriteH;
-      return this.jumpState = null;
+      this.jumpState = null;
+    }
+    this.tickCount++;
+    if (Math.abs(Math.round(this.scene.offsetX)) % 10 === 0) {
+      this.walkPosition += 1;
+      if (this.walkPosition === this.scene.fragment.gfx.mob.frames) {
+        return this.walkPosition = 0;
+      }
     }
   };
 
   Mob.prototype.render = function() {
-    return this.screen.render(this.spriteX, this.spriteY, this.spriteW, this.spriteH, this.x + this.scene.offsetX, this.y);
+    var drawSX;
+    drawSX = this.scene.fragment.gfx.mob.spriteXOffset;
+    drawSX += this.walkPosition * this.spriteW;
+    return this.screen.render(drawSX, this.scene.fragment.gfx.mob.spriteY, this.spriteW, this.spriteH, this.x + this.scene.offsetX, this.y);
   };
 
   Mob.prototype.remove = function() {
