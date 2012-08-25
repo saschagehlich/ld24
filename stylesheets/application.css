@@ -167,3 +167,12 @@ body {
   width: 640px;
   height: 480px;
 }
+.canvas-wrapper .debug {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 3px;
+  font: normal 10px Verdana;
+  color: #f00;
+  text-align: right;
+}

@@ -49,6 +49,10 @@ window.LD24.Game = Game = (function() {
     return clearInterval(this.renderLoop);
   };
 
+  Game.prototype.debug = function(msg) {
+    return $('.debug').text(msg);
+  };
+
   return Game;
 
 })();

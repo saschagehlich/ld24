@@ -95,7 +95,11 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     _results = [];
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
       mob = _ref2[_i];
-      _results.push(mob.render());
+      if (mob.x * this.zoom - (mob.spriteW * mob.scale * this.zoom) / 2 < this.screen.width * this.zoom - this.scrollX && mob.x * this.zoom + (mob.spriteW * mob.scale * this.zoom) / 2 > this.screen.width * this.zoom - this.scrollX - this.screen.width && mob.y * this.zoom + (mob.spriteH * mob.scale * this.zoom) / 2 > this.screen.height * this.zoom - this.scrollY - this.screen.height && mob.y * this.zoom - (mob.spriteH * mob.scale * this.zoom) / 2 < this.screen.height * this.zoom - this.scrollY) {
+        _results.push(mob.render());
+      } else {
+        _results.push(void 0);
+      }
     }
     return _results;
   };

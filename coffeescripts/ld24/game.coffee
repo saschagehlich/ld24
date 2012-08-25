@@ -29,3 +29,6 @@ window.LD24.Game = class Game
   pause: ->
     clearInterval @tickLoop
     clearInterval @renderLoop
+
+  debug: (msg) ->
+    $('.debug').text msg

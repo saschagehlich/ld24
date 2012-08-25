@@ -64,7 +64,12 @@ window.LD24.Scenes.GameScene = class GameScene
     @renderBackground()
 
     for mob in @mobs
-      mob.render()
+      # conditional rendering
+      if mob.x * @zoom - (mob.spriteW * mob.scale * @zoom) / 2 < @screen.width * @zoom - @scrollX and
+        mob.x * @zoom + (mob.spriteW * mob.scale * @zoom) / 2 > @screen.width * @zoom - @scrollX - @screen.width and
+        mob.y * @zoom + (mob.spriteH * mob.scale * @zoom) / 2 > @screen.height * @zoom - @scrollY - @screen.height and
+        mob.y * @zoom - (mob.spriteH * mob.scale * @zoom) / 2 < @screen.height * @zoom - @scrollY
+          mob.render()
 
   renderBackground: ->
     @screen.save()
