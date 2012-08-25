@@ -75,9 +75,37 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
   };
 
   GameScene.prototype.generateMobs = function() {
-    var i, mob, _i, _results;
+    var i, mob, _i, _j, _k, _results;
+    for (i = _i = 0; _i < 60; i = ++_i) {
+      mob = new LD24.Mobs.Mote(this.game, this, this.screen);
+      mob.x = Math.random() * this.screen.width;
+      mob.y = Math.random() * this.screen.height;
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedX *= -1;
+      }
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedY *= -1;
+      }
+      this.mobs.push(mob);
+    }
+    for (i = _j = 0; _j < 2; i = ++_j) {
+      mob = new LD24.Mobs.PowerUp(this.game, this, this.screen);
+      mob.x = Math.random() * this.screen.width;
+      mob.y = Math.random() * this.screen.height;
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedX *= -1;
+      }
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedY *= -1;
+      }
+      this.mobs.push(mob);
+    }
     _results = [];
-    for (i = _i = 0; _i < 1; i = ++_i) {
+    for (i = _k = 0; _k < 5; i = ++_k) {
       mob = new LD24.Mobs.Bad(this.game, this, this.screen);
       mob.x = Math.random() * this.screen.width;
       mob.y = Math.random() * this.screen.height;
@@ -146,7 +174,7 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
   };
 
   GameScene.prototype.render = function() {
-    var arrowRotation, arrowX, arrowY, distX, distY, distanceMax, distanceMin, mob, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
+    var arrowRotation, arrowX, arrowY, distX, distY, distanceMax, distanceMin, mob, particle, spriteY, _i, _j, _len, _len1, _ref2, _ref3, _results;
     this.renderBackground();
     _ref2 = this.particles;
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
@@ -162,7 +190,7 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
       if (mob.x * this.zoom - (mob.spriteW * mob.scale * this.zoom) / 2 < this.scrollX + this.screen.width && mob.x * this.zoom + (mob.spriteW * mob.scale * this.zoom) / 2 > this.scrollX && mob.y * this.zoom + (mob.spriteH * mob.scale * this.zoom) / 2 > this.scrollY && mob.y * this.zoom - (mob.spriteH * mob.scale * this.zoom) / 2 < this.scrollY + this.screen.height) {
         mob.render();
       }
-      if (mob instanceof LD24.Mobs.Bad) {
+      if (mob instanceof LD24.Mobs.Bad || mob instanceof LD24.Mobs.PowerUp) {
         distX = Math.abs(mob.x - (this.scrollX + this.screen.width / 2) / this.zoom);
         distY = Math.abs(mob.y - (this.scrollY + this.screen.height / 2) / this.zoom);
         this.game.debug(Math.round(distX) + ',' + Math.round(distY) + ' // ' + Math.round(this.screen.width / 2) + ',' + Math.round(this.screen.height / 2));
@@ -178,7 +206,12 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
           distX = (mob.x * this.zoom) - (this.scrollX + this.screen.width / 2);
           distY = (mob.y * this.zoom) - (this.scrollY + this.screen.height / 2);
           arrowRotation = Math.atan2(distY, distX);
-          _results.push(this.screen.render(768, 32 + 25, 38, 25, arrowX, arrowY, null, null, arrowRotation));
+          if (mob instanceof LD24.Mobs.Bad) {
+            spriteY = 32 + 25;
+          } else if (mob instanceof LD24.Mobs.PowerUp) {
+            spriteY = 32;
+          }
+          _results.push(this.screen.render(768, spriteY, 38, 25, arrowX, arrowY, null, null, arrowRotation));
         } else {
           _results.push(void 0);
         }

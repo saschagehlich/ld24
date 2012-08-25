@@ -65,37 +65,37 @@ window.LD24.Scenes.GameScene = class GameScene
 
   generateMobs: ->
     # Normal mobs
-    # for i in [0...60]
-    #   mob = new LD24.Mobs.Mote @game, this, @screen
-    #   mob.x = Math.random() * @screen.width
-    #   mob.y = Math.random() * @screen.height
+    for i in [0...60]
+      mob = new LD24.Mobs.Mote @game, this, @screen
+      mob.x = Math.random() * @screen.width
+      mob.y = Math.random() * @screen.height
 
-    #   mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
-    #   if Math.round(Math.random()) is 0
-    #     mob.speedX *= -1
-    #   mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
-    #   if Math.round(Math.random()) is 0
-    #     mob.speedY *= -1
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedX *= -1
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedY *= -1
 
-    #   @mobs.push mob
+      @mobs.push mob
 
     # Power ups
-    # for i in [0...2]
-    #   mob = new LD24.Mobs.PowerUp @game, this, @screen
-    #   mob.x = Math.random() * @screen.width
-    #   mob.y = Math.random() * @screen.height
+    for i in [0...2]
+      mob = new LD24.Mobs.PowerUp @game, this, @screen
+      mob.x = Math.random() * @screen.width
+      mob.y = Math.random() * @screen.height
 
-    #   mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
-    #   if Math.round(Math.random()) is 0
-    #     mob.speedX *= -1
-    #   mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
-    #   if Math.round(Math.random()) is 0
-    #     mob.speedY *= -1
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedX *= -1
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedY *= -1
 
-    #   @mobs.push mob
+      @mobs.push mob
 
     # Bad mobs
-    for i in [0...1]
+    for i in [0...5]
       mob = new LD24.Mobs.Bad @game, this, @screen
       mob.x = Math.random() * @screen.width
       mob.y = Math.random() * @screen.height
@@ -167,7 +167,7 @@ window.LD24.Scenes.GameScene = class GameScene
           mob.render()
 
       # is there a bad mob around? draw an arrow for him
-      if mob instanceof LD24.Mobs.Bad
+      if mob instanceof LD24.Mobs.Bad or mob instanceof LD24.Mobs.PowerUp
         distX = Math.abs(mob.x - (@scrollX + @screen.width / 2) / @zoom)
         distY = Math.abs(mob.y - (@scrollY + @screen.height / 2) / @zoom)
 
@@ -190,7 +190,11 @@ window.LD24.Scenes.GameScene = class GameScene
           distY = (mob.y * @zoom) - (@scrollY + @screen.height / 2)
           arrowRotation = Math.atan2(distY, distX)
 
-          @screen.render 768, 32 + 25, 38, 25, arrowX, arrowY, null, null, arrowRotation
+          if mob instanceof LD24.Mobs.Bad
+            spriteY = 32 + 25
+          else if mob instanceof LD24.Mobs.PowerUp
+            spriteY = 32
+          @screen.render 768, spriteY, 38, 25, arrowX, arrowY, null, null, arrowRotation
 
 
   renderBackground: ->
