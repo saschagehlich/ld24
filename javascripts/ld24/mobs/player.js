@@ -20,9 +20,12 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     this.scene = scene;
     this.screen = screen;
     Player.__super__.constructor.call(this, this.game, this.scene, this.screen);
+    this.handleKeyboard();
   }
 
-  Player.prototype.tick = function() {};
+  Player.prototype.handleKeyboard = function() {
+    return jwerty.key('space', this.jump);
+  };
 
   return Player;
 

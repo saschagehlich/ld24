@@ -52,7 +52,6 @@ window.LD24.Scenes.Game = GameScene = (function() {
       mob = _ref2[_i];
       if (mob.x < this.offsetX * -1 - 16) {
         mob.remove();
-        console.log("mob killed");
       }
       if (mob.removed) {
         this.mobs = _.without(this.mobs, mob);

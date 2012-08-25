@@ -4,4 +4,7 @@ window.LD24.Mobs.Player = class Player extends LD24.Mobs.Mob
   constructor: (@game, @scene, @screen) ->
     super @game, @scene, @screen
 
-  tick: ->
+    @handleKeyboard()
+
+  handleKeyboard: ->
+    jwerty.key 'space', @jump

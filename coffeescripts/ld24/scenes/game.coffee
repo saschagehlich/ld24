@@ -34,13 +34,12 @@ window.LD24.Scenes.Game = class GameScene
     for mob in @mobs
       if mob.x < @offsetX * -1 - 16
         mob.remove()
-        console.log "mob killed"
 
       if mob.removed
         @mobs = _.without @mobs, mob
 
       mob.tick()
-      
+
       # check for intersection with player
       if @player.intersects mob
         @game.pause()
