@@ -56,14 +56,14 @@ window.LD24.Mob = Mob = (function(_super) {
     if (this.x + this.spriteW * this.scale / 2 >= this.screen.width && this.speedX > 0) {
       this.speedX *= -1;
       this.toSpeedX *= -1;
-    } else if (this.x <= 0 && this.speedX < 0) {
+    } else if (this.x - this.spriteW * this.scale / 2 <= 0 && this.speedX < 0) {
       this.speedX *= -1;
       this.toSpeedX *= -1;
     }
     if (this.y + this.spriteH * this.scale / 2 >= this.screen.height && this.speedY > 0) {
       this.speedY *= -1;
       this.toSpeedY *= -1;
-    } else if (this.y <= 0 && this.speedY < 0) {
+    } else if (this.y - this.spriteH * this.scale / 2 <= 0 && this.speedY < 0) {
       this.speedY *= -1;
       this.toSpeedY *= -1;
     }

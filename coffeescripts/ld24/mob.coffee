@@ -44,14 +44,14 @@ window.LD24.Mob = class Mob extends EventEmitter
     if @x + @spriteW * @scale / 2 >= @screen.width and @speedX > 0
       @speedX *= -1
       @toSpeedX *= -1
-    else if @x <= 0 and @speedX < 0
+    else if @x - @spriteW * @scale / 2 <= 0 and @speedX < 0
       @speedX *= -1
       @toSpeedX *= -1
 
     if @y + @spriteH * @scale / 2 >= @screen.height and @speedY > 0
       @speedY *= -1
       @toSpeedY *= -1
-    else if @y <= 0 and @speedY < 0
+    else if @y - @spriteH * @scale / 2 <= 0 and @speedY < 0
       @speedY *= -1
       @toSpeedY *= -1
 

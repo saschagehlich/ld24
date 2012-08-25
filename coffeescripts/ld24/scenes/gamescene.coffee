@@ -32,6 +32,7 @@ window.LD24.Scenes.GameScene = class GameScene
           @toScrollY = @screen.height / 2 * @toZoom - @screen.height / 2
 
   generateMobs: ->
+    # Normal mobs
     for i in [0...60]
       mob = new LD24.Mobs.Mote @game, this, @screen
       mob.x = Math.random() * @screen.width
@@ -46,6 +47,7 @@ window.LD24.Scenes.GameScene = class GameScene
 
       @mobs.push mob
 
+    # Power ups
     for i in [0...2]
       mob = new LD24.Mobs.PowerUp @game, this, @screen
       mob.x = Math.random() * @screen.width
