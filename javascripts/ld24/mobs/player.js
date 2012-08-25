@@ -20,7 +20,7 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     this.scene = scene;
     this.screen = screen;
     Player.__super__.constructor.call(this, this.game, this.scene, this.screen);
-    this.maxSpeed = 0.3;
+    this.maxSpeed = 1;
     this.handleKeyboard();
   }
 
@@ -33,9 +33,9 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     Player.__super__.render.call(this);
     finalW = this.spriteW * this.scale * this.scene.zoom;
     finalH = this.spriteH * this.scale * this.scene.zoom;
-    finalX = (this.x * this.scene.zoom - finalW / 2) * this.scene.zoom - this.scene.scrollX;
-    finalY = (this.y * this.scene.zoom - finalH / 2) * this.scene.zoom - this.scene.scrollY;
-    return this.screen.render(0, 256, 256, 256, this.finalX, this.finalY, finalW, finalH);
+    finalX = (this.x * this.scene.zoom - finalW / 2) - this.scene.scrollX;
+    finalY = (this.y * this.scene.zoom - finalH / 2) - this.scene.scrollY;
+    return this.screen.render(0, 256, 256, 256, finalX, finalY, finalW, finalH);
   };
 
   Player.prototype.handleKeyboard = function() {

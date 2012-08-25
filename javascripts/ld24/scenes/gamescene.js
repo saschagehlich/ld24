@@ -46,7 +46,7 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     var i, mob, _i, _results;
     _results = [];
     for (i = _i = 0; _i < 60; i = ++_i) {
-      mob = new LD24.Mobs.Mote(this.game, this, this.screen);
+      mob = new LD24.Mobs.PowerUp(this.game, this, this.screen);
       mob.x = Math.random() * this.screen.width;
       mob.y = Math.random() * this.screen.height;
       mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
@@ -61,15 +61,15 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     this.zoom += (this.toZoom - this.zoom) / 10;
     this.scrollX += (this.toScrollX - this.scrollX) / 10;
     this.scrollY += (this.toScrollY - this.scrollY) / 10;
-    if (this.player.y * this.zoom < this.toScrollY + 50) {
-      this.toScrollY = this.player.y * this.zoom - 50;
-    } else if (this.player.y * this.zoom > this.toScrollY + this.screen.height - 50) {
-      this.toScrollY = this.player.y * this.zoom - this.screen.height + 50;
+    if (this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale < this.toScrollY + 50) {
+      this.toScrollY = this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale - 50;
+    } else if (this.player.y * this.zoom + this.player.spriteH / 2 * this.zoom * this.player.scale > this.toScrollY + this.screen.height - 50) {
+      this.toScrollY = this.player.y * this.zoom - this.screen.height + this.player.spriteH / 2 * this.zoom * this.player.scale + 50;
     }
-    if (this.player.x * this.zoom < this.toScrollX + 50) {
-      this.toScrollX = this.player.x * this.zoom - 50;
-    } else if (this.player.x * this.zoom > this.toScrollX + this.screen.width - 50) {
-      this.toScrollX = this.player.x * this.zoom - this.screen.width + 50;
+    if (this.player.x * this.zoom - this.player.spriteW / 2 * this.zoom * this.player.scale < this.toScrollX + 50) {
+      this.toScrollX = this.player.x * this.zoom - this.player.spriteW / 2 * this.zoom * this.player.scale - 50;
+    } else if (this.player.x * this.zoom + this.player.spriteW / 2 * this.zoom * this.player.scale > this.toScrollX + this.screen.width - 50) {
+      this.toScrollX = this.player.x * this.zoom - this.screen.width + this.player.spriteW / 2 * this.zoom * this.player.scale + 50;
     }
     _ref2 = this.mobs;
     _results = [];

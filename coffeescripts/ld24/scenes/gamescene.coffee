@@ -33,7 +33,7 @@ window.LD24.Scenes.GameScene = class GameScene
 
   generateMobs: ->
     for i in [0...60]
-      mob = new LD24.Mobs.Mote @game, this, @screen
+      mob = new LD24.Mobs.PowerUp @game, this, @screen
       mob.x = Math.random() * @screen.width
       mob.y = Math.random() * @screen.height
 
@@ -41,7 +41,6 @@ window.LD24.Scenes.GameScene = class GameScene
       mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
 
       @mobs.push mob
-
 
   tick: ->
     # zoom transition
@@ -52,16 +51,17 @@ window.LD24.Scenes.GameScene = class GameScene
     @scrollY += (@toScrollY - @scrollY) / 10
 
     # boundary scrolling
-    if @player.y * @zoom < @toScrollY + 50
-      @toScrollY = @player.y * @zoom - 50
-    else if @player.y * @zoom > @toScrollY + @screen.height - 50
-      @toScrollY = @player.y * @zoom - @screen.height + 50
+    if @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale < @toScrollY + 50
+      @toScrollY = @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale - 50
+    else if @player.y * @zoom + @player.spriteH / 2 * @zoom * @player.scale > @toScrollY + @screen.height - 50
+      @toScrollY = @player.y * @zoom - @screen.height + @player.spriteH / 2 * @zoom * @player.scale + 50
 
-    if @player.x * @zoom < @toScrollX + 50
-      @toScrollX = @player.x * @zoom - 50
-    else if @player.x * @zoom > @toScrollX + @screen.width - 50
-      @toScrollX = @player.x * @zoom - @screen.width + 50
+    if @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale < @toScrollX + 50
+      @toScrollX = @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale - 50
+    else if @player.x * @zoom + @player.spriteW / 2 * @zoom * @player.scale > @toScrollX + @screen.width - 50
+      @toScrollX = @player.x * @zoom - @screen.width + @player.spriteW / 2 * @zoom * @player.scale + 50
 
+    # tick / absorb / remove mobs
     for mob in @mobs
       if mob.removed
         @mobs = _.without @mobs, mob

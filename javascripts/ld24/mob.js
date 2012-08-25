@@ -88,13 +88,21 @@ window.LD24.Mob = Mob = (function(_super) {
     return this.toScale = 0;
   };
 
+  Mob.prototype.canBeAbsorbedBy = function(mob) {
+    if (this.scale > mob.scale) {
+      console.log(this.scale, mob.scale);
+      return false;
+    }
+    return true;
+  };
+
   Mob.prototype.remove = function() {
     return this.removed = true;
   };
 
   Mob.prototype.absorb = function(mob) {
     var _this = this;
-    if (!this.absorbing) {
+    if (!this.absorbing && mob.canBeAbsorbedBy(this)) {
       this.toScale = this.scale + mob.scale / 2;
       this.absorbing = true;
       mob.once('absorbed', function() {
