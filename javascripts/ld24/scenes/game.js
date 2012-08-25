@@ -25,6 +25,7 @@ window.LD24.Scenes.Game = GameScene = (function() {
     var mob, _i, _len, _ref2, _results;
     this.fragment.render();
     this.player.render();
+    this.renderGUI();
     _ref2 = this.mobs;
     _results = [];
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
@@ -32,6 +33,14 @@ window.LD24.Scenes.Game = GameScene = (function() {
       _results.push(mob.render());
     }
     return _results;
+  };
+
+  GameScene.prototype.renderGUI = function() {
+    this.screen.save();
+    this.screen.context.fillStyle = 'rgba(255,255,255,1)';
+    this.screen.context.fillRect(0, 0, this.screen.width, 16);
+    this.screen.drawText(this.getTravelledMeters() + 'm', 8, 4);
+    return this.screen.restore();
   };
 
   GameScene.prototype.tick = function() {
@@ -62,6 +71,10 @@ window.LD24.Scenes.Game = GameScene = (function() {
       }
     }
     return this.tickCount++;
+  };
+
+  GameScene.prototype.getTravelledMeters = function() {
+    return Math.round(Math.abs(this.offsetX) / 16);
   };
 
   return GameScene;

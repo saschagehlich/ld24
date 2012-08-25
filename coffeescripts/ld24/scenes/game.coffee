@@ -14,8 +14,21 @@ window.LD24.Scenes.Game = class GameScene
     @fragment.render()
     @player.render()
 
+    @renderGUI()
+
     for mob in @mobs
       mob.render()
+
+  renderGUI: ->
+    @screen.save()
+
+    @screen.context.fillStyle = 'rgba(255,255,255,1)'
+    @screen.context.fillRect 0, 0, @screen.width, 16
+
+    # travelled meters
+    @screen.drawText @getTravelledMeters() + 'm', 8, 4
+
+    @screen.restore()
 
   tick: ->
     @offsetX -= 1
@@ -45,3 +58,6 @@ window.LD24.Scenes.Game = class GameScene
         @game.pause()
 
     @tickCount++
+
+  getTravelledMeters: ->
+    Math.round Math.abs(@offsetX) / 16

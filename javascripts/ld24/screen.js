@@ -35,6 +35,25 @@ window.LD24.Screen = Screen = (function() {
     return this.context.drawImage(this.sprites, sx, sy, sw, sh, dx, dy, dw, dh);
   };
 
+  Screen.prototype.save = function() {
+    return this.context.save();
+  };
+
+  Screen.prototype.restore = function() {
+    return this.context.restore();
+  };
+
+  Screen.prototype.drawText = function(text, x, y) {
+    var char, chars, i, _i, _len, _results;
+    chars = '1234567890m';
+    _results = [];
+    for (i = _i = 0, _len = text.length; _i < _len; i = ++_i) {
+      char = text[i];
+      _results.push(this.render(chars.indexOf(char) * 8, 16, 8, 8, x + 8 * i, y));
+    }
+    return _results;
+  };
+
   return Screen;
 
 })();
