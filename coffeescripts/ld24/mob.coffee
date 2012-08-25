@@ -54,7 +54,7 @@ window.LD24.Mob = class Mob extends EventEmitter
     finalY = (@y * @scene.zoom - finalH / 2) - @scene.scrollY
 
     @screen.render 0, 0, 256, 256, finalX, finalY, finalW, finalH
-    @screen.render 256, 0, 256, 256, finalX, finalY, finalW, finalH, @rotation * (Math.PI/180)
+    @screen.render 256, 0, 256, 256, finalX - @speedX * 10, finalY - @speedY * 10, finalW, finalH, @rotation * (Math.PI/180)
 
   intersects: (mob) ->
     # circular intersection

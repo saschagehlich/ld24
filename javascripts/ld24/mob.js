@@ -68,7 +68,7 @@ window.LD24.Mob = Mob = (function(_super) {
     finalX = (this.x * this.scene.zoom - finalW / 2) - this.scene.scrollX;
     finalY = (this.y * this.scene.zoom - finalH / 2) - this.scene.scrollY;
     this.screen.render(0, 0, 256, 256, finalX, finalY, finalW, finalH);
-    return this.screen.render(256, 0, 256, 256, finalX, finalY, finalW, finalH, this.rotation * (Math.PI / 180));
+    return this.screen.render(256, 0, 256, 256, finalX - this.speedX * 10, finalY - this.speedY * 10, finalW, finalH, this.rotation * (Math.PI / 180));
   };
 
   Mob.prototype.intersects = function(mob) {
