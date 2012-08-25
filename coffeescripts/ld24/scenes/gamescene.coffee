@@ -17,8 +17,10 @@ window.LD24.Scenes.GameScene = class GameScene
     @toScrollY = @scrollY
 
     @mobs = [@player]
+    @particles = []
   
     @generateMobs()
+    @generateParticles()
 
     $(document).keydown (e) =>
       switch e.keyCode
@@ -36,6 +38,21 @@ window.LD24.Scenes.GameScene = class GameScene
     @toZoom = Math.min 5, @toZoom + 1
     @toScrollX += (@screen.width / 2 * @toZoom) - (@screen.width / 2 * @zoom)
     @toScrollY += (@screen.height / 2 * @toZoom) - (@screen.height / 2 * @zoom)
+
+  generateParticles: ->
+    for i in [0...500]
+      particle = new LD24.Particle @game, this, @screen
+      particle.x = Math.random() * @screen.width
+      particle.y = Math.random() * @screen.height
+
+      # For parallax effect
+      particle.scrollX = @scrollX
+      particle.scrollY = @scrollY
+
+      particle.speedX = particle.toSpeedX = Math.random() * 0.05
+      particle.speedY = particle.toSpeedY = Math.random() * 0.05
+
+      @particles.push particle
 
   generateMobs: ->
     # Normal mobs
@@ -91,6 +108,9 @@ window.LD24.Scenes.GameScene = class GameScene
     @scrollX += (@toScrollX - @scrollX) / 10
     @scrollY += (@toScrollY - @scrollY) / 10
 
+    for particle in @particles
+      particle.tick()
+
     # boundary scrolling
     if @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale < @scrollY + 50
       @toScrollY = @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale - 50
@@ -122,6 +142,9 @@ window.LD24.Scenes.GameScene = class GameScene
   render: ->
     @renderBackground()
 
+    for particle in @particles
+      particle.render()
+      
     for mob in @mobs
       # conditional rendering
       if mob.x * @zoom - (mob.spriteW * mob.scale * @zoom) / 2 < @scrollX + @screen.width and

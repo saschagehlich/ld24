@@ -27,7 +27,9 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     this.scrollY = this.screen.height / 2 * this.zoom - this.screen.height / 2;
     this.toScrollY = this.scrollY;
     this.mobs = [this.player];
+    this.particles = [];
     this.generateMobs();
+    this.generateParticles();
     $(document).keydown(function(e) {
       switch (e.keyCode) {
         case 189:
@@ -48,6 +50,22 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     this.toZoom = Math.min(5, this.toZoom + 1);
     this.toScrollX += (this.screen.width / 2 * this.toZoom) - (this.screen.width / 2 * this.zoom);
     return this.toScrollY += (this.screen.height / 2 * this.toZoom) - (this.screen.height / 2 * this.zoom);
+  };
+
+  GameScene.prototype.generateParticles = function() {
+    var i, particle, _i, _results;
+    _results = [];
+    for (i = _i = 0; _i < 500; i = ++_i) {
+      particle = new LD24.Particle(this.game, this, this.screen);
+      particle.x = Math.random() * this.screen.width;
+      particle.y = Math.random() * this.screen.height;
+      particle.scrollX = this.scrollX;
+      particle.scrollY = this.scrollY;
+      particle.speedX = particle.toSpeedX = Math.random() * 0.05;
+      particle.speedY = particle.toSpeedY = Math.random() * 0.05;
+      _results.push(this.particles.push(particle));
+    }
+    return _results;
   };
 
   GameScene.prototype.generateMobs = function() {
@@ -99,10 +117,15 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
   };
 
   GameScene.prototype.tick = function() {
-    var mob, otherMob, _i, _len, _ref2, _results;
+    var mob, otherMob, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
     this.zoom += (this.toZoom - this.zoom) / 10;
     this.scrollX += (this.toScrollX - this.scrollX) / 10;
     this.scrollY += (this.toScrollY - this.scrollY) / 10;
+    _ref2 = this.particles;
+    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+      particle = _ref2[_i];
+      particle.tick();
+    }
     if (this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale < this.scrollY + 50) {
       this.toScrollY = this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale - 50;
     } else if (this.player.y * this.zoom + this.player.spriteH / 2 * this.zoom * this.player.scale > this.scrollY + this.screen.height - 50) {
@@ -117,21 +140,21 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     this.toScrollX = Math.max(this.toScrollX, 0);
     this.toScrollY = Math.min(this.toScrollY, this.screen.height * this.zoom - this.screen.height);
     this.toScrollY = Math.max(this.toScrollY, 0);
-    _ref2 = this.mobs;
+    _ref3 = this.mobs;
     _results = [];
-    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-      mob = _ref2[_i];
+    for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+      mob = _ref3[_j];
       if (mob.removed) {
         this.mobs = _.without(this.mobs, mob);
       } else {
         mob.tick();
       }
       _results.push((function() {
-        var _j, _len1, _ref3, _results1;
-        _ref3 = this.mobs;
+        var _k, _len2, _ref4, _results1;
+        _ref4 = this.mobs;
         _results1 = [];
-        for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
-          otherMob = _ref3[_j];
+        for (_k = 0, _len2 = _ref4.length; _k < _len2; _k++) {
+          otherMob = _ref4[_k];
           if (mob.intersects(otherMob) && otherMob !== mob && !otherMob.absorbed) {
             _results1.push(mob.absorb(otherMob));
           } else {
@@ -145,12 +168,17 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
   };
 
   GameScene.prototype.render = function() {
-    var mob, _i, _len, _ref2, _results;
+    var mob, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
     this.renderBackground();
-    _ref2 = this.mobs;
-    _results = [];
+    _ref2 = this.particles;
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-      mob = _ref2[_i];
+      particle = _ref2[_i];
+      particle.render();
+    }
+    _ref3 = this.mobs;
+    _results = [];
+    for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+      mob = _ref3[_j];
       if (mob.x * this.zoom - (mob.spriteW * mob.scale * this.zoom) / 2 < this.scrollX + this.screen.width && mob.x * this.zoom + (mob.spriteW * mob.scale * this.zoom) / 2 > this.scrollX && mob.y * this.zoom + (mob.spriteH * mob.scale * this.zoom) / 2 > this.scrollY && mob.y * this.zoom - (mob.spriteH * mob.scale * this.zoom) / 2 < this.scrollY + this.screen.height) {
         _results.push(mob.render());
       } else {
