@@ -1,6 +1,8 @@
 window.LD24 ?= {}
 window.LD24.Levels ?= {}
 window.LD24.Levels.Level1 = class Level1 extends LD24.Level
+  name: 'Level 1'
+  subname: 'The Beginning'
   constructor: (@game, @scene, @screen) ->
     super @game, @scene, @screen
 

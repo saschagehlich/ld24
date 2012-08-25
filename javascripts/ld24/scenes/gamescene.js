@@ -19,6 +19,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     var _this = this;
     this.game = game;
     this.screen = screen;
+    this.running = false;
     this.player = new LD24.Mobs.Player(this.game, this, this.screen);
     this.player.x = this.screen.width / 2;
     this.player.y = this.screen.height / 2;
@@ -43,6 +44,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       return $('.level-complete-detail').text('You have been absorbed');
     });
     this.generateParticles();
+    this.loadLevel();
     $(document).keydown(function(e) {
       switch (e.keyCode) {
         case 189:
@@ -52,6 +54,23 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       }
     });
   }
+
+  GameScene.prototype.loadLevel = function() {
+    var _this = this;
+    $('.level-complete').text(this.level.name);
+    $('.level-complete-detail').text(this.level.subname);
+    $('.level-complete').fadeIn('slow');
+    return $('.level-complete-detail').fadeIn('slow', function() {
+      return after(2000, function() {
+        $('.level-complete').fadeOut('slow');
+        return $('.level-complete-detail').fadeOut('slow', function() {
+          _this.running = true;
+          $('canvas').fadeIn('slow');
+          return $('.level-progress').fadeIn('slow');
+        });
+      });
+    });
+  };
 
   GameScene.prototype.zoomOut = function() {
     this.toZoom = Math.max(1, this.toZoom - 1);
@@ -89,6 +108,9 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
 
   GameScene.prototype.tick = function() {
     var mob, otherMob, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
+    if (!this.running) {
+      return;
+    }
     this.zoom += (this.toZoom - this.zoom) / 10;
     this.scrollX += (this.toScrollX - this.scrollX) / 10;
     this.scrollY += (this.toScrollY - this.scrollY) / 10;
@@ -140,6 +162,9 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
 
   GameScene.prototype.render = function() {
     var arrowRotation, arrowX, arrowY, distX, distY, distanceMax, distanceMin, mob, particle, spriteY, _i, _j, _len, _len1, _ref2, _ref3, _results;
+    if (!this.running) {
+      return;
+    }
     this.renderBackground();
     _ref2 = this.particles;
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {

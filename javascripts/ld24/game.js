@@ -10,12 +10,23 @@ window.LD24.Game = Game = (function() {
   Game.prototype.framesPerSecond = 60;
 
   function Game(canvas) {
+    var _this = this;
     this.canvas = canvas;
     this.screen = new LD24.Screen(this.canvas);
     this.scene = new LD24.Scenes.SplashScene(this, this.screen);
     this.setupTickLoop();
     this.setupRenderLoop();
+    jwerty.key('p', function() {
+      return _this.pause();
+    });
   }
+
+  Game.prototype.loadCampaign = function() {
+    var _this = this;
+    return this.scene.terminate(function() {
+      return _this.scene = new LD24.Scenes.GameScene(_this, _this.screen);
+    });
+  };
 
   Game.prototype.setupTickLoop = function() {
     var _this = this;

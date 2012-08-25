@@ -2,6 +2,8 @@ window.LD24 ?= {}
 window.LD24.Scenes ?= {}
 window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
   constructor: (@game, @screen) ->
+    @running = false
+
     @player = new LD24.Mobs.Player @game, this, @screen
     @player.x = @screen.width / 2
     @player.y = @screen.height / 2
@@ -30,6 +32,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       $('.level-complete-detail').text 'You have been absorbed'
 
     @generateParticles()
+    @loadLevel()
 
     $(document).keydown (e) =>
       switch e.keyCode
@@ -37,6 +40,21 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
           @zoomOut()
         when 187
           @zoomIn()
+
+  loadLevel: ->
+    $('.level-complete').text @level.name
+    $('.level-complete-detail').text @level.subname
+
+    $('.level-complete').fadeIn 'slow'
+    $('.level-complete-detail').fadeIn 'slow', =>
+      after 2000, =>
+        $('.level-complete').fadeOut 'slow'
+        $('.level-complete-detail').fadeOut 'slow', =>
+
+          @running = true
+
+          $('canvas').fadeIn 'slow'
+          $('.level-progress').fadeIn 'slow'
 
   zoomOut: ->
     @toZoom = Math.max 1, @toZoom - 1
@@ -73,6 +91,9 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       @particles.push particle
 
   tick: ->
+    unless @running
+      return
+
     # zoom transition
     @zoom += (@toZoom - @zoom) / 10
 
@@ -112,6 +133,9 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
           mob.absorb otherMob
 
   render: ->
+    unless @running
+      return
+
     @renderBackground()
 
     for particle in @particles

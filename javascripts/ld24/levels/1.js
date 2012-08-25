@@ -15,6 +15,10 @@ window.LD24.Levels.Level1 = Level1 = (function(_super) {
 
   __extends(Level1, _super);
 
+  Level1.prototype.name = 'Level 1';
+
+  Level1.prototype.subname = 'The Beginning';
+
   function Level1(game, scene, screen) {
     var mob, _i, _len, _ref2,
       _this = this;

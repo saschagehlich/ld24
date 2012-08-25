@@ -14,8 +14,12 @@ window.LD24.Game = class Game
     @setupTickLoop()
     @setupRenderLoop()
 
-    # jwerty.key 'p', =>
-    #   @pause()
+    jwerty.key 'p', =>
+      @pause()
+
+  loadCampaign: ->
+    @scene.terminate =>
+      @scene = new LD24.Scenes.GameScene this, @screen
 
   setupTickLoop: ->
     @tickLoop = every 1000 / @framesPerSecond, =>

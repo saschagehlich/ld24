@@ -17,8 +17,39 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
     @particles = []
     @generateParticles()
 
+    @selectedMenuItem = $('.menu .active')
+
+    jwerty.key '↓', @selectNextItem
+    jwerty.key '↑', @selectPrevItem
+    jwerty.key 'enter', (e) =>
+      $(document).unbind '.jwerty'
+
+      if @selectedMenuItem.hasClass 'campaign'
+        @game.loadCampaign()
+
+      if @selectedMenuItem.hasClass 'endless'
+        @game.loadEndless()
+
     jwerty.key '↑,↑,↓,↓,←,→,←,→,B,A', =>
-      alert "LOL KONAMI"
+      # gimmick: spawn 100 mobs automatically moving to the player and make him explode
+
+  selectNextItem: =>
+    nextItem = @selectedMenuItem.next('li')
+    unless nextItem.length > 0
+      nextItem = $('.menu li').first()
+    $('.menu li').removeClass 'active'
+    nextItem.addClass 'active'
+
+    @selectedMenuItem = nextItem
+
+  selectPrevItem: =>
+    prevItem = @selectedMenuItem.prev('li')
+    unless prevItem.length > 0
+      prevItem = $('.menu li').last()
+    $('.menu li').removeClass 'active'
+    prevItem.addClass 'active'
+
+    @selectedMenuItem = prevItem
 
   generateParticles: ->
     for i in [0...50]
@@ -60,3 +91,8 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
     @screen.context.fillRect 0, 0, @screen.width, @screen.height
 
     @screen.restore()
+
+  terminate: (callback) ->
+    $('canvas').fadeOut 'slow'
+    $('.splash').fadeOut 'slow', =>
+      callback?()
