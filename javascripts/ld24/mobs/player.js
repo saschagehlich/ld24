@@ -75,21 +75,21 @@ window.LD24.Mobs.Player = Player = (function(_super) {
   Player.prototype.handleKeyboard = function() {
     var _this = this;
     $(document).keydown(function(e) {
-      if (jwerty.is('down', e)) {
+      if (jwerty.is('down', e) || jwerty.is('s', e)) {
         return _this.toSpeedY = 1 * _this.maxSpeed;
-      } else if (jwerty.is('up', e)) {
+      } else if (jwerty.is('up', e) || jwerty.is('w', e)) {
         return _this.toSpeedY = -1 * _this.maxSpeed;
-      } else if (jwerty.is('left', e)) {
+      } else if (jwerty.is('left', e) || jwerty.is('a', e)) {
         return _this.toSpeedX = -1 * _this.maxSpeed;
-      } else if (jwerty.is('right', e)) {
+      } else if (jwerty.is('right', e) || jwerty.is('d', e)) {
         return _this.toSpeedX = 1 * _this.maxSpeed;
       }
     });
     return $(document).keyup(function(e) {
-      if (jwerty.is('down', e) || jwerty.is('up', e)) {
+      if (jwerty.is('down', e) || jwerty.is('up', e) || jwerty.is('w', e) || jwerty.is('s', e)) {
         _this.toSpeedY = 0;
       }
-      if (jwerty.is('left', e) || jwerty.is('right', e)) {
+      if (jwerty.is('left', e) || jwerty.is('right', e) || jwerty.is('a', e) || jwerty.is('d', e)) {
         return _this.toSpeedX = 0;
       }
     });

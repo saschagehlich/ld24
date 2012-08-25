@@ -56,19 +56,23 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
 
   handleKeyboard: ->
     $(document).keydown (e) =>
-      if jwerty.is 'down', e
+      if jwerty.is('down', e) or jwerty.is('s', e)
         @toSpeedY = 1 * @maxSpeed
-      else if jwerty.is 'up', e
+      else if jwerty.is('up', e) or jwerty.is('w', e)
         @toSpeedY = -1 * @maxSpeed
-      else if jwerty.is 'left', e
+      else if jwerty.is('left', e) or jwerty.is('a', e)
         @toSpeedX = -1 * @maxSpeed
-      else if jwerty.is 'right', e
+      else if jwerty.is('right', e) or jwerty.is('d', e)
         @toSpeedX = 1 * @maxSpeed
 
     $(document).keyup (e) =>
       if jwerty.is('down', e) or 
-        jwerty.is('up', e)
+        jwerty.is('up', e) or
+        jwerty.is('w', e) or 
+        jwerty.is('s', e)
           @toSpeedY = 0
       if jwerty.is('left', e) or
-        jwerty.is('right', e)
+        jwerty.is('right', e) or 
+        jwerty.is('a', e) or 
+        jwerty.is('d', e)
           @toSpeedX = 0
