@@ -1,5 +1,7 @@
 window.LD24 ?= {}
 window.LD24.Particle = class Particle
+  spriteW: 32
+  spriteH: 32
   constructor: (@game, @scene, @screen) ->
     @x = 0
     @y = 0
@@ -9,8 +11,6 @@ window.LD24.Particle = class Particle
 
     @scrollX = 0
     @scrollY = 0
-
-    @spriteX = Math.round(Math.random())
 
     @scale = Math.random() * 0.3
     @opacity = Math.random() * 0.5
@@ -38,5 +38,5 @@ window.LD24.Particle = class Particle
 
     @screen.save()
     @screen.context.globalAlpha = @opacity
-    @screen.render 768 + @spriteX * 32, 0, 32, 32, finalX, finalY, finalW, finalH
+    @screen.render 768, 0, 32, 32, finalX, finalY, finalW, finalH
     @screen.restore()

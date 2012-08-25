@@ -4,6 +4,8 @@ window.LD24.Mobs.PowerUp = class PowerUpMob extends LD24.Mobs.Mote
   constructor: (@game, @scene, @screen) ->
     super @game, @scene, @screen
 
+    @opacity = 1.0
+
   render: ->
     finalW = @spriteW * @scale * @scene.zoom
     finalH = @spriteH * @scale * @scene.zoom

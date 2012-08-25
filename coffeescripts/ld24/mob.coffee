@@ -27,6 +27,8 @@ window.LD24.Mob = class Mob extends EventEmitter
 
     @tickCount = 0
 
+    @opacity = 0.9
+
   tick: ->
     unless @absorbingMob?
       @speedX += (@toSpeedX - @speedX) / 20
@@ -72,8 +74,14 @@ window.LD24.Mob = class Mob extends EventEmitter
     finalX = (@x * @scene.zoom - finalW / 2) - @scene.scrollX
     finalY = (@y * @scene.zoom - finalH / 2) - @scene.scrollY
 
+    @screen.save()
+    if @opacity isnt 1
+      @screen.context.globalAlpha = @opacity
+
     @screen.render 0, 0, 256, 256, finalX, finalY, finalW, finalH
-    @screen.render 256, 0, 256, 256, finalX - @speedX * 10, finalY - @speedY * 10, finalW, finalH, @rotation * (Math.PI/180)
+    @screen.render 256, 0, 256, 256, finalX - @speedX * 2 * @scene.zoom, finalY - @speedX * 2 * @scene.zoom, finalW, finalH, @rotation * (Math.PI/180)
+
+    @screen.restore()
 
   intersects: (mob) ->
     # circular intersection
@@ -84,12 +92,6 @@ window.LD24.Mob = class Mob extends EventEmitter
     if d > mob.spriteW * mob.scale / 2 + @spriteW * @scale / 2
       return false
 
-    # rectangular intersection
-    # if @x + @spriteW * @scale / 2 < mob.x - mob.spriteW * mob.scale / 2 or
-    #   @x - @spriteW * @scale / 2 > mob.x + mob.spriteW * mob.scale / 2 or
-    #   @y + @spriteH * @scale / 2 < mob.y - mob.spriteH * mob.scale / 2 or
-    #   @y - @spriteW * @scale / 2 > mob.y + mob.spriteH * mob.scale / 2
-    #     return false
     return true
 
   absorbedBy: (mob) ->

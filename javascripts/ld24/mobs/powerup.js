@@ -20,6 +20,7 @@ window.LD24.Mobs.PowerUp = PowerUpMob = (function(_super) {
     this.scene = scene;
     this.screen = screen;
     PowerUpMob.__super__.constructor.call(this, this.game, this.scene, this.screen);
+    this.opacity = 1.0;
   }
 
   PowerUpMob.prototype.render = function() {

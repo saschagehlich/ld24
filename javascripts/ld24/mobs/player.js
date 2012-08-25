@@ -24,6 +24,7 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     this.powerupSpeed = false;
     this.powerupSpeedEndTick = 0;
     this.handleKeyboard();
+    this.opacity = 1.0;
   }
 
   Player.prototype.tick = function() {

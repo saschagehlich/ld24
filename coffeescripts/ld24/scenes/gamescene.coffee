@@ -65,37 +65,37 @@ window.LD24.Scenes.GameScene = class GameScene
 
   generateMobs: ->
     # Normal mobs
-    for i in [0...60]
-      mob = new LD24.Mobs.Mote @game, this, @screen
-      mob.x = Math.random() * @screen.width
-      mob.y = Math.random() * @screen.height
+    # for i in [0...60]
+    #   mob = new LD24.Mobs.Mote @game, this, @screen
+    #   mob.x = Math.random() * @screen.width
+    #   mob.y = Math.random() * @screen.height
 
-      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedX *= -1
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedY *= -1
+    #   mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
+    #   if Math.round(Math.random()) is 0
+    #     mob.speedX *= -1
+    #   mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+    #   if Math.round(Math.random()) is 0
+    #     mob.speedY *= -1
 
-      @mobs.push mob
+    #   @mobs.push mob
 
     # Power ups
-    for i in [0...2]
-      mob = new LD24.Mobs.PowerUp @game, this, @screen
-      mob.x = Math.random() * @screen.width
-      mob.y = Math.random() * @screen.height
+    # for i in [0...2]
+    #   mob = new LD24.Mobs.PowerUp @game, this, @screen
+    #   mob.x = Math.random() * @screen.width
+    #   mob.y = Math.random() * @screen.height
 
-      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedX *= -1
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedY *= -1
+    #   mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
+    #   if Math.round(Math.random()) is 0
+    #     mob.speedX *= -1
+    #   mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+    #   if Math.round(Math.random()) is 0
+    #     mob.speedY *= -1
 
-      @mobs.push mob
+    #   @mobs.push mob
 
     # Bad mobs
-    for i in [0...5]
+    for i in [0...1]
       mob = new LD24.Mobs.Bad @game, this, @screen
       mob.x = Math.random() * @screen.width
       mob.y = Math.random() * @screen.height
@@ -153,8 +153,8 @@ window.LD24.Scenes.GameScene = class GameScene
 
     for particle in @particles
       if particle.x * @zoom - @scrollX < @screen.width and
-        particle.x * @zoom - @scrollX > 0 and
-        particle.y * @zoom - @scrollY > 0 and
+        particle.x * @zoom - @scrollX + particle.spriteW * particle.scale * @zoom > 0 and
+        particle.y * @zoom - @scrollY + particle.spriteH * particle.scale * @zoom > 0 and
         particle.y * @zoom - @scrollY < @screen.height
           particle.render()
 
@@ -165,6 +165,33 @@ window.LD24.Scenes.GameScene = class GameScene
         mob.y * @zoom + (mob.spriteH * mob.scale * @zoom) / 2 > @scrollY and
         mob.y * @zoom - (mob.spriteH * mob.scale * @zoom) / 2 < @scrollY + @screen.height
           mob.render()
+
+      # is there a bad mob around? draw an arrow for him
+      if mob instanceof LD24.Mobs.Bad
+        distX = Math.abs(mob.x - (@scrollX + @screen.width / 2) / @zoom)
+        distY = Math.abs(mob.y - (@scrollY + @screen.height / 2) / @zoom)
+
+        @game.debug Math.round(distX) + ',' + Math.round(distY) + ' // ' + Math.round(@screen.width / 2) + ',' + Math.round(@screen.height / 2)
+
+        distanceMin = (distX < @screen.width / 2 / @zoom + mob.spriteW * mob.scale and distY < @screen.height / 2 / @zoom + mob.spriteW * mob.scale)
+        distanceMax = distX < @screen.width / @zoom + mob.spriteW * mob.scale and distY < @screen.height / @zoom + mob.spriteW * mob.scale
+        if not distanceMin and distanceMax
+          # draw arrow into this direction
+          arrowX = (mob.x * @zoom) - @scrollX
+          arrowX = Math.max(arrowX, 0)
+          arrowX = Math.min(arrowX, @screen.width - 38)
+
+          arrowY = (mob.y * @zoom) - @scrollY
+          arrowY = Math.max(arrowY, 0)
+          arrowY = Math.min(arrowY, @screen.height - 25)
+
+
+          distX = (mob.x * @zoom) - (@scrollX + @screen.width / 2)
+          distY = (mob.y * @zoom) - (@scrollY + @screen.height / 2)
+          arrowRotation = Math.atan2(distY, distX)
+
+          @screen.render 768, 32 + 25, 38, 25, arrowX, arrowY, null, null, arrowRotation
+
 
   renderBackground: ->
     @screen.save()

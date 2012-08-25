@@ -21,6 +21,7 @@ window.LD24.Mobs.Bad = BadMob = (function(_super) {
     this.screen = screen;
     BadMob.__super__.constructor.call(this, this.game, this.scene, this.screen);
     this.scale = this.toScale = Math.random() * 0.2;
+    this.opacity = 1.0;
   }
 
   BadMob.prototype.render = function() {

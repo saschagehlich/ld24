@@ -38,6 +38,7 @@ window.LD24.Mob = Mob = (function(_super) {
     this.rotation = 0;
     this.speedRotation = Math.random() * 0.5;
     this.tickCount = 0;
+    this.opacity = 0.9;
   }
 
   Mob.prototype.tick = function() {
@@ -83,8 +84,13 @@ window.LD24.Mob = Mob = (function(_super) {
     finalH = this.spriteH * this.scale * this.scene.zoom;
     finalX = (this.x * this.scene.zoom - finalW / 2) - this.scene.scrollX;
     finalY = (this.y * this.scene.zoom - finalH / 2) - this.scene.scrollY;
+    this.screen.save();
+    if (this.opacity !== 1) {
+      this.screen.context.globalAlpha = this.opacity;
+    }
     this.screen.render(0, 0, 256, 256, finalX, finalY, finalW, finalH);
-    return this.screen.render(256, 0, 256, 256, finalX - this.speedX * 10, finalY - this.speedY * 10, finalW, finalH, this.rotation * (Math.PI / 180));
+    this.screen.render(256, 0, 256, 256, finalX - this.speedX * 2 * this.scene.zoom, finalY - this.speedX * 2 * this.scene.zoom, finalW, finalH, this.rotation * (Math.PI / 180));
+    return this.screen.restore();
   };
 
   Mob.prototype.intersects = function(mob) {

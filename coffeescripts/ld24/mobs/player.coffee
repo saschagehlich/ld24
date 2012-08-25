@@ -11,6 +11,8 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
 
     @handleKeyboard()
 
+    @opacity = 1.0
+
   tick: -> 
     super()
 

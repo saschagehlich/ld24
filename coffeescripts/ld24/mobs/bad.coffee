@@ -6,6 +6,8 @@ window.LD24.Mobs.Bad = class BadMob extends LD24.Mobs.Mote
 
     @scale = @toScale = Math.random() * 0.2
 
+    @opacity = 1.0
+
   render: ->
     finalW = @spriteW * @scale * @scene.zoom
     finalH = @spriteH * @scale * @scene.zoom
