@@ -32,19 +32,31 @@ window.LD24.Scenes.GameScene = class GameScene
           @toScrollY = @screen.height / 2 * @toZoom - @screen.height / 2
 
   generateMobs: ->
-    for i in [0...1]
-      mob = new LD24.Mobs.PowerUp @game, this, @screen
-      mob.x = @screen.width - 100
+    for i in [0...60]
+      mob = new LD24.Mobs.Mote @game, this, @screen
+      mob.x = Math.random() * @screen.width
       mob.y = Math.random() * @screen.height
 
       mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedX *= -1
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedY *= -1
 
-      # mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
-      # if Math.round(Math.random()) is 0
-      #   mob.speedX *= -1
-      # mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
-      # if Math.round(Math.random()) is 0
-      #   mob.speedY *= -1
+      @mobs.push mob
+
+    for i in [0...2]
+      mob = new LD24.Mobs.PowerUp @game, this, @screen
+      mob.x = Math.random() * @screen.width
+      mob.y = Math.random() * @screen.height
+
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedX *= -1
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedY *= -1
 
       @mobs.push mob
 

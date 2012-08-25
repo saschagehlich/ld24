@@ -43,13 +43,34 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
   }
 
   GameScene.prototype.generateMobs = function() {
-    var i, mob, _i, _results;
-    _results = [];
-    for (i = _i = 0; _i < 1; i = ++_i) {
-      mob = new LD24.Mobs.PowerUp(this.game, this, this.screen);
-      mob.x = this.screen.width - 100;
+    var i, mob, _i, _j, _results;
+    for (i = _i = 0; _i < 60; i = ++_i) {
+      mob = new LD24.Mobs.Mote(this.game, this, this.screen);
+      mob.x = Math.random() * this.screen.width;
       mob.y = Math.random() * this.screen.height;
       mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedX *= -1;
+      }
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedY *= -1;
+      }
+      this.mobs.push(mob);
+    }
+    _results = [];
+    for (i = _j = 0; _j < 2; i = ++_j) {
+      mob = new LD24.Mobs.PowerUp(this.game, this, this.screen);
+      mob.x = Math.random() * this.screen.width;
+      mob.y = Math.random() * this.screen.height;
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedX *= -1;
+      }
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedY *= -1;
+      }
       _results.push(this.mobs.push(mob));
     }
     return _results;
