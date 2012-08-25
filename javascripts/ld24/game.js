@@ -22,6 +22,19 @@ window.LD24.Game = Game = (function() {
     });
   }
 
+  Game.prototype.showInfoBox = function(message) {
+    $('.info-box .text').text(message);
+    $('.info-box').css({
+      marginTop: -5,
+      opacity: 0,
+      display: 'block'
+    });
+    return $('.info-box').animate({
+      marginTop: 0,
+      opacity: 0.8
+    }, 'slow');
+  };
+
   Game.prototype.loadCampaign = function() {
     var _this = this;
     return this.scene.terminate(function() {

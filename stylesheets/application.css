@@ -237,6 +237,56 @@ body {
   text-align: center;
   display: none;
 }
+.canvas-wrapper .info-box {
+  background: #a2a2a2;
+  background: -moz-linear-gradient(top, #a2a2a2 0%, #404040 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a2a2a2), color-stop(100%, #404040));
+  background: -webkit-linear-gradient(top, #a2a2a2 0%, #404040 100%);
+  background: -o-linear-gradient(top, #a2a2a2 0%, #404040 100%);
+  background: -ms-linear-gradient(top, #a2a2a2 0%, #404040 100%);
+  background: linear-gradient(to bottom, #a2a2a2 0%, #404040 100%);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  width: 461px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  margin-left: -230px;
+  min-height: 50px;
+  display: none;
+}
+.canvas-wrapper .info-box .icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font: bold 30px 'Enriqueta', sans;
+  text-align: center;
+  color: rgba(0,0,0,0.23);
+  background: rgba(0,0,0,0.13);
+  width: 40px;
+  height: 40px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-bottom-right-radius: 5px;
+  -o-border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-top-left-radius: 5px;
+  -o-border-top-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.canvas-wrapper .info-box .text {
+  padding: 10px 5px;
+  font: bold 12px 'Enriqueta', sans;
+  color: #fff;
+  text-shadow: -1px -1px 0 rgba(0,0,0,0.5);
+  -webkit-text-shadow: -1px -1px 0 rgba(0,0,0,0.5);
+  -moz-text-shadow: -1px -1px 0 rgba(0,0,0,0.5);
+  -o-text-shadow: -1px -1px 0 rgba(0,0,0,0.5);
+  -ms-text-shadow: -1px -1px 0 rgba(0,0,0,0.5);
+  margin-left: 60px;
+}
 .splash {
   position: absolute;
   top: 0;

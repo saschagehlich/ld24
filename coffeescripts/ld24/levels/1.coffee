@@ -8,6 +8,8 @@ window.LD24.Levels.Level1 = class Level1 extends LD24.Level
 
     @levelNumDisplayer.text 'Level 1'
 
+    @game.showInfoBox 'Use the arrow keys or WASD on your keyboard to move your dust particle and to absorb smaller dust particles.'
+
     # Only normal mobs
     @addNormalMobs 60
 

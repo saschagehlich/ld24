@@ -18,6 +18,11 @@ window.LD24.Game = class Game
     jwerty.key 'p', =>
       @pause()
 
+  showInfoBox: (message) ->
+    $('.info-box .text').text message
+    $('.info-box').css marginTop: -5, opacity: 0, display: 'block'
+    $('.info-box').animate marginTop: 0, opacity: 0.8, 'slow'
+
   loadCampaign: ->
     @scene.terminate =>
       @scene = new LD24.Scenes.GameScene this, @screen

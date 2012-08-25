@@ -27,6 +27,7 @@ window.LD24.Levels.Level1 = Level1 = (function(_super) {
     this.screen = screen;
     Level1.__super__.constructor.call(this, this.game, this.scene, this.screen);
     this.levelNumDisplayer.text('Level 1');
+    this.game.showInfoBox('Use the arrow keys or WASD on your keyboard to move your dust particle and to absorb smaller dust particles.');
     this.addNormalMobs(60);
     this.goalScale = 0;
     _ref2 = this.scene.mobs;
