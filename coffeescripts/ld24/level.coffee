@@ -1,5 +1,5 @@
 window.LD24 ?= {}
-window.LD24.Level = class Level
+window.LD24.Level = class Level extends EventEmitter
   constructor: (@game, @scene, @screen) ->
     @progressDoneDisplayer = $('.progress .done')
     @levelNumDisplayer     = $('.level')

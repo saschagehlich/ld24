@@ -20,3 +20,5 @@ window.LD24.Levels.Level1 = class Level1 extends LD24.Level
 
       @progressDoneDisplayer.stop().animate width: percentDone + '%', 'fast'
 
+      if percentDone >= 100
+        @emit 'win'

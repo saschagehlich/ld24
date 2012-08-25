@@ -34,9 +34,12 @@ window.LD24.Levels.Level1 = Level1 = (function(_super) {
       var percentDone;
       percentDone = Math.round(100 / _this.goalScale * scale);
       percentDone = Math.min(percentDone, 100);
-      return _this.progressDoneDisplayer.stop().animate({
+      _this.progressDoneDisplayer.stop().animate({
         width: percentDone + '%'
       }, 'fast');
+      if (percentDone >= 100) {
+        return _this.emit('win');
+      }
     });
   }
 

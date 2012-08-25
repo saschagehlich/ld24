@@ -1,6 +1,6 @@
 window.LD24 ?= {}
 window.LD24.Scenes ?= {}
-window.LD24.Scenes.GameScene = class GameScene
+window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
   constructor: (@game, @screen) ->
     @player = new LD24.Mobs.Player @game, this, @screen
     @player.x = @screen.width / 2
@@ -20,6 +20,14 @@ window.LD24.Scenes.GameScene = class GameScene
     @particles = []
 
     @level = new LD24.Levels.Level1 @game, this, @screen
+    @level.on 'win', =>
+      $('.level-progress').fadeOut 'slow'
+      $('.level-complete').text('Level complete').fadeIn 'slow'
+
+    @player.on 'absorbed', =>
+      $('.level-progress').fadeOut 'slow'
+      $('.level-complete').text 'You lost'
+      $('.level-complete-detail').text 'You have been absorbed'
 
     @generateParticles()
 

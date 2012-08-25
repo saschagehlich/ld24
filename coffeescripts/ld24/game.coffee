@@ -3,13 +3,19 @@ window.LD24.Game = class Game
   framesPerSecond: 60
   constructor: (@canvas) ->
     @screen = new LD24.Screen @canvas
-    @scene  = new LD24.Scenes.GameScene this, @screen
+    @scene  = new LD24.Scenes.SplashScene this, @screen
+
+    # @scene.on 'win', =>
+    #   console.log 'player won'
+
+    # @scene.on 'lose', =>
+    #   console.log 'player lost'
 
     @setupTickLoop()
     @setupRenderLoop()
 
-    jwerty.key 'p', =>
-      @pause()
+    # jwerty.key 'p', =>
+    #   @pause()
 
   setupTickLoop: ->
     @tickLoop = every 1000 / @framesPerSecond, =>
@@ -31,4 +37,4 @@ window.LD24.Game = class Game
     clearInterval @renderLoop
 
   debug: (msg) ->
-    $('.debug').text msg
+    $('.debug').show().text msg
