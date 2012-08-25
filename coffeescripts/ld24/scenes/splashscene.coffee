@@ -30,6 +30,13 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
       if @selectedMenuItem.hasClass 'endless'
         @game.loadEndless()
 
+    $('.menu li').mouseenter ->
+      $('.menu li').removeClass 'active'
+      $(this).addClass 'active'
+
+    $('.campaign').click => @game.loadCampaign()
+    $('.endless').click  => @game.loadEndless()
+
     jwerty.key '↑,↑,↓,↓,←,→,←,→,B,A', =>
       # gimmick: spawn 100 mobs automatically moving to the player and make him explode
 

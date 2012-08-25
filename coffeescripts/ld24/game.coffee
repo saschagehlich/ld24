@@ -4,6 +4,7 @@ window.LD24.Game = class Game
   constructor: (@canvas) ->
     @screen = new LD24.Screen @canvas
     @scene  = new LD24.Scenes.SplashScene this, @screen
+    @sounds = new LD24.Sounds this
 
     # @scene.on 'win', =>
     #   console.log 'player won'

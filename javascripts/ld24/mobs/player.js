@@ -55,6 +55,7 @@ window.LD24.Mobs.Player = Player = (function(_super) {
       });
       mob.absorbedBy(this);
       this.emit('absorb', this.toScale);
+      this.game.sounds.playSound('absorb');
       if (mob instanceof LD24.Mobs.PowerUp) {
         this.powerupSpeed = true;
         this.powerupSpeedEndTick = this.tickCount + 60 * 10;

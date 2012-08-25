@@ -14,6 +14,7 @@ window.LD24.Game = Game = (function() {
     this.canvas = canvas;
     this.screen = new LD24.Screen(this.canvas);
     this.scene = new LD24.Scenes.SplashScene(this, this.screen);
+    this.sounds = new LD24.Sounds(this);
     this.setupTickLoop();
     this.setupRenderLoop();
     jwerty.key('p', function() {

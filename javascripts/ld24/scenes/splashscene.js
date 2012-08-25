@@ -46,6 +46,16 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
         return _this.game.loadEndless();
       }
     });
+    $('.menu li').mouseenter(function() {
+      $('.menu li').removeClass('active');
+      return $(this).addClass('active');
+    });
+    $('.campaign').click(function() {
+      return _this.game.loadCampaign();
+    });
+    $('.endless').click(function() {
+      return _this.game.loadEndless();
+    });
     jwerty.key('↑,↑,↓,↓,←,→,←,→,B,A', function() {});
   }
 
