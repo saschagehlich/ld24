@@ -32,7 +32,7 @@ window.LD24.Scenes.GameScene = class GameScene
           @toScrollY = @screen.height / 2 * @toZoom - @screen.height / 2
 
   generateMobs: ->
-    for i in [0...30]
+    for i in [0...60]
       mob = new LD24.Mobs.Mote @game, this, @screen
       mob.x = Math.random() * @screen.width
       mob.y = Math.random() * @screen.height
@@ -47,8 +47,20 @@ window.LD24.Scenes.GameScene = class GameScene
     # zoom transition
     @zoom += (@toZoom - @zoom) / 10
 
+    # scroll transition
     @scrollX += (@toScrollX - @scrollX) / 10
     @scrollY += (@toScrollY - @scrollY) / 10
+
+    # boundary scrolling
+    if @player.y * @zoom < @toScrollY + 50
+      @toScrollY = @player.y * @zoom - 50
+    else if @player.y * @zoom > @toScrollY + @screen.height - 50
+      @toScrollY = @player.y * @zoom - @screen.height + 50
+
+    if @player.x * @zoom < @toScrollX + 50
+      @toScrollX = @player.x * @zoom - 50
+    else if @player.x * @zoom > @toScrollX + @screen.width - 50
+      @toScrollX = @player.x * @zoom - @screen.width + 50
 
     for mob in @mobs
       if mob.removed
@@ -65,10 +77,10 @@ window.LD24.Scenes.GameScene = class GameScene
 
     for mob in @mobs
       # conditional rendering
-      if mob.x * @zoom - (mob.spriteW * mob.scale * @zoom) / 2 < @screen.width * @zoom - @scrollX and
-        mob.x * @zoom + (mob.spriteW * mob.scale * @zoom) / 2 > @screen.width * @zoom - @scrollX - @screen.width and
-        mob.y * @zoom + (mob.spriteH * mob.scale * @zoom) / 2 > @screen.height * @zoom - @scrollY - @screen.height and
-        mob.y * @zoom - (mob.spriteH * mob.scale * @zoom) / 2 < @screen.height * @zoom - @scrollY
+      if mob.x * @zoom - (mob.spriteW * mob.scale * @zoom) / 2 < @scrollX + @screen.width and
+        mob.x * @zoom + (mob.spriteW * mob.scale * @zoom) / 2 > @scrollX and
+        mob.y * @zoom + (mob.spriteH * mob.scale * @zoom) / 2 > @scrollY and
+        mob.y * @zoom - (mob.spriteH * mob.scale * @zoom) / 2 < @scrollY + @screen.height
           mob.render()
 
   renderBackground: ->
