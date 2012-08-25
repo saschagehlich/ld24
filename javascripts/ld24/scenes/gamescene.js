@@ -42,14 +42,14 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
 
   GameScene.prototype.zoomOut = function() {
     this.toZoom = Math.max(1, this.toZoom - 1);
-    this.toScrollX -= (this.screen.width / 2 * this.zoom) - (this.screen.width / 2 * this.toZoom);
-    return this.toScrollY -= (this.screen.height / 2 * this.zoom) - (this.screen.height / 2 * this.toZoom);
+    this.toScrollX = this.scrollX / this.zoom * this.toZoom;
+    return this.toScrollY = this.scrollY / this.zoom * this.toZoom;
   };
 
   GameScene.prototype.zoomIn = function() {
     this.toZoom = Math.min(5, this.toZoom + 1);
-    this.toScrollX += (this.screen.width / 2 * this.toZoom) - (this.screen.width / 2 * this.zoom);
-    return this.toScrollY += (this.screen.height / 2 * this.toZoom) - (this.screen.height / 2 * this.zoom);
+    this.toScrollX = this.scrollX / this.zoom * this.toZoom;
+    return this.toScrollY = this.scrollY / this.zoom * this.toZoom;
   };
 
   GameScene.prototype.generateParticles = function() {
@@ -62,7 +62,13 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
       particle.scrollX = this.scrollX;
       particle.scrollY = this.scrollY;
       particle.speedX = particle.toSpeedX = Math.random() * 0.05;
+      if (Math.round(Math.random()) === 0) {
+        particle.speedX *= -1;
+      }
       particle.speedY = particle.toSpeedY = Math.random() * 0.05;
+      if (Math.round(Math.random()) === 0) {
+        particle.speedY *= -1;
+      }
       _results.push(this.particles.push(particle));
     }
     return _results;
@@ -173,7 +179,9 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     _ref2 = this.particles;
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
       particle = _ref2[_i];
-      particle.render();
+      if (particle.x * this.zoom - this.scrollX < this.screen.width && particle.x * this.zoom - this.scrollX > 0 && particle.y * this.zoom - this.scrollY > 0 && particle.y * this.zoom - this.scrollY < this.screen.height) {
+        particle.render();
+      }
     }
     _ref3 = this.mobs;
     _results = [];

@@ -31,13 +31,18 @@ window.LD24.Scenes.GameScene = class GameScene
 
   zoomOut: ->
     @toZoom = Math.max 1, @toZoom - 1
-    @toScrollX -= (@screen.width / 2 * @zoom) - (@screen.width / 2 * @toZoom)
-    @toScrollY -= (@screen.height / 2 * @zoom) - (@screen.height / 2 * @toZoom)
+
+    # linear zoomOut
+    @toScrollX = @scrollX / @zoom * @toZoom
+    @toScrollY = @scrollY / @zoom * @toZoom
+    
 
   zoomIn: ->
     @toZoom = Math.min 5, @toZoom + 1
-    @toScrollX += (@screen.width / 2 * @toZoom) - (@screen.width / 2 * @zoom)
-    @toScrollY += (@screen.height / 2 * @toZoom) - (@screen.height / 2 * @zoom)
+
+    # linear zoomIn
+    @toScrollX = @scrollX / @zoom * @toZoom
+    @toScrollY = @scrollY / @zoom * @toZoom
 
   generateParticles: ->
     for i in [0...500]
@@ -50,7 +55,11 @@ window.LD24.Scenes.GameScene = class GameScene
       particle.scrollY = @scrollY
 
       particle.speedX = particle.toSpeedX = Math.random() * 0.05
+      if Math.round(Math.random()) is 0
+        particle.speedX *= -1
       particle.speedY = particle.toSpeedY = Math.random() * 0.05
+      if Math.round(Math.random()) is 0
+        particle.speedY *= -1
 
       @particles.push particle
 
@@ -143,8 +152,12 @@ window.LD24.Scenes.GameScene = class GameScene
     @renderBackground()
 
     for particle in @particles
-      particle.render()
-      
+      if particle.x * @zoom - @scrollX < @screen.width and
+        particle.x * @zoom - @scrollX > 0 and
+        particle.y * @zoom - @scrollY > 0 and
+        particle.y * @zoom - @scrollY < @screen.height
+          particle.render()
+
     for mob in @mobs
       # conditional rendering
       if mob.x * @zoom - (mob.spriteW * mob.scale * @zoom) / 2 < @scrollX + @screen.width and

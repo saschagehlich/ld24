@@ -19,22 +19,36 @@ window.LD24.Particle = Particle = (function() {
     this.scrollY = 0;
     this.spriteX = Math.round(Math.random());
     this.scale = Math.random() * 0.3;
+    this.opacity = Math.random() * 0.5;
   }
 
   Particle.prototype.tick = function() {
     this.x += this.speedX;
-    return this.y += this.speedY;
+    this.y += this.speedY;
+    if (this.x > this.screen.width) {
+      this.x = 0;
+    }
+    if (this.x < 0) {
+      this.x = this.screen.width;
+    }
+    if (this.y > this.screen.height) {
+      this.y = 0;
+    }
+    if (this.y < 0) {
+      return this.y = this.screen.height;
+    }
   };
 
   Particle.prototype.render = function() {
     var finalH, finalW, finalX, finalY;
-    this.scrollX += (this.scene.toScrollX - this.scene.scrollX) / (100 * (0.3 - this.scale));
-    this.scrollY += (this.scene.toScrollY - this.scene.scrollY) / (100 * (0.3 - this.scale));
     finalW = 32 * this.scene.zoom * this.scale;
     finalH = 32 * this.scene.zoom * this.scale;
-    finalX = this.x * this.scene.zoom - this.scrollX;
-    finalY = this.y * this.scene.zoom - this.scrollY;
-    return this.screen.render(768 + this.spriteX * 32, 0, 32, 32, finalX, finalY, finalW, finalH);
+    finalX = this.x * this.scene.zoom - this.scene.scrollX;
+    finalY = this.y * this.scene.zoom - this.scene.scrollY;
+    this.screen.save();
+    this.screen.context.globalAlpha = this.opacity;
+    this.screen.render(768 + this.spriteX * 32, 0, 32, 32, finalX, finalY, finalW, finalH);
+    return this.screen.restore();
   };
 
   return Particle;

@@ -13,18 +13,30 @@ window.LD24.Particle = class Particle
     @spriteX = Math.round(Math.random())
 
     @scale = Math.random() * 0.3
+    @opacity = Math.random() * 0.5
 
   tick: ->
     @x += @speedX
     @y += @speedY
 
-  render: ->
-    @scrollX += (@scene.toScrollX - @scene.scrollX) / (100 * (0.3 - @scale))
-    @scrollY += (@scene.toScrollY - @scene.scrollY) / (100 * (0.3 - @scale))
+    # Make the particles endless
+    if @x > @screen.width
+      @x = 0
+    if @x < 0
+      @x = @screen.width
 
+    if @y > @screen.height
+      @y = 0
+    if @y < 0
+      @y = @screen.height
+
+  render: ->
     finalW = 32 * @scene.zoom * @scale
     finalH = 32 * @scene.zoom * @scale
-    finalX = @x * @scene.zoom - @scrollX
-    finalY = @y * @scene.zoom - @scrollY
+    finalX = @x * @scene.zoom - @scene.scrollX
+    finalY = @y * @scene.zoom - @scene.scrollY
 
+    @screen.save()
+    @screen.context.globalAlpha = @opacity
     @screen.render 768 + @spriteX * 32, 0, 32, 32, finalX, finalY, finalW, finalH
+    @screen.restore()
