@@ -24,12 +24,24 @@ window.LD24.Mobs.Bad = BadMob = (function(_super) {
   }
 
   BadMob.prototype.render = function() {
-    var finalH, finalW, finalX, finalY;
+    var context, finalH, finalW, finalX, finalY, i, _i;
     finalW = this.spriteW * this.scale * this.scene.zoom;
     finalH = this.spriteH * this.scale * this.scene.zoom;
     finalX = (this.x * this.scene.zoom - finalW / 2) - this.scene.scrollX;
     finalY = (this.y * this.scene.zoom - finalH / 2) - this.scene.scrollY;
-    return this.screen.render(256 * 2, 0, 256, 256, finalX, finalY, finalW, finalH);
+    this.screen.render(256 * 2, 0, 256, 256, finalX, finalY, finalW, finalH);
+    this.screen.save();
+    context = this.screen.context;
+    context.strokeStyle = 'rgba(255, 0, 0, 0.1)';
+    context.lineWidth = 3;
+    context.beginPath();
+    context.moveTo(finalW / 6 + finalX + Math.random() * finalW / 3 * 2, finalH / 6 + finalY + Math.random() * finalH / 3 * 2);
+    for (i = _i = 0; _i < 30; i = ++_i) {
+      context.lineTo(finalW / 6 + finalX + Math.random() * finalW / 3 * 2, finalH / 6 + finalY + Math.random() * finalH / 3 * 2);
+    }
+    context.closePath();
+    context.stroke();
+    return this.screen.restore();
   };
 
   BadMob.prototype.canBeAbsorbedBy = function(mob) {
