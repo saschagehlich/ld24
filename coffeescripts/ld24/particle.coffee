@@ -27,4 +27,4 @@ window.LD24.Particle = class Particle
     finalX = @x * @scene.zoom - @scrollX
     finalY = @y * @scene.zoom - @scrollY
 
-    @screen.render 768, 0, 32 + @spriteX * 32, 32, finalX, finalY, finalW, finalH
+    @screen.render 768 + @spriteX * 32, 0, 32, 32, finalX, finalY, finalW, finalH

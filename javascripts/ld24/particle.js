@@ -34,7 +34,7 @@ window.LD24.Particle = Particle = (function() {
     finalH = 32 * this.scene.zoom * this.scale;
     finalX = this.x * this.scene.zoom - this.scrollX;
     finalY = this.y * this.scene.zoom - this.scrollY;
-    return this.screen.render(768, 0, 32 + this.spriteX * 32, 32, finalX, finalY, finalW, finalH);
+    return this.screen.render(768 + this.spriteX * 32, 0, 32, 32, finalX, finalY, finalW, finalH);
   };
 
   return Particle;
