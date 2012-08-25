@@ -20,20 +20,47 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     this.scene = scene;
     this.screen = screen;
     Player.__super__.constructor.call(this, this.game, this.scene, this.screen);
+    this.maxSpeed = 0.3;
     this.handleKeyboard();
   }
 
-  Player.prototype.handleKeyboard = function() {
-    return jwerty.key('space', this.jump);
+  Player.prototype.tick = function() {
+    return Player.__super__.tick.call(this);
   };
 
   Player.prototype.render = function() {
-    var drawSX;
-    drawSX = this.scene.fragment.gfx.player.spriteXOffset;
-    drawSX += this.walkPosition * this.spriteW;
-    return this.screen.render(drawSX, this.scene.fragment.gfx.player.spriteY, this.spriteW, this.spriteH, this.x + this.scene.offsetX, this.y);
+    var finalH, finalW, finalX, finalY;
+    Player.__super__.render.call(this);
+    finalW = this.spriteW * this.scale * this.scene.zoom;
+    finalH = this.spriteH * this.scale * this.scene.zoom;
+    finalX = (this.x * this.scene.zoom - finalW / 2) * this.scene.zoom - this.scene.scrollX;
+    finalY = (this.y * this.scene.zoom - finalH / 2) * this.scene.zoom - this.scene.scrollY;
+    return this.screen.render(0, 256, 256, 256, this.finalX, this.finalY, finalW, finalH);
+  };
+
+  Player.prototype.handleKeyboard = function() {
+    var _this = this;
+    $(document).keydown(function(e) {
+      if (jwerty.is('down', e)) {
+        return _this.toSpeedY = 1 * _this.maxSpeed;
+      } else if (jwerty.is('up', e)) {
+        return _this.toSpeedY = -1 * _this.maxSpeed;
+      } else if (jwerty.is('left', e)) {
+        return _this.toSpeedX = -1 * _this.maxSpeed;
+      } else if (jwerty.is('right', e)) {
+        return _this.toSpeedX = 1 * _this.maxSpeed;
+      }
+    });
+    return $(document).keyup(function(e) {
+      if (jwerty.is('down', e) || jwerty.is('up', e)) {
+        _this.toSpeedY = 0;
+      }
+      if (jwerty.is('left', e) || jwerty.is('right', e)) {
+        return _this.toSpeedX = 0;
+      }
+    });
   };
 
   return Player;
 
-})(LD24.Mobs.Mob);
+})(LD24.Mob);

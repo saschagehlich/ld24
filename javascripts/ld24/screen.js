@@ -7,32 +7,40 @@ if ((_ref = window.LD24) == null) {
 
 window.LD24.Screen = Screen = (function() {
 
-  function Screen(game, canvas) {
-    var _this = this;
-    this.game = game;
+  function Screen(canvas) {
     this.canvas = canvas;
     this.context = this.canvas.get(0).getContext('2d');
-    this.canvas.get(0).width = this.width = this.canvas.width();
-    this.canvas.get(0).height = this.height = this.canvas.height();
-    this.sprites = new Image;
+    this.width = this.canvas.width();
+    this.height = this.canvas.height();
+    this.canvas.get(0).width = this.width;
+    this.canvas.get(0).height = this.height;
+    this.sprites = new Image();
     this.sprites.src = 'assets/images/sprites.png';
-    this.sprites.onload = function() {
-      return console.log("sprites loaded");
-    };
   }
 
   Screen.prototype.clear = function() {
     return this.context.fillRect(0, 0, this.width, this.height);
   };
 
-  Screen.prototype.render = function(sx, sy, sw, sh, dx, dy, dw, dh) {
+  Screen.prototype.render = function(sx, sy, sw, sh, dx, dy, dw, dh, rotation) {
+    if (rotation == null) {
+      rotation = null;
+    }
     if (dw == null) {
       dw = sw;
     }
     if (dh == null) {
       dh = sh;
     }
-    return this.context.drawImage(this.sprites, sx, sy, sw, sh, dx, dy, dw, dh);
+    this.save();
+    if (rotation != null) {
+      this.context.translate(dx + dw / 2, dy + dh / 2);
+      this.context.rotate(rotation);
+      this.context.drawImage(this.sprites, sx, sy, sw, sh, Math.round(-dw / 2), -dh / 2, dw, dh);
+    } else {
+      this.context.drawImage(this.sprites, sx, sy, sw, sh, dx, dy, dw, dh);
+    }
+    return this.restore();
   };
 
   Screen.prototype.save = function() {
@@ -41,17 +49,6 @@ window.LD24.Screen = Screen = (function() {
 
   Screen.prototype.restore = function() {
     return this.context.restore();
-  };
-
-  Screen.prototype.drawText = function(text, x, y) {
-    var char, chars, i, _i, _len, _results;
-    chars = '1234567890m';
-    _results = [];
-    for (i = _i = 0, _len = text.length; _i < _len; i = ++_i) {
-      char = text[i];
-      _results.push(this.render(chars.indexOf(char) * 8, this.game.scene.fragment.gfx.font.spriteY, 8, 8, x + 8 * i, y));
-    }
-    return _results;
   };
 
   return Screen;
