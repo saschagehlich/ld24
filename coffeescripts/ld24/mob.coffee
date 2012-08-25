@@ -79,7 +79,7 @@ window.LD24.Mob = class Mob extends EventEmitter
       @screen.context.globalAlpha = @opacity
 
     @screen.render 0, 0, 256, 256, finalX, finalY, finalW, finalH
-    @screen.render 256, 0, 256, 256, finalX - @speedX * 2 * @scene.zoom, finalY - @speedX * 2 * @scene.zoom, finalW, finalH, @rotation * (Math.PI/180)
+    @screen.render 256, 0, 256, 256, finalX - @speedX * 2 * @scene.zoom, finalY - @speedY * 2 * @scene.zoom, finalW, finalH, @rotation * (Math.PI/180)
 
     @screen.restore()
 

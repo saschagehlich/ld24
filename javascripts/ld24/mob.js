@@ -89,7 +89,7 @@ window.LD24.Mob = Mob = (function(_super) {
       this.screen.context.globalAlpha = this.opacity;
     }
     this.screen.render(0, 0, 256, 256, finalX, finalY, finalW, finalH);
-    this.screen.render(256, 0, 256, 256, finalX - this.speedX * 2 * this.scene.zoom, finalY - this.speedX * 2 * this.scene.zoom, finalW, finalH, this.rotation * (Math.PI / 180));
+    this.screen.render(256, 0, 256, 256, finalX - this.speedX * 2 * this.scene.zoom, finalY - this.speedY * 2 * this.scene.zoom, finalW, finalH, this.rotation * (Math.PI / 180));
     return this.screen.restore();
   };
 
