@@ -95,7 +95,6 @@ window.LD24.Mob = class Mob extends EventEmitter
 
   canBeAbsorbedBy: (mob) ->
     if @scale > mob.scale
-      console.log @scale, mob.scale
       return false
     return true
 

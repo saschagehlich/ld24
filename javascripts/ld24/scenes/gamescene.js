@@ -43,7 +43,7 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
   }
 
   GameScene.prototype.generateMobs = function() {
-    var i, mob, _i, _j, _results;
+    var i, mob, _i, _j, _k, _results;
     for (i = _i = 0; _i < 60; i = ++_i) {
       mob = new LD24.Mobs.Mote(this.game, this, this.screen);
       mob.x = Math.random() * this.screen.width;
@@ -58,9 +58,23 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
       }
       this.mobs.push(mob);
     }
-    _results = [];
     for (i = _j = 0; _j < 2; i = ++_j) {
       mob = new LD24.Mobs.PowerUp(this.game, this, this.screen);
+      mob.x = Math.random() * this.screen.width;
+      mob.y = Math.random() * this.screen.height;
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedX *= -1;
+      }
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedY *= -1;
+      }
+      this.mobs.push(mob);
+    }
+    _results = [];
+    for (i = _k = 0; _k < 5; i = ++_k) {
+      mob = new LD24.Mobs.Bad(this.game, this, this.screen);
       mob.x = Math.random() * this.screen.width;
       mob.y = Math.random() * this.screen.height;
       mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
@@ -110,7 +124,7 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
         _results1 = [];
         for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
           otherMob = _ref3[_j];
-          if (mob.intersects(otherMob) && mob.scale > otherMob.scale && otherMob !== mob && !otherMob.absorbed) {
+          if (mob.intersects(otherMob) && otherMob !== mob && !otherMob.absorbed) {
             _results1.push(mob.absorb(otherMob));
           } else {
             _results1.push(void 0);

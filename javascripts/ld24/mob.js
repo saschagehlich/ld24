@@ -104,7 +104,6 @@ window.LD24.Mob = Mob = (function(_super) {
 
   Mob.prototype.canBeAbsorbedBy = function(mob) {
     if (this.scale > mob.scale) {
-      console.log(this.scale, mob.scale);
       return false;
     }
     return true;

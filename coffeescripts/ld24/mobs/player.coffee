@@ -21,6 +21,14 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
 
     @screen.render 0, 256, 256, 256, finalX, finalY, finalW, finalH
 
+  canBeAbsorbedBy: (mob) ->
+    if mob instanceof LD24.Mobs.Bad
+      return true
+    
+    if @scale > mob.scale
+      return false
+    return true
+
   handleKeyboard: ->
     $(document).keydown (e) =>
       if jwerty.is 'down', e

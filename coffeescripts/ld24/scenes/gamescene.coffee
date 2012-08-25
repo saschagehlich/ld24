@@ -62,6 +62,21 @@ window.LD24.Scenes.GameScene = class GameScene
 
       @mobs.push mob
 
+    # Bad mobs
+    for i in [0...5]
+      mob = new LD24.Mobs.Bad @game, this, @screen
+      mob.x = Math.random() * @screen.width
+      mob.y = Math.random() * @screen.height
+
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedX *= -1
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedY *= -1
+
+      @mobs.push mob
+
   tick: ->
     # zoom transition
     @zoom += (@toZoom - @zoom) / 10
@@ -95,7 +110,7 @@ window.LD24.Scenes.GameScene = class GameScene
         mob.tick()
 
       for otherMob in @mobs
-        if mob.intersects(otherMob) and mob.scale > otherMob.scale and otherMob isnt mob and not otherMob.absorbed
+        if mob.intersects(otherMob) and otherMob isnt mob and not otherMob.absorbed
           mob.absorb otherMob
 
   render: ->

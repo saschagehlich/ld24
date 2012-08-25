@@ -38,6 +38,16 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     return this.screen.render(0, 256, 256, 256, finalX, finalY, finalW, finalH);
   };
 
+  Player.prototype.canBeAbsorbedBy = function(mob) {
+    if (mob instanceof LD24.Mobs.Bad) {
+      return true;
+    }
+    if (this.scale > mob.scale) {
+      return false;
+    }
+    return true;
+  };
+
   Player.prototype.handleKeyboard = function() {
     var _this = this;
     $(document).keydown(function(e) {
