@@ -1,0 +1,29 @@
+!!!5
+html
+  head
+    title Evolution of Gaming
+    link(rel="stylesheet", href="stylesheets/application.css")
+    script(src="javascripts/lib/jquery.js")
+    script(src="javascripts/lib/stats.js")
+    script(src="javascripts/lib/underscore.js")
+
+    //- Basic game stuff
+    script(src="javascripts/ld24/game.js")
+    script(src="javascripts/ld24/screen.js")
+
+    //- Scenes
+    script(src="javascripts/ld24/scenes/game.js")
+
+    //- Level fragments
+    script(src="javascripts/ld24/fragments/fragment.js")
+    script(src="javascripts/ld24/fragments/basic.js")
+
+    //- Mobs
+    script(src="javascripts/ld24/mobs/mob.js")
+    script(src="javascripts/ld24/mobs/player.js")
+
+    script(src="javascripts/application.js")
+  body
+    .canvas-wrapper
+      .debug Debug
+      canvas
