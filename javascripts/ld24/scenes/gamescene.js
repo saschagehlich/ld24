@@ -31,16 +31,24 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     $(document).keydown(function(e) {
       switch (e.keyCode) {
         case 189:
-          _this.toZoom = Math.max(1, _this.toZoom - 1);
-          _this.toScrollX = _this.screen.width / 2 * _this.toZoom - _this.screen.width / 2;
-          return _this.toScrollY = _this.screen.height / 2 * _this.toZoom - _this.screen.height / 2;
+          return _this.zoomOut();
         case 187:
-          _this.toZoom = Math.min(5, _this.toZoom + 1);
-          _this.toScrollX = _this.screen.width / 2 * _this.toZoom - _this.screen.width / 2;
-          return _this.toScrollY = _this.screen.height / 2 * _this.toZoom - _this.screen.height / 2;
+          return _this.zoomIn();
       }
     });
   }
+
+  GameScene.prototype.zoomOut = function() {
+    this.toZoom = Math.max(1, this.toZoom - 1);
+    this.toScrollX -= (this.screen.width / 2 * this.zoom) - (this.screen.width / 2 * this.toZoom);
+    return this.toScrollY -= (this.screen.height / 2 * this.zoom) - (this.screen.height / 2 * this.toZoom);
+  };
+
+  GameScene.prototype.zoomIn = function() {
+    this.toZoom = Math.min(5, this.toZoom + 1);
+    this.toScrollX += (this.screen.width / 2 * this.toZoom) - (this.screen.width / 2 * this.zoom);
+    return this.toScrollY += (this.screen.height / 2 * this.toZoom) - (this.screen.height / 2 * this.zoom);
+  };
 
   GameScene.prototype.generateMobs = function() {
     var i, mob, _i, _j, _k, _results;
@@ -95,14 +103,14 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     this.zoom += (this.toZoom - this.zoom) / 10;
     this.scrollX += (this.toScrollX - this.scrollX) / 10;
     this.scrollY += (this.toScrollY - this.scrollY) / 10;
-    if (this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale < this.toScrollY + 50) {
+    if (this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale < this.scrollY + 50) {
       this.toScrollY = this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale - 50;
-    } else if (this.player.y * this.zoom + this.player.spriteH / 2 * this.zoom * this.player.scale > this.toScrollY + this.screen.height - 50) {
+    } else if (this.player.y * this.zoom + this.player.spriteH / 2 * this.zoom * this.player.scale > this.scrollY + this.screen.height - 50) {
       this.toScrollY = this.player.y * this.zoom - this.screen.height + this.player.spriteH / 2 * this.zoom * this.player.scale + 50;
     }
-    if (this.player.x * this.zoom - this.player.spriteW / 2 * this.zoom * this.player.scale < this.toScrollX + 50) {
+    if (this.player.x * this.zoom - this.player.spriteW / 2 * this.zoom * this.player.scale < this.scrollX + 50) {
       this.toScrollX = this.player.x * this.zoom - this.player.spriteW / 2 * this.zoom * this.player.scale - 50;
-    } else if (this.player.x * this.zoom + this.player.spriteW / 2 * this.zoom * this.player.scale > this.toScrollX + this.screen.width - 50) {
+    } else if (this.player.x * this.zoom + this.player.spriteW / 2 * this.zoom * this.player.scale > this.scrollX + this.screen.width - 50) {
       this.toScrollX = this.player.x * this.zoom - this.screen.width + this.player.spriteW / 2 * this.zoom * this.player.scale + 50;
     }
     this.toScrollX = Math.min(this.toScrollX, this.screen.width * this.zoom - this.screen.width);

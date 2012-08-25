@@ -23,13 +23,19 @@ window.LD24.Scenes.GameScene = class GameScene
     $(document).keydown (e) =>
       switch e.keyCode
         when 189
-          @toZoom = Math.max 1, @toZoom - 1
-          @toScrollX = @screen.width / 2 * @toZoom - @screen.width / 2
-          @toScrollY = @screen.height / 2 * @toZoom - @screen.height / 2
+          @zoomOut()
         when 187
-          @toZoom = Math.min 5, @toZoom + 1
-          @toScrollX = @screen.width / 2 * @toZoom - @screen.width / 2
-          @toScrollY = @screen.height / 2 * @toZoom - @screen.height / 2
+          @zoomIn()
+
+  zoomOut: ->
+    @toZoom = Math.max 1, @toZoom - 1
+    @toScrollX -= (@screen.width / 2 * @zoom) - (@screen.width / 2 * @toZoom)
+    @toScrollY -= (@screen.height / 2 * @zoom) - (@screen.height / 2 * @toZoom)
+
+  zoomIn: ->
+    @toZoom = Math.min 5, @toZoom + 1
+    @toScrollX += (@screen.width / 2 * @toZoom) - (@screen.width / 2 * @zoom)
+    @toScrollY += (@screen.height / 2 * @toZoom) - (@screen.height / 2 * @zoom)
 
   generateMobs: ->
     # Normal mobs
@@ -86,14 +92,14 @@ window.LD24.Scenes.GameScene = class GameScene
     @scrollY += (@toScrollY - @scrollY) / 10
 
     # boundary scrolling
-    if @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale < @toScrollY + 50
+    if @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale < @scrollY + 50
       @toScrollY = @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale - 50
-    else if @player.y * @zoom + @player.spriteH / 2 * @zoom * @player.scale > @toScrollY + @screen.height - 50
+    else if @player.y * @zoom + @player.spriteH / 2 * @zoom * @player.scale > @scrollY + @screen.height - 50
       @toScrollY = @player.y * @zoom - @screen.height + @player.spriteH / 2 * @zoom * @player.scale + 50
 
-    if @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale < @toScrollX + 50
+    if @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale < @scrollX + 50
       @toScrollX = @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale - 50
-    else if @player.x * @zoom + @player.spriteW / 2 * @zoom * @player.scale > @toScrollX + @screen.width - 50
+    else if @player.x * @zoom + @player.spriteW / 2 * @zoom * @player.scale > @scrollX + @screen.width - 50
       @toScrollX = @player.x * @zoom - @screen.width + @player.spriteW / 2 * @zoom * @player.scale + 50
 
     @toScrollX = Math.min @toScrollX, @screen.width * @zoom - @screen.width
