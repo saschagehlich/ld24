@@ -18,8 +18,9 @@ window.LD24.Scenes.GameScene = class GameScene
 
     @mobs = [@player]
     @particles = []
-  
-    @generateMobs()
+
+    @level = new LD24.Levels.Level1 @game, this, @screen
+
     @generateParticles()
 
     $(document).keydown (e) =>
@@ -62,52 +63,6 @@ window.LD24.Scenes.GameScene = class GameScene
         particle.speedY *= -1
 
       @particles.push particle
-
-  generateMobs: ->
-    # Normal mobs
-    for i in [0...60]
-      mob = new LD24.Mobs.Mote @game, this, @screen
-      mob.x = Math.random() * @screen.width
-      mob.y = Math.random() * @screen.height
-
-      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedX *= -1
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedY *= -1
-
-      @mobs.push mob
-
-    # Power ups
-    for i in [0...2]
-      mob = new LD24.Mobs.PowerUp @game, this, @screen
-      mob.x = Math.random() * @screen.width
-      mob.y = Math.random() * @screen.height
-
-      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedX *= -1
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedY *= -1
-
-      @mobs.push mob
-
-    # Bad mobs
-    for i in [0...5]
-      mob = new LD24.Mobs.Bad @game, this, @screen
-      mob.x = Math.random() * @screen.width
-      mob.y = Math.random() * @screen.height
-
-      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedX *= -1
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
-      if Math.round(Math.random()) is 0
-        mob.speedY *= -1
-
-      @mobs.push mob
 
   tick: ->
     # zoom transition

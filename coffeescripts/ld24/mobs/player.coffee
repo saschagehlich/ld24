@@ -39,6 +39,8 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
         @absorbing = false
       mob.absorbedBy @
 
+      @emit 'absorb', @toScale
+
       if mob instanceof LD24.Mobs.PowerUp
         @powerupSpeed = true
         @powerupSpeedEndTick = @tickCount + 60 * 10

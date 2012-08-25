@@ -28,7 +28,7 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
     this.toScrollY = this.scrollY;
     this.mobs = [this.player];
     this.particles = [];
-    this.generateMobs();
+    this.level = new LD24.Levels.Level1(this.game, this, this.screen);
     this.generateParticles();
     $(document).keydown(function(e) {
       switch (e.keyCode) {
@@ -70,54 +70,6 @@ window.LD24.Scenes.GameScene = GameScene = (function() {
         particle.speedY *= -1;
       }
       _results.push(this.particles.push(particle));
-    }
-    return _results;
-  };
-
-  GameScene.prototype.generateMobs = function() {
-    var i, mob, _i, _j, _k, _results;
-    for (i = _i = 0; _i < 60; i = ++_i) {
-      mob = new LD24.Mobs.Mote(this.game, this, this.screen);
-      mob.x = Math.random() * this.screen.width;
-      mob.y = Math.random() * this.screen.height;
-      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
-      if (Math.round(Math.random()) === 0) {
-        mob.speedX *= -1;
-      }
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
-      if (Math.round(Math.random()) === 0) {
-        mob.speedY *= -1;
-      }
-      this.mobs.push(mob);
-    }
-    for (i = _j = 0; _j < 2; i = ++_j) {
-      mob = new LD24.Mobs.PowerUp(this.game, this, this.screen);
-      mob.x = Math.random() * this.screen.width;
-      mob.y = Math.random() * this.screen.height;
-      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
-      if (Math.round(Math.random()) === 0) {
-        mob.speedX *= -1;
-      }
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
-      if (Math.round(Math.random()) === 0) {
-        mob.speedY *= -1;
-      }
-      this.mobs.push(mob);
-    }
-    _results = [];
-    for (i = _k = 0; _k < 5; i = ++_k) {
-      mob = new LD24.Mobs.Bad(this.game, this, this.screen);
-      mob.x = Math.random() * this.screen.width;
-      mob.y = Math.random() * this.screen.height;
-      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
-      if (Math.round(Math.random()) === 0) {
-        mob.speedX *= -1;
-      }
-      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
-      if (Math.round(Math.random()) === 0) {
-        mob.speedY *= -1;
-      }
-      _results.push(this.mobs.push(mob));
     }
     return _results;
   };
