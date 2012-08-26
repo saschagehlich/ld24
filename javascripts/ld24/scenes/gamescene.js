@@ -23,7 +23,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.running = false;
     this.boundaryOffset = 480 / 3;
     if (this.endless) {
-      this.levelNum = 4;
+      this.levelNum = 1;
       this.levelsCount = 999;
     } else {
       this.levelNum = 1;

@@ -7,7 +7,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @boundaryOffset = 480 / 3
 
     if @endless
-      @levelNum       = 4
+      @levelNum       = 1
       @levelsCount    = 999 # It's not endless. YES, I'M A LIAR!
     else
       @levelNum       = 1
