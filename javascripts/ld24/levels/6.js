@@ -46,7 +46,7 @@ window.LD24.Levels.Level5 = Level5 = (function(_super) {
     scale = 0.03 + Math.random() * 0.1;
     powerupX = this.scene.scrollX / this.scene.zoom + Math.random() * this.screen.width / this.scene.zoom;
     powerupY = this.scene.scrollY / this.scene.zoom + Math.random() * this.screen.height / this.scene.zoom;
-    this.addProtectionPowerUp(1, scale, powerupX, powerupY);
+    this.addProtectionPowerUps(1, scale, powerupX, powerupY);
     this.goalScale = 0;
     _ref2 = this.scene.mobs;
     for (_m = 0, _len = _ref2.length; _m < _len; _m++) {

@@ -119,7 +119,7 @@ window.LD24.Level = Level = (function(_super) {
     return _results;
   };
 
-  Level.prototype.addProtectionPowerUp = function(count, scale, x, y) {
+  Level.prototype.addProtectionPowerUps = function(count, scale, x, y) {
     var i, mob, _i, _results;
     _results = [];
     for (i = _i = 0; 0 <= count ? _i < count : _i > count; i = 0 <= count ? ++_i : --_i) {

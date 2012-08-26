@@ -85,7 +85,7 @@ window.LD24.Level = class Level extends EventEmitter
 
       @scene.mobs.push mob
 
-  addProtectionPowerUp: (count, scale, x, y) ->
+  addProtectionPowerUps: (count, scale, x, y) ->
     # Power ups
     for i in [0...count]
       mob = new LD24.Mobs.PowerUpProtection @game, @scene, @screen

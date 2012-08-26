@@ -31,7 +31,7 @@ window.LD24.Levels.Level5 = class Level5 extends LD24.Level
     scale = 0.03 + Math.random() * 0.1
     powerupX = @scene.scrollX / @scene.zoom + Math.random() * @screen.width / @scene.zoom
     powerupY = @scene.scrollY / @scene.zoom + Math.random() * @screen.height / @scene.zoom
-    @addProtectionPowerUp 1, scale, powerupX, powerupY
+    @addProtectionPowerUps 1, scale, powerupX, powerupY
 
     # Calculate maximum reachable scale
     @goalScale = 0

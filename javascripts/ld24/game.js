@@ -9,7 +9,7 @@ window.LD24.Game = Game = (function() {
 
   Game.prototype.framesPerSecond = 60;
 
-  Game.prototype.version = "0.3";
+  Game.prototype.version = "0.4RC1";
 
   function Game(canvas) {
     var _this = this;
