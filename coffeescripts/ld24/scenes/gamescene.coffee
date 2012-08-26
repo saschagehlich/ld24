@@ -23,6 +23,12 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @player.y = @screen.height / 2
 
     @player.scale = @player.toScale = 0.04
+    @player.removeAllListeners 'absorb'
+    @player.on 'absorb', (scale) =>
+      # calculate size on screen
+      size = @player.spriteW * scale * @zoom
+      if size > @screen.width / 4
+        @zoomOut()
 
     @zoom = @defaultZoom
     @toZoom = @zoom

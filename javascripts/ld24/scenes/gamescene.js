@@ -40,6 +40,14 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.player.x = this.screen.width / 2;
     this.player.y = this.screen.height / 2;
     this.player.scale = this.player.toScale = 0.04;
+    this.player.removeAllListeners('absorb');
+    this.player.on('absorb', function(scale) {
+      var size;
+      size = _this.player.spriteW * scale * _this.zoom;
+      if (size > _this.screen.width / 4) {
+        return _this.zoomOut();
+      }
+    });
     this.zoom = this.defaultZoom;
     this.toZoom = this.zoom;
     this.scrollX = this.screen.width / 2 * this.zoom - this.screen.width / 2;
