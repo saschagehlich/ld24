@@ -22,7 +22,8 @@ window.LD24.Particle = Particle = (function() {
     this.scrollX = 0;
     this.scrollY = 0;
     this.scale = Math.random() * 0.3;
-    this.opacity = Math.random() * 0.5;
+    this.opacity = Math.random() * 0.4;
+    this.spriteX = Math.round(Math.random() * 2) * 32;
   }
 
   Particle.prototype.tick = function() {
@@ -50,7 +51,7 @@ window.LD24.Particle = Particle = (function() {
     finalY = this.y * this.scene.zoom - this.scene.scrollY;
     this.screen.save();
     this.screen.context.globalAlpha = this.opacity;
-    this.screen.render(768, 0, 32, 32, finalX, finalY, finalW, finalH);
+    this.screen.render(768 + this.spriteX, 0, 32, 32, finalX, finalY, finalW, finalH);
     return this.screen.restore();
   };
 

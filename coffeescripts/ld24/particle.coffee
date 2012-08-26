@@ -13,7 +13,9 @@ window.LD24.Particle = class Particle
     @scrollY = 0
 
     @scale = Math.random() * 0.3
-    @opacity = Math.random() * 0.5
+    @opacity = Math.random() * 0.4
+
+    @spriteX = Math.round(Math.random() * 2) * 32
 
   tick: ->
     @x += @speedX
@@ -38,5 +40,5 @@ window.LD24.Particle = class Particle
 
     @screen.save()
     @screen.context.globalAlpha = @opacity
-    @screen.render 768, 0, 32, 32, finalX, finalY, finalW, finalH
+    @screen.render 768 + @spriteX, 0, 32, 32, finalX, finalY, finalW, finalH
     @screen.restore()
