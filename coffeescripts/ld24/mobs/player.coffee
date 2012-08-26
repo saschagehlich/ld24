@@ -13,12 +13,18 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
 
     @opacity = 1.0
 
+    @protected = true
+    @protectedEndTick = 60*2
+
   tick: -> 
     super()
 
     if @powerupSpeed and @tickCount > @powerupSpeedEndTick
       @maxSpeed = 1
       @powerupSpeed = false
+
+    if @protected and @tickCount > @protectedEndTick
+      @protected = false
 
   render: ->
     super()
@@ -44,6 +50,9 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
 
 
   canBeAbsorbedBy: (mob) ->
+    if @protected
+      return false
+
     if mob instanceof LD24.Mobs.Bad
       return true
 

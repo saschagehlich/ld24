@@ -5,7 +5,8 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @running = false
 
     @boundaryOffset = 100
-    @levelNum       = 1
+    @levelNum       = 5
+    @levelsCount    = 5
     @defaultZoom    = 5
 
     @reset()
@@ -87,13 +88,22 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
       @level.once 'win', =>
         $('.level-progress').fadeOut 'slow'
-        $('.level-complete').text('Level complete').fadeIn 'slow'
-
-        $(document).off '.jwerty'
 
         @levelNum++
-        after 2000, =>
-          @unloadLevel()
+        if @levelNum > @levelsCount
+          $('.level-complete').text('Well done!').fadeIn 'slow'
+          $('.level-complete-detail').text('You have completed all campaign levels.').fadeIn 'slow'          
+          $('div.continue').text('Press [ENTER] to go to the main menu.').fadeIn 'slow'          
+          $(document).off '.jwerty'
+
+          jwerty.key 'enter', =>
+            @game.loadSplash()
+        else
+          $('.level-complete').text('Level complete').fadeIn 'slow'
+          $(document).off '.jwerty'
+
+          after 2000, =>
+            @unloadLevel()
     else
       @level = new LD24.Levels.LevelEndless @game, this, @screen
 

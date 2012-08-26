@@ -25,13 +25,18 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     this.powerupSpeedEndTick = 0;
     this.handleKeyboard();
     this.opacity = 1.0;
+    this["protected"] = true;
+    this.protectedEndTick = 60 * 2;
   }
 
   Player.prototype.tick = function() {
     Player.__super__.tick.call(this);
     if (this.powerupSpeed && this.tickCount > this.powerupSpeedEndTick) {
       this.maxSpeed = 1;
-      return this.powerupSpeed = false;
+      this.powerupSpeed = false;
+    }
+    if (this["protected"] && this.tickCount > this.protectedEndTick) {
+      return this["protected"] = false;
     }
   };
 
@@ -60,6 +65,9 @@ window.LD24.Mobs.Player = Player = (function(_super) {
   };
 
   Player.prototype.canBeAbsorbedBy = function(mob) {
+    if (this["protected"]) {
+      return false;
+    }
     if (mob instanceof LD24.Mobs.Bad) {
       return true;
     }
