@@ -31,7 +31,7 @@ window.LD24.Levels.Level2 = Level2 = (function(_super) {
 
     Level2.__super__.constructor.call(this, this.game, this.scene, this.screen);
     this.levelNumDisplayer.text(this.name);
-    this.game.showInfoBox('Be careful: Bigger mobs can absorb you as well. Try getting bigger than them before touching them.');
+    this.game.showInfoBox('Be careful: Bigger particles can absorb you as well. Try getting bigger than them to absorb them.');
     for (i = _i = 0; _i < 30; i = ++_i) {
       scale = 0.01 + Math.random() * 0.03;
       this.addNormalMobs(1, scale);

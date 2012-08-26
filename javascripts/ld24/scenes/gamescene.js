@@ -21,12 +21,26 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.screen = screen;
     this.running = false;
     this.boundaryOffset = 100;
-    this.levelNum = 5;
-    this.zoom = 5;
+    this.levelNum = 1;
+    this.defaultZoom = 5;
+    this.reset();
+    $(document).keydown(function(e) {
+      switch (e.keyCode) {
+        case 189:
+          return _this.zoomOut();
+        case 187:
+          return _this.zoomIn();
+      }
+    });
+  }
+
+  GameScene.prototype.reset = function() {
+    var _this = this;
     this.player = new LD24.Mobs.Player(this.game, this, this.screen);
     this.player.x = this.screen.width / 2;
     this.player.y = this.screen.height / 2;
     this.player.scale = this.player.toScale = 0.04;
+    this.zoom = this.defaultZoom;
     this.toZoom = this.zoom;
     this.scrollX = this.screen.width / 2 * this.zoom - this.screen.width / 2;
     this.toScrollX = this.scrollX;
@@ -35,7 +49,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.mobs = [this.player];
     this.particles = [];
     this.level = new LD24.Levels['Level' + this.levelNum](this.game, this, this.screen);
-    this.level.on('win', function() {
+    this.level.once('win', function() {
       $('.level-progress').fadeOut('slow');
       $('.level-complete').text('Level complete').fadeIn('slow');
       return after(2000, function() {
@@ -51,26 +65,18 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       return $('.level-complete-detail').text(reason).fadeIn('slow');
     });
     this.generateParticles();
-    this.loadLevel();
-    $(document).keydown(function(e) {
-      switch (e.keyCode) {
-        case 189:
-          return _this.zoomOut();
-        case 187:
-          return _this.zoomIn();
-      }
-    });
-  }
+    return this.loadLevel();
+  };
 
   GameScene.prototype.unloadLevel = function() {
     var _this = this;
     this.level.terminate();
     $('.level-complete').fadeOut('slow');
     return $('canvas').fadeOut('slow', function() {
+      _this.reset();
       _this.running = false;
       _this.levelNum++;
-      _this.level = new LD24.Levels['Level' + _this.levelNum](_this.game, _this, _this.screen);
-      return _this.loadLevel();
+      return _this.reset();
     });
   };
 

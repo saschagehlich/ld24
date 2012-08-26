@@ -8,7 +8,7 @@ window.LD24.Levels.Level2 = class Level2 extends LD24.Level
 
     @levelNumDisplayer.text @name
 
-    @game.showInfoBox 'Be careful: Bigger mobs can absorb you as well. Try getting bigger than them before touching them.'
+    @game.showInfoBox 'Be careful: Bigger particles can absorb you as well. Try getting bigger than them to absorb them.'
 
     # Only normal mobs, but also bigger ones
     for i in [0...30]

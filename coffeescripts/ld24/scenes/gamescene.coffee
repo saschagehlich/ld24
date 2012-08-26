@@ -5,15 +5,26 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @running = false
 
     @boundaryOffset = 100
-    @levelNum       = 5
-    @zoom           = 5
+    @levelNum       = 1
+    @defaultZoom    = 5
 
+    @reset()
+
+    $(document).keydown (e) =>
+      switch e.keyCode
+        when 189
+          @zoomOut()
+        when 187
+          @zoomIn()
+
+  reset: ->
     @player   = new LD24.Mobs.Player @game, this, @screen
     @player.x = @screen.width / 2
     @player.y = @screen.height / 2
 
     @player.scale = @player.toScale = 0.04
 
+    @zoom = @defaultZoom
     @toZoom = @zoom
     @scrollX = @screen.width / 2 * @zoom - @screen.width / 2
     @toScrollX = @scrollX
@@ -24,7 +35,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @particles = []
 
     @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
-    @level.on 'win', =>
+    @level.once 'win', =>
       $('.level-progress').fadeOut 'slow'
       $('.level-complete').text('Level complete').fadeIn 'slow'
 
@@ -39,23 +50,17 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @generateParticles()
     @loadLevel()
 
-    $(document).keydown (e) =>
-      switch e.keyCode
-        when 189
-          @zoomOut()
-        when 187
-          @zoomIn()
-
   unloadLevel: ->
     @level.terminate()
 
     $('.level-complete').fadeOut 'slow'
     $('canvas').fadeOut 'slow', =>
+      @reset()
+
       @running = false
 
       @levelNum++
-      @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
-      @loadLevel()
+      @reset()
 
   loadLevel: ->
     $('.level-complete').text @level.name

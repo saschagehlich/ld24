@@ -26,7 +26,7 @@ window.LD24.Levels.Level4 = Level4 = (function(_super) {
     this.screen = screen;
     Level4.__super__.constructor.call(this, this.game, this.scene, this.screen);
     this.levelNumDisplayer.text(this.name);
-    this.game.showInfoBox('Powerups are indicated by a rotation dashed border. Green power ups give you a speed boost for a few seconds.');
+    this.game.showInfoBox('Powerups are indicated by a rotating dashed border. Green power ups give you a speed boost for a few seconds.');
     for (i = _i = 0; _i < 30; i = ++_i) {
       scale = 0.01 + Math.random() * 0.03;
       this.addNormalMobs(1, scale);

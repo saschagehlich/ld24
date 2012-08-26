@@ -8,7 +8,7 @@ window.LD24.Levels.Level4 = class Level4 extends LD24.Level
 
     @levelNumDisplayer.text @name
 
-    @game.showInfoBox 'Powerups are indicated by a rotation dashed border. Green power ups give you a speed boost for a few seconds.'
+    @game.showInfoBox 'Powerups are indicated by a rotating dashed border. Green power ups give you a speed boost for a few seconds.'
 
     # Only normal mobs, but also bigger ones
     for i in [0...30]
