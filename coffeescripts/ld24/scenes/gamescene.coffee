@@ -5,7 +5,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @running = false
 
     @boundaryOffset = 100
-    @levelNum       = 5
+    @levelNum       = 1
     @defaultZoom    = 5
 
     @reset()
@@ -16,18 +16,49 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
           @zoomOut()
         when 187 # -
           @zoomIn()
-        when 27 #escape
-          @pause()
 
   pause: ->
     unless @game.paused
       @game.pause()
 
+      @selectedItem = $('.ingame-menu .active')
+      jwerty.key '↓', =>
+        nextItem = @selectedItem.next()
+        if nextItem.length is 0
+          nextItem = @selectedItem.parent().find('li').first()
+
+        @selectedItem.parent().find('li').removeClass 'active'
+        @selectedItem = nextItem
+        @selectedItem.addClass 'active'
+      jwerty.key '↑', =>
+        prevItem = @selectedItem.prev()
+        if prevItem.length is 0
+          prevItem = @selectedItem.parent().find('li').last()
+
+        @selectedItem.parent().find('li').removeClass 'active'
+        @selectedItem = prevItem
+        @selectedItem.addClass 'active'
+
+      jwerty.key 'enter', =>
+        if @selectedItem.hasClass 'continue'
+          @pause()
+        if @selectedItem.hasClass 'quit'
+          @game.loadSplash()
+          $('.ingame-menu').fadeOut 'slow'
+
       $('.ingame-menu').fadeIn 'slow'
     else
       @game.unpause()
 
+      $(document).off '.jwerty'
+      @handlePause()
+      @player.handleKeyboard()
+
       $('.ingame-menu').fadeOut 'slow'
+
+  handlePause: ->
+    jwerty.key 'escape', =>
+      @pause()
 
   reset: ->
     @player   = new LD24.Mobs.Player @game, this, @screen
@@ -105,6 +136,8 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
         $('.level-complete-detail').fadeOut 'slow', =>
 
           @running = true
+
+          @handlePause()
 
           $('canvas').fadeIn 'slow'
           $('.level-progress').fadeIn 'slow'
@@ -263,3 +296,13 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @screen.context.fillRect 0, 0, @screen.width, @screen.height
 
     @screen.restore()
+
+  terminate: (callback) ->
+    $('.level-progress, .level-complete, .level-complete-detail, div.continue').fadeOut 'slow'
+    @game.hideInfoBox()
+
+    $(document).off '.jwerty'
+    $(document).off 'keydown'
+
+    $('canvas').fadeOut 'slow', =>
+      callback?()

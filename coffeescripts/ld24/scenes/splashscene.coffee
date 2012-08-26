@@ -17,6 +17,9 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
     @particles = []
     @generateParticles()
 
+    $('canvas, .splash').fadeIn 'slow'
+    @game.unpause()
+
     @selectedMenuItem = $('.menu .active')
 
     jwerty.key '↓', @selectNextItem

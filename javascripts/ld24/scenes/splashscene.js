@@ -34,6 +34,8 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
     this.player.speedRotation = 0.5;
     this.particles = [];
     this.generateParticles();
+    $('canvas, .splash').fadeIn('slow');
+    this.game.unpause();
     this.selectedMenuItem = $('.menu .active');
     jwerty.key('↓', this.selectNextItem);
     jwerty.key('↑', this.selectPrevItem);

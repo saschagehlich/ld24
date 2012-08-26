@@ -22,7 +22,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.endless = endless != null ? endless : false;
     this.running = false;
     this.boundaryOffset = 100;
-    this.levelNum = 5;
+    this.levelNum = 1;
     this.defaultZoom = 5;
     this.reset();
     $(document).keydown(function(e) {
@@ -31,20 +31,59 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
           return _this.zoomOut();
         case 187:
           return _this.zoomIn();
-        case 27:
-          return _this.pause();
       }
     });
   }
 
   GameScene.prototype.pause = function() {
+    var _this = this;
     if (!this.game.paused) {
       this.game.pause();
+      this.selectedItem = $('.ingame-menu .active');
+      jwerty.key('↓', function() {
+        var nextItem;
+        nextItem = _this.selectedItem.next();
+        if (nextItem.length === 0) {
+          nextItem = _this.selectedItem.parent().find('li').first();
+        }
+        _this.selectedItem.parent().find('li').removeClass('active');
+        _this.selectedItem = nextItem;
+        return _this.selectedItem.addClass('active');
+      });
+      jwerty.key('↑', function() {
+        var prevItem;
+        prevItem = _this.selectedItem.prev();
+        if (prevItem.length === 0) {
+          prevItem = _this.selectedItem.parent().find('li').last();
+        }
+        _this.selectedItem.parent().find('li').removeClass('active');
+        _this.selectedItem = prevItem;
+        return _this.selectedItem.addClass('active');
+      });
+      jwerty.key('enter', function() {
+        if (_this.selectedItem.hasClass('continue')) {
+          _this.pause();
+        }
+        if (_this.selectedItem.hasClass('quit')) {
+          _this.game.loadSplash();
+          return $('.ingame-menu').fadeOut('slow');
+        }
+      });
       return $('.ingame-menu').fadeIn('slow');
     } else {
       this.game.unpause();
+      $(document).off('.jwerty');
+      this.handlePause();
+      this.player.handleKeyboard();
       return $('.ingame-menu').fadeOut('slow');
     }
+  };
+
+  GameScene.prototype.handlePause = function() {
+    var _this = this;
+    return jwerty.key('escape', function() {
+      return _this.pause();
+    });
   };
 
   GameScene.prototype.reset = function() {
@@ -128,6 +167,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
         $('.level-complete').fadeOut('slow');
         return $('.level-complete-detail').fadeOut('slow', function() {
           _this.running = true;
+          _this.handlePause();
           $('canvas').fadeIn('slow');
           return $('.level-progress').fadeIn('slow');
         });
@@ -294,6 +334,17 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.screen.context.fillStyle = 'rgb(10,14,30)';
     this.screen.context.fillRect(0, 0, this.screen.width, this.screen.height);
     return this.screen.restore();
+  };
+
+  GameScene.prototype.terminate = function(callback) {
+    var _this = this;
+    $('.level-progress, .level-complete, .level-complete-detail, div.continue').fadeOut('slow');
+    this.game.hideInfoBox();
+    $(document).off('.jwerty');
+    $(document).off('keydown');
+    return $('canvas').fadeOut('slow', function() {
+      return typeof callback === "function" ? callback() : void 0;
+    });
   };
 
   return GameScene;

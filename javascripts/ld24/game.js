@@ -60,6 +60,13 @@ window.LD24.Game = Game = (function() {
     });
   };
 
+  Game.prototype.loadSplash = function() {
+    var _this = this;
+    return this.scene.terminate(function() {
+      return _this.scene = new LD24.Scenes.SplashScene(_this, _this.screen);
+    });
+  };
+
   Game.prototype.setupTickLoop = function() {
     var _this = this;
     return this.tickLoop = every(1000 / this.framesPerSecond, function() {
@@ -84,12 +91,18 @@ window.LD24.Game = Game = (function() {
   };
 
   Game.prototype.pause = function() {
+    if (this.paused) {
+      return;
+    }
     this.paused = true;
     clearInterval(this.tickLoop);
     return clearInterval(this.renderLoop);
   };
 
   Game.prototype.unpause = function() {
+    if (!this.paused) {
+      return;
+    }
     this.paused = false;
     this.setupTickLoop();
     return this.setupRenderLoop();

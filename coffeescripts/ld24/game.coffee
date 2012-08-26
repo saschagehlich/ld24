@@ -34,6 +34,10 @@ window.LD24.Game = class Game
     @scene.terminate =>
       @scene = new LD24.Scenes.GameScene this, @screen, true
 
+  loadSplash: ->
+    @scene.terminate =>
+      @scene = new LD24.Scenes.SplashScene this, @screen
+
   setupTickLoop: ->
     @tickLoop = every 1000 / @framesPerSecond, =>
       @tick()
@@ -50,14 +54,18 @@ window.LD24.Game = class Game
     @scene.render()
 
   pause: ->
+    if @paused
+      return
+    
     @paused = true
-
     clearInterval @tickLoop
     clearInterval @renderLoop
 
   unpause: ->
-    @paused = false
+    unless @paused
+      return
 
+    @paused = false
     @setupTickLoop()
     @setupRenderLoop()
 
