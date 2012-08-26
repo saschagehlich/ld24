@@ -322,6 +322,8 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
             spriteY = 32
           else if mob instanceof LD24.Mobs.PowerUpAttraction
             spriteY = 32 + 25*2
+          else if mob instanceof LD24.Mobs.PowerUpProtection
+            spriteY = 32 + 25*3
 
           @screen.render 768, spriteY, 38, 25, arrowX, arrowY, null, null, arrowRotation
 

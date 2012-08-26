@@ -23,14 +23,20 @@ window.LD24.Levels.LevelEndless = class LevelEndless extends LD24.Level
     # Add attraction powerups
     if level >= 4
       for i in [0...2]
-        scale = 0.02 + Math.random() * 0.02
+        scale = 0.02 + Math.random() * 0.03
         @addAttractionPowerUps 1, scale
 
     # Add speed powerups
-    if level >= 6
+    if level >= 5
       for i in [0...2]
-        scale = 0.02 + Math.random() * 0.02
+        scale = 0.02 + Math.random() * 0.03
         @addSpeedPowerUps 1, scale
+
+    # Add protection powerup
+    if level >= 6
+      for i in [0...1]
+        scale = 0.02 + Math.random() * 0.03
+        @addProtectionPowerUps 1, scale
 
     # Calculate goal
     totalScale = 0

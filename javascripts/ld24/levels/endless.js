@@ -18,7 +18,7 @@ window.LD24.Levels.LevelEndless = LevelEndless = (function(_super) {
   LevelEndless.prototype.subname = 'Endless Game Mode';
 
   function LevelEndless(game, scene, screen, level) {
-    var i, mob, scale, totalScale, _i, _j, _k, _l, _len, _m, _ref2, _ref3, _ref4;
+    var i, mob, scale, totalScale, _i, _j, _k, _l, _len, _m, _n, _ref2, _ref3, _ref4;
     this.game = game;
     this.scene = scene;
     this.screen = screen;
@@ -37,20 +37,26 @@ window.LD24.Levels.LevelEndless = LevelEndless = (function(_super) {
     }
     if (level >= 4) {
       for (i = _k = 0; _k < 2; i = ++_k) {
-        scale = 0.02 + Math.random() * 0.02;
+        scale = 0.02 + Math.random() * 0.03;
         this.addAttractionPowerUps(1, scale);
       }
     }
-    if (level >= 6) {
+    if (level >= 5) {
       for (i = _l = 0; _l < 2; i = ++_l) {
-        scale = 0.02 + Math.random() * 0.02;
+        scale = 0.02 + Math.random() * 0.03;
         this.addSpeedPowerUps(1, scale);
+      }
+    }
+    if (level >= 6) {
+      for (i = _m = 0; _m < 1; i = ++_m) {
+        scale = 0.02 + Math.random() * 0.03;
+        this.addProtectionPowerUps(1, scale);
       }
     }
     totalScale = 0;
     _ref4 = this.scene.mobs;
-    for (_m = 0, _len = _ref4.length; _m < _len; _m++) {
-      mob = _ref4[_m];
+    for (_n = 0, _len = _ref4.length; _n < _len; _n++) {
+      mob = _ref4[_n];
       if (!((mob instanceof LD24.Mobs.Bad) || (mob instanceof LD24.Mobs.PowerUp))) {
         totalScale += mob.scale;
       }
