@@ -22,29 +22,34 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
     $('canvas, .splash').fadeIn 'slow'
     @game.unpause()
 
-    @selectedMenuItem = $('.menu .active')
-
     jwerty.key '↓', @selectNextItem
     jwerty.key '↑', @selectPrevItem
     jwerty.key 'enter', (e) =>
+      selectedMenuItem = $('.splash .menu .active')
+
       $(document).unbind '.jwerty'
 
-      if @selectedMenuItem.hasClass 'campaign'
+      if selectedMenuItem.hasClass 'campaign'
         @game.loadCampaign()
 
-      if @selectedMenuItem.hasClass 'endless'
+      if selectedMenuItem.hasClass 'endless'
         @game.loadEndless()
 
-      if @selectedMenuItem.hasClass 'about'
+      if selectedMenuItem.hasClass 'about'
         @showAbout()
 
-    $('.menu li').mouseenter ->
-      $('.menu li').removeClass 'active'
+    $('.splash .menu li').mouseenter ->
+      $('.splash .menu li').removeClass 'active'
       $(this).addClass 'active'
 
-    $('.campaign').click => @game.loadCampaign()
-    $('.endless').click  => @game.loadEndless()
-    $('li.about').click  => @showAbout()
+    $('.campaign').click => 
+      @game.loadCampaign()
+      $(document).unbind '.jwerty'
+    $('.endless').click  => 
+      $(document).unbind '.jwerty'
+      @game.loadEndless()
+    $('li.about').click  => 
+      @showAbout()
 
     jwerty.key '↑,↑,↓,↓,←,→,←,→,B,A', =>
       for i in [0...100]
@@ -66,22 +71,26 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
       # gimmick: spawn 100 mobs automatically moving to the player and make him explode
 
   selectNextItem: =>
-    nextItem = @selectedMenuItem.next('li')
+    selectedMenuItem = $('.splash .menu .active')
+
+    nextItem = selectedMenuItem.next('li')
     unless nextItem.length > 0
-      nextItem = $('.menu li').first()
-    $('.menu li').removeClass 'active'
+      nextItem = $('.splash .menu li').first()
+    $('.splash .menu li').removeClass 'active'
     nextItem.addClass 'active'
 
-    @selectedMenuItem = nextItem
+    selectedMenuItem = nextItem
 
   selectPrevItem: =>
-    prevItem = @selectedMenuItem.prev('li')
+    selectedMenuItem = $('.splash .menu .active')
+
+    prevItem = selectedMenuItem.prev('li')
     unless prevItem.length > 0
-      prevItem = $('.menu li').last()
-    $('.menu li').removeClass 'active'
+      prevItem = $('.splash .menu li').last()
+    $('.splash .menu li').removeClass 'active'
     prevItem.addClass 'active'
 
-    @selectedMenuItem = prevItem
+    selectedMenuItem = prevItem
 
   generateParticles: ->
     for i in [0...50]

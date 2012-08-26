@@ -1,7 +1,7 @@
 window.LD24 ?= {}
 window.LD24.Game = class Game
   framesPerSecond: 60
-  version: "0.2"
+  version: "0.3"
   constructor: (@canvas) ->
     @screen = new LD24.Screen @canvas
     unless $.cookie('abs_intro_seen') is '1'

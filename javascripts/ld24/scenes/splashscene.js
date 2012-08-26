@@ -37,29 +37,32 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
     this.mobs = [this.player];
     $('canvas, .splash').fadeIn('slow');
     this.game.unpause();
-    this.selectedMenuItem = $('.menu .active');
     jwerty.key('↓', this.selectNextItem);
     jwerty.key('↑', this.selectPrevItem);
     jwerty.key('enter', function(e) {
+      var selectedMenuItem;
+      selectedMenuItem = $('.splash .menu .active');
       $(document).unbind('.jwerty');
-      if (_this.selectedMenuItem.hasClass('campaign')) {
+      if (selectedMenuItem.hasClass('campaign')) {
         _this.game.loadCampaign();
       }
-      if (_this.selectedMenuItem.hasClass('endless')) {
+      if (selectedMenuItem.hasClass('endless')) {
         _this.game.loadEndless();
       }
-      if (_this.selectedMenuItem.hasClass('about')) {
+      if (selectedMenuItem.hasClass('about')) {
         return _this.showAbout();
       }
     });
-    $('.menu li').mouseenter(function() {
-      $('.menu li').removeClass('active');
+    $('.splash .menu li').mouseenter(function() {
+      $('.splash .menu li').removeClass('active');
       return $(this).addClass('active');
     });
     $('.campaign').click(function() {
-      return _this.game.loadCampaign();
+      _this.game.loadCampaign();
+      return $(document).unbind('.jwerty');
     });
     $('.endless').click(function() {
+      $(document).unbind('.jwerty');
       return _this.game.loadEndless();
     });
     $('li.about').click(function() {
@@ -89,25 +92,27 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
   }
 
   SplashScene.prototype.selectNextItem = function() {
-    var nextItem;
-    nextItem = this.selectedMenuItem.next('li');
+    var nextItem, selectedMenuItem;
+    selectedMenuItem = $('.splash .menu .active');
+    nextItem = selectedMenuItem.next('li');
     if (!(nextItem.length > 0)) {
-      nextItem = $('.menu li').first();
+      nextItem = $('.splash .menu li').first();
     }
-    $('.menu li').removeClass('active');
+    $('.splash .menu li').removeClass('active');
     nextItem.addClass('active');
-    return this.selectedMenuItem = nextItem;
+    return selectedMenuItem = nextItem;
   };
 
   SplashScene.prototype.selectPrevItem = function() {
-    var prevItem;
-    prevItem = this.selectedMenuItem.prev('li');
+    var prevItem, selectedMenuItem;
+    selectedMenuItem = $('.splash .menu .active');
+    prevItem = selectedMenuItem.prev('li');
     if (!(prevItem.length > 0)) {
-      prevItem = $('.menu li').last();
+      prevItem = $('.splash .menu li').last();
     }
-    $('.menu li').removeClass('active');
+    $('.splash .menu li').removeClass('active');
     prevItem.addClass('active');
-    return this.selectedMenuItem = prevItem;
+    return selectedMenuItem = prevItem;
   };
 
   SplashScene.prototype.generateParticles = function() {

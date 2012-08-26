@@ -44,37 +44,38 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     var _this = this;
     if (!this.game.paused) {
       this.game.pause();
-      this.selectedItem = $('.ingame-menu .active');
       jwerty.key('↓', function() {
-        var nextItem;
-        nextItem = _this.selectedItem.next();
+        var nextItem, selectedItem;
+        selectedItem = $('.ingame-menu .active');
+        nextItem = selectedItem.next();
         if (nextItem.length === 0) {
-          nextItem = _this.selectedItem.parent().find('li').first();
+          nextItem = selectedItem.parent().find('li').first();
         }
-        _this.selectedItem.parent().find('li').removeClass('active');
-        _this.selectedItem = nextItem;
-        return _this.selectedItem.addClass('active');
+        selectedItem.parent().find('li').removeClass('active');
+        return nextItem.addClass('active');
       });
       jwerty.key('↑', function() {
-        var prevItem;
-        prevItem = _this.selectedItem.prev();
+        var prevItem, selectedItem;
+        selectedItem = $('.ingame-menu .active');
+        prevItem = selectedItem.prev();
         if (prevItem.length === 0) {
-          prevItem = _this.selectedItem.parent().find('li').last();
+          prevItem = selectedItem.parent().find('li').last();
         }
-        _this.selectedItem.parent().find('li').removeClass('active');
-        _this.selectedItem = prevItem;
-        return _this.selectedItem.addClass('active');
+        selectedItem.parent().find('li').removeClass('active');
+        return prevItem.addClass('active');
       });
       jwerty.key('enter', function() {
-        if (_this.selectedItem.hasClass('continue')) {
+        var selectedItem;
+        selectedItem = $('.ingame-menu .active');
+        if (selectedItem.hasClass('continue')) {
           _this.pause();
         }
-        if (_this.selectedItem.hasClass('retry')) {
+        if (selectedItem.hasClass('retry')) {
           _this.unloadLevel();
           _this.game.unpause();
           $('.ingame-menu').fadeOut('slow');
         }
-        if (_this.selectedItem.hasClass('quit')) {
+        if (selectedItem.hasClass('quit')) {
           _this.game.loadSplash();
           return $('.ingame-menu').fadeOut('slow');
         }

@@ -27,32 +27,35 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     unless @game.paused
       @game.pause()
 
-      @selectedItem = $('.ingame-menu .active')
       jwerty.key '↓', =>
-        nextItem = @selectedItem.next()
+        selectedItem = $('.ingame-menu .active')
+
+        nextItem = selectedItem.next()
         if nextItem.length is 0
-          nextItem = @selectedItem.parent().find('li').first()
+          nextItem = selectedItem.parent().find('li').first()
 
-        @selectedItem.parent().find('li').removeClass 'active'
-        @selectedItem = nextItem
-        @selectedItem.addClass 'active'
+        selectedItem.parent().find('li').removeClass 'active'
+
+        nextItem.addClass 'active'
       jwerty.key '↑', =>
-        prevItem = @selectedItem.prev()
-        if prevItem.length is 0
-          prevItem = @selectedItem.parent().find('li').last()
+        selectedItem = $('.ingame-menu .active')
 
-        @selectedItem.parent().find('li').removeClass 'active'
-        @selectedItem = prevItem
-        @selectedItem.addClass 'active'
+        prevItem = selectedItem.prev()
+        if prevItem.length is 0
+          prevItem = selectedItem.parent().find('li').last()
+
+        selectedItem.parent().find('li').removeClass 'active'
+        prevItem.addClass 'active'
 
       jwerty.key 'enter', =>
-        if @selectedItem.hasClass 'continue'
+        selectedItem = $('.ingame-menu .active')
+        if selectedItem.hasClass 'continue'
           @pause()
-        if @selectedItem.hasClass 'retry'
+        if selectedItem.hasClass 'retry'
           @unloadLevel()
           @game.unpause()
           $('.ingame-menu').fadeOut 'slow'
-        if @selectedItem.hasClass 'quit'
+        if selectedItem.hasClass 'quit'
           @game.loadSplash()
           $('.ingame-menu').fadeOut 'slow'
 
