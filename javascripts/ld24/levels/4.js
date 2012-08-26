@@ -46,7 +46,6 @@ window.LD24.Levels.Level4 = Level4 = (function(_super) {
     scale = 0.03 + Math.random() * 0.1;
     powerupX = this.scene.scrollX / this.scene.zoom + Math.random() * this.screen.width / this.scene.zoom;
     powerupY = this.scene.scrollY / this.scene.zoom + Math.random() * this.screen.height / this.scene.zoom;
-    console.log(powerupX, powerupY);
     this.addSpeedPowerUps(1, scale, powerupX, powerupY);
     this.goalScale = 0;
     _ref2 = this.scene.mobs;

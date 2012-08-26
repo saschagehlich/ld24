@@ -22,7 +22,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.endless = endless != null ? endless : false;
     this.running = false;
     this.boundaryOffset = 100;
-    this.levelNum = 5;
+    this.levelNum = 1;
     this.levelsCount = 5;
     this.defaultZoom = 5;
     this.reset();

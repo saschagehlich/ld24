@@ -41,7 +41,7 @@ window.LD24.Levels.Level5 = Level5 = (function(_super) {
     }
     for (i = _l = 0; _l < 2; i = ++_l) {
       scale = 0.03 + Math.random() * 0.1;
-      this.addSpeedPowerUps(1, scale);
+      this.addAttractionPowerUps(1, scale);
     }
     scale = 0.03 + Math.random() * 0.1;
     powerupX = this.scene.scrollX / this.scene.zoom + Math.random() * this.screen.width / this.scene.zoom;
