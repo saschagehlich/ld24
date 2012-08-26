@@ -348,10 +348,15 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
   };
 
   GameScene.prototype.renderBackground = function() {
+    var sh, sw, sx, sy;
     this.screen.save();
     this.screen.context.fillStyle = 'rgb(10,14,30)';
     this.screen.context.fillRect(0, 0, this.screen.width, this.screen.height);
-    this.screen.context.drawImage(this.screen.background, this.scrollX / this.zoom, this.scrollY / this.zoom, this.screen.width / this.zoom, this.screen.height / this.zoom, 0, 0, this.screen.width, this.screen.height);
+    sx = this.scrollX / this.zoom;
+    sy = this.scrollY / this.zoom;
+    sw = this.screen.width - sx;
+    sh = this.screen.height - sy;
+    this.screen.context.drawImage(this.screen.background, sx, sy, sw, sh, 0, 0, this.screen.width, this.screen.height);
     return this.screen.restore();
   };
 

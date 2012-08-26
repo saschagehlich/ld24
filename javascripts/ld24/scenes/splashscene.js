@@ -135,6 +135,7 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
     this.screen.save();
     this.screen.context.fillStyle = 'rgb(10,14,30)';
     this.screen.context.fillRect(0, 0, this.screen.width, this.screen.height);
+    this.screen.context.drawImage(this.screen.background, this.scrollX / this.zoom, this.scrollY / this.zoom, this.screen.width / this.zoom, this.screen.height / this.zoom, 0, 0, this.screen.width, this.screen.height);
     return this.screen.restore();
   };
 
