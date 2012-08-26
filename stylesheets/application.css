@@ -174,6 +174,14 @@ body {
   width: 640px;
   height: 480px;
 }
+.canvas-wrapper .version {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font: normal 8px Verdana;
+  color: rgba(255,255,255,0.3);
+  padding: 5px;
+}
 .canvas-wrapper .debug {
   position: absolute;
   top: 0;

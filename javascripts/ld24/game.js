@@ -9,6 +9,8 @@ window.LD24.Game = Game = (function() {
 
   Game.prototype.framesPerSecond = 60;
 
+  Game.prototype.version = "0.1";
+
   function Game(canvas) {
     var _this = this;
     this.canvas = canvas;
@@ -20,6 +22,7 @@ window.LD24.Game = Game = (function() {
     });
     this.setupTickLoop();
     this.setupRenderLoop();
+    $('.version').text(this.version);
     this.paused = false;
     $(document).keydown(function(e) {
       if (e.keyCode === 80) {

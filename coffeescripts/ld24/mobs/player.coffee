@@ -16,6 +16,8 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
     @protected = true
     @protectedEndTick = 60*2
 
+    @absorbable = true # we use that to "lock" the player as soon as he wins
+
   tick: -> 
     super()
 
@@ -46,7 +48,7 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
 
 
   canBeAbsorbedBy: (mob) ->
-    if @protected
+    if @protected or !@absorbable
       return false
 
     if mob instanceof LD24.Mobs.Bad
@@ -57,24 +59,50 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
     return true
 
   handleKeyboard: ->
+    @up = false
+    @left = false
+    @down = false
+    @right = false
+
     $(document).keydown (e) =>
       if jwerty.is('down', e) or jwerty.is('s', e)
         @toSpeedY = 1 * @maxSpeed
+        @down = true
       else if jwerty.is('up', e) or jwerty.is('w', e)
         @toSpeedY = -1 * @maxSpeed
+        @up = true
       else if jwerty.is('left', e) or jwerty.is('a', e)
         @toSpeedX = -1 * @maxSpeed
+        @left = true
       else if jwerty.is('right', e) or jwerty.is('d', e)
         @toSpeedX = 1 * @maxSpeed
+        @right = true
 
     $(document).keyup (e) =>
       if jwerty.is('down', e) or 
-        jwerty.is('up', e) or
-        jwerty.is('w', e) or 
         jwerty.is('s', e)
           @toSpeedY = 0
+          if @up
+            @toSpeedY = -1 * @maxSpeed
+          @down = false
+
+      if jwerty.is('up', e) or
+        jwerty.is('w', e)
+          @toSpeedY = 0
+          if @down
+            @toSpeedY = @maxSpeed
+          @up = false
+
       if jwerty.is('left', e) or
-        jwerty.is('right', e) or 
-        jwerty.is('a', e) or 
+        jwerty.is('a', e)
+          @toSpeedX = 0
+          if @right
+            @toSpeedX = @maxSpeed
+          @left = false
+
+      if jwerty.is('right', e) or 
         jwerty.is('d', e)
           @toSpeedX = 0
+          if @left
+            @toSpeedX = -1 * @maxSpeed
+          @right = false

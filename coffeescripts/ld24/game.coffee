@@ -1,6 +1,7 @@
 window.LD24 ?= {}
 window.LD24.Game = class Game
   framesPerSecond: 60
+  version: "0.1"
   constructor: (@canvas) ->
     @screen = new LD24.Screen @canvas
     @scene  = new LD24.Scenes.SplashScene this, @screen
@@ -11,6 +12,8 @@ window.LD24.Game = class Game
 
     @setupTickLoop()
     @setupRenderLoop()
+
+    $('.version').text @version
 
     @paused = false
 

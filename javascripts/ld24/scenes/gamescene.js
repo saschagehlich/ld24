@@ -126,6 +126,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     }
     this.level.once('win', function() {
       $('.level-progress').fadeOut('slow');
+      _this.player.absorbable = false;
       _this.levelNum++;
       if (_this.levelNum > _this.levelsCount) {
         $('.level-complete').text('Well done!').fadeIn('slow');

@@ -27,6 +27,7 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     this.opacity = 1.0;
     this["protected"] = true;
     this.protectedEndTick = 60 * 2;
+    this.absorbable = true;
   }
 
   Player.prototype.tick = function() {
@@ -60,7 +61,7 @@ window.LD24.Mobs.Player = Player = (function(_super) {
   };
 
   Player.prototype.canBeAbsorbedBy = function(mob) {
-    if (this["protected"]) {
+    if (this["protected"] || !this.absorbable) {
       return false;
     }
     if (mob instanceof LD24.Mobs.Bad) {
@@ -74,23 +75,53 @@ window.LD24.Mobs.Player = Player = (function(_super) {
 
   Player.prototype.handleKeyboard = function() {
     var _this = this;
+    this.up = false;
+    this.left = false;
+    this.down = false;
+    this.right = false;
     $(document).keydown(function(e) {
       if (jwerty.is('down', e) || jwerty.is('s', e)) {
-        return _this.toSpeedY = 1 * _this.maxSpeed;
+        _this.toSpeedY = 1 * _this.maxSpeed;
+        return _this.down = true;
       } else if (jwerty.is('up', e) || jwerty.is('w', e)) {
-        return _this.toSpeedY = -1 * _this.maxSpeed;
+        _this.toSpeedY = -1 * _this.maxSpeed;
+        return _this.up = true;
       } else if (jwerty.is('left', e) || jwerty.is('a', e)) {
-        return _this.toSpeedX = -1 * _this.maxSpeed;
+        _this.toSpeedX = -1 * _this.maxSpeed;
+        return _this.left = true;
       } else if (jwerty.is('right', e) || jwerty.is('d', e)) {
-        return _this.toSpeedX = 1 * _this.maxSpeed;
+        _this.toSpeedX = 1 * _this.maxSpeed;
+        return _this.right = true;
       }
     });
     return $(document).keyup(function(e) {
-      if (jwerty.is('down', e) || jwerty.is('up', e) || jwerty.is('w', e) || jwerty.is('s', e)) {
+      if (jwerty.is('down', e) || jwerty.is('s', e)) {
         _this.toSpeedY = 0;
+        if (_this.up) {
+          _this.toSpeedY = -1 * _this.maxSpeed;
+        }
+        _this.down = false;
       }
-      if (jwerty.is('left', e) || jwerty.is('right', e) || jwerty.is('a', e) || jwerty.is('d', e)) {
-        return _this.toSpeedX = 0;
+      if (jwerty.is('up', e) || jwerty.is('w', e)) {
+        _this.toSpeedY = 0;
+        if (_this.down) {
+          _this.toSpeedY = _this.maxSpeed;
+        }
+        _this.up = false;
+      }
+      if (jwerty.is('left', e) || jwerty.is('a', e)) {
+        _this.toSpeedX = 0;
+        if (_this.right) {
+          _this.toSpeedX = _this.maxSpeed;
+        }
+        _this.left = false;
+      }
+      if (jwerty.is('right', e) || jwerty.is('d', e)) {
+        _this.toSpeedX = 0;
+        if (_this.left) {
+          _this.toSpeedX = -1 * _this.maxSpeed;
+        }
+        return _this.right = false;
       }
     });
   };

@@ -102,6 +102,8 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @level.once 'win', =>
       $('.level-progress').fadeOut 'slow'
 
+      @player.absorbable = false
+
       @levelNum++
       if @levelNum > @levelsCount
         $('.level-complete').text('Well done!').fadeIn 'slow'
