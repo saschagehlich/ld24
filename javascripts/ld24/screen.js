@@ -16,6 +16,8 @@ window.LD24.Screen = Screen = (function() {
     this.canvas.get(0).height = this.height;
     this.sprites = new Image();
     this.sprites.src = 'assets/images/sprites.png';
+    this.background = new Image();
+    this.background.src = 'assets/images/background.png';
   }
 
   Screen.prototype.clear = function() {

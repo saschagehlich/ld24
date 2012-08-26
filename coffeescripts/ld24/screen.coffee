@@ -12,6 +12,9 @@ window.LD24.Screen = class Screen
     @sprites = new Image()
     @sprites.src = 'assets/images/sprites.png'
 
+    @background = new Image()
+    @background.src = 'assets/images/background.png'
+
   clear: ->
     @context.fillRect 0, 0, @width, @height
 

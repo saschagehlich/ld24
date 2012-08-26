@@ -311,6 +311,8 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @screen.context.fillStyle = 'rgb(10,14,30)'
     @screen.context.fillRect 0, 0, @screen.width, @screen.height
 
+    @screen.context.drawImage @screen.background, @scrollX / @zoom, @scrollY / @zoom, @screen.width / @zoom, @screen.height / @zoom, 0, 0, @screen.width, @screen.height
+
     @screen.restore()
 
   terminate: (callback) ->
