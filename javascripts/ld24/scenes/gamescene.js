@@ -180,6 +180,9 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     $('.level-complete').text(this.level.name);
     $('.level-complete-detail').text(this.level.subname);
     $('.level-complete').fadeIn('slow');
+    $('.level-progress .done').css({
+      width: 0
+    });
     return $('.level-complete-detail').fadeIn('slow', function() {
       return after(2000, function() {
         $('.level-complete').fadeOut('slow');
@@ -194,15 +197,11 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
   };
 
   GameScene.prototype.zoomOut = function() {
-    this.toZoom = Math.max(1, this.toZoom - 1);
-    this.toScrollX = this.scrollX / this.zoom * this.toZoom;
-    return this.toScrollY = this.scrollY / this.zoom * this.toZoom;
+    return this.toZoom = Math.max(1, this.toZoom - 1);
   };
 
   GameScene.prototype.zoomIn = function() {
-    this.toZoom = Math.min(5, this.toZoom + 1);
-    this.toScrollX = this.scrollX / this.zoom * this.toZoom;
-    return this.toScrollY = this.scrollY / this.zoom * this.toZoom;
+    return this.toZoom = Math.min(5, this.toZoom + 1);
   };
 
   GameScene.prototype.generateParticles = function() {
@@ -232,7 +231,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     if (!this.running) {
       return;
     }
-    this.zoom += (this.toZoom - this.zoom) / 10;
+    this.zoom += (this.toZoom - this.zoom) / 20;
     this.scrollX += (this.toScrollX - this.scrollX) / 10;
     this.scrollY += (this.toScrollY - this.scrollY) / 10;
     _ref2 = this.particles;

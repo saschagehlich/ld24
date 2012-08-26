@@ -47,17 +47,12 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     finalH = this.spriteH * this.scale * this.scene.zoom;
     finalX = (this.x * this.scene.zoom - finalW / 2) - this.scene.scrollX;
     finalY = (this.y * this.scene.zoom - finalH / 2) - this.scene.scrollY;
-    return this.screen.render(0, 256, 256, 256, finalX, finalY, finalW, finalH);
+    return this.screen.render(0, 256, 256, 256, finalX - this.speedX * 2 * this.scene.zoom, finalY - this.speedY * 2 * this.scene.zoom, finalW, finalH);
   };
 
   Player.prototype.absorb = function(mob) {
-    var _this = this;
     if (!this.absorbing && mob.canBeAbsorbedBy(this)) {
       this.toScale = this.scale + mob.scale / 2;
-      this.absorbing = true;
-      mob.once('absorbed', function() {
-        return _this.absorbing = false;
-      });
       mob.absorbedBy(this);
       this.emit('absorb', this.toScale);
       return this.game.sounds.playSound('absorb');

@@ -146,6 +146,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     $('.level-complete-detail').text @level.subname
 
     $('.level-complete').fadeIn 'slow'
+    $('.level-progress .done').css width: 0
     $('.level-complete-detail').fadeIn 'slow', =>
       after 2000, =>
         $('.level-complete').fadeOut 'slow'
@@ -162,16 +163,16 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @toZoom = Math.max 1, @toZoom - 1
 
     # linear zoomOut
-    @toScrollX = @scrollX / @zoom * @toZoom
-    @toScrollY = @scrollY / @zoom * @toZoom
+    # @toScrollX = @scrollX / @zoom * @toZoom
+    # @toScrollY = @scrollY / @zoom * @toZoom
     
 
   zoomIn: ->
     @toZoom = Math.min 5, @toZoom + 1
 
     # linear zoomIn
-    @toScrollX = @scrollX / @zoom * @toZoom
-    @toScrollY = @scrollY / @zoom * @toZoom
+    # @toScrollX = @scrollX / @zoom * @toZoom
+    # @toScrollY = @scrollY / @zoom * @toZoom
 
   generateParticles: ->
     for i in [0...500]
@@ -197,7 +198,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       return
 
     # zoom transition
-    @zoom += (@toZoom - @zoom) / 10
+    @zoom += (@toZoom - @zoom) / 20
 
     # scroll transition
     @scrollX += (@toScrollX - @scrollX) / 10

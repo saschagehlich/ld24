@@ -19,7 +19,6 @@ window.LD24.Mob = class Mob extends EventEmitter
     @maxSpeed = 0.1
 
     @absorbed = false
-    @absorbing = false
     @absorbingMob = null
 
     @rotation = 0
@@ -34,7 +33,7 @@ window.LD24.Mob = class Mob extends EventEmitter
     @opacity = @toOpacity = 0.9
 
   tick: ->
-    @opacity += (@toOpacity - @opacity) / 10
+    @opacity += (@toOpacity - @opacity) / 5
     unless @absorbingMob?
       @speedX += (@toSpeedX - @speedX) / 20
       @speedY += (@toSpeedY - @speedY) / 20
@@ -118,11 +117,7 @@ window.LD24.Mob = class Mob extends EventEmitter
     @removed = true
 
   absorb: (mob) ->
-    if not @absorbing and mob.canBeAbsorbedBy(@) and !@absorbed
+    if mob.canBeAbsorbedBy(@) and !@absorbed
       @toScale = @scale + mob.scale / 2
-      @absorbing = true
-
-      mob.once 'absorbed', =>
-        @absorbing = false
 
       mob.absorbedBy @

@@ -33,7 +33,6 @@ window.LD24.Mob = Mob = (function(_super) {
     this.toSpeedY = 0;
     this.maxSpeed = 0.1;
     this.absorbed = false;
-    this.absorbing = false;
     this.absorbingMob = null;
     this.rotation = 0;
     this.speedRotation = Math.random() * 0.5;
@@ -45,7 +44,7 @@ window.LD24.Mob = Mob = (function(_super) {
   }
 
   Mob.prototype.tick = function() {
-    this.opacity += (this.toOpacity - this.opacity) / 10;
+    this.opacity += (this.toOpacity - this.opacity) / 5;
     if (this.absorbingMob == null) {
       this.speedX += (this.toSpeedX - this.speedX) / 20;
       this.speedY += (this.toSpeedY - this.speedY) / 20;
@@ -131,13 +130,8 @@ window.LD24.Mob = Mob = (function(_super) {
   };
 
   Mob.prototype.absorb = function(mob) {
-    var _this = this;
-    if (!this.absorbing && mob.canBeAbsorbedBy(this) && !this.absorbed) {
+    if (mob.canBeAbsorbedBy(this) && !this.absorbed) {
       this.toScale = this.scale + mob.scale / 2;
-      this.absorbing = true;
-      mob.once('absorbed', function() {
-        return _this.absorbing = false;
-      });
       return mob.absorbedBy(this);
     }
   };
