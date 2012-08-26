@@ -2,7 +2,7 @@ window.LD24 ?= {}
 window.LD24.Sounds = class Sounds
   constructor: (@game) ->
     soundManager.setup
-      debug: false
+      debugMode: false
       url: 'assets/swf/'
       onready: =>
         @loadSounds()

@@ -71,7 +71,7 @@ window.LD24.Mob = Mob = (function(_super) {
     }
     this.scale += (this.toScale - this.scale) / 10;
     if (this.scale < 0.01) {
-      this.emit("absorbed");
+      this.emit("absorbed", this.absorbingMob);
       this.remove();
     }
     this.rotation += this.speedRotation;

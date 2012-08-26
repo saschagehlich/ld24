@@ -21,15 +21,19 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @mobs = [@player]
     @particles = []
 
-    @level = new LD24.Levels.Level1 @game, this, @screen
+    @levelNum = 2
+    @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
     @level.on 'win', =>
       $('.level-progress').fadeOut 'slow'
       $('.level-complete').text('Level complete').fadeIn 'slow'
 
-    @player.on 'absorbed', =>
+      after 2000, =>
+        @unloadLevel()
+
+    @level.on 'lost', (reason='You have been absorbed by a bigger particle.') =>
       $('.level-progress').fadeOut 'slow'
-      $('.level-complete').text 'You lost'
-      $('.level-complete-detail').text 'You have been absorbed'
+      $('.level-complete').text('You lost').fadeIn 'slow'
+      $('.level-complete-detail').text(reason).fadeIn 'slow'
 
     @generateParticles()
     @loadLevel()
@@ -40,6 +44,17 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
           @zoomOut()
         when 187
           @zoomIn()
+
+  unloadLevel: ->
+    @level.terminate()
+
+    $('.level-complete').fadeOut 'slow'
+    $('canvas').fadeOut 'slow', =>
+      @running = false
+
+      @levelNum++
+      @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
+      @loadLevel()
 
   loadLevel: ->
     $('.level-complete').text @level.name

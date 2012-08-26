@@ -19,13 +19,14 @@ window.LD24.Level = Level = (function(_super) {
     this.levelNumDisplayer = $('.level');
   }
 
-  Level.prototype.addNormalMobs = function(count) {
+  Level.prototype.addNormalMobs = function(count, scale) {
     var i, mob, _i, _results;
     _results = [];
     for (i = _i = 0; 0 <= count ? _i < count : _i > count; i = 0 <= count ? ++_i : --_i) {
       mob = new LD24.Mobs.Mote(this.game, this.scene, this.screen);
       mob.x = Math.random() * this.screen.width;
       mob.y = Math.random() * this.screen.height;
+      mob.scale = mob.toScale = scale;
       mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
       if (Math.round(Math.random()) === 0) {
         mob.speedX *= -1;
@@ -59,13 +60,14 @@ window.LD24.Level = Level = (function(_super) {
     return _results;
   };
 
-  Level.prototype.addBadMobs = function(count) {
+  Level.prototype.addBadMobs = function(count, scale) {
     var i, mob, _i, _results;
     _results = [];
     for (i = _i = 0; 0 <= count ? _i < count : _i > count; i = 0 <= count ? ++_i : --_i) {
       mob = new LD24.Mobs.Bad(this.game, this.scene, this.screen);
       mob.x = Math.random() * this.screen.width;
       mob.y = Math.random() * this.screen.height;
+      mob.scale = mob.scaleTo = scale;
       mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
       if (Math.round(Math.random()) === 0) {
         mob.speedX *= -1;

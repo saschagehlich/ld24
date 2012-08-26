@@ -61,7 +61,7 @@ window.LD24.Mob = class Mob extends EventEmitter
 
     @scale += (@toScale - @scale) / 10
     if @scale < 0.01
-      @emit "absorbed"
+      @emit "absorbed", @absorbingMob
       @remove()
 
     @rotation += @speedRotation

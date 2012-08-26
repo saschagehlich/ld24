@@ -11,7 +11,7 @@ window.LD24.Sounds = Sounds = (function() {
     var _this = this;
     this.game = game;
     soundManager.setup({
-      debug: false,
+      debugMode: false,
       url: 'assets/swf/',
       onready: function() {
         return _this.loadSounds();

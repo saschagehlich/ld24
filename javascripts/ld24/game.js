@@ -35,6 +35,10 @@ window.LD24.Game = Game = (function() {
     }, 'slow');
   };
 
+  Game.prototype.hideInfoBox = function(message) {
+    return $('.info-box').fadeOut('fast');
+  };
+
   Game.prototype.loadCampaign = function() {
     var _this = this;
     return this.scene.terminate(function() {

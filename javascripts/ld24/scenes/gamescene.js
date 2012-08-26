@@ -33,15 +33,22 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.toScrollY = this.scrollY;
     this.mobs = [this.player];
     this.particles = [];
-    this.level = new LD24.Levels.Level1(this.game, this, this.screen);
+    this.levelNum = 2;
+    this.level = new LD24.Levels['Level' + this.levelNum](this.game, this, this.screen);
     this.level.on('win', function() {
       $('.level-progress').fadeOut('slow');
-      return $('.level-complete').text('Level complete').fadeIn('slow');
+      $('.level-complete').text('Level complete').fadeIn('slow');
+      return after(2000, function() {
+        return _this.unloadLevel();
+      });
     });
-    this.player.on('absorbed', function() {
+    this.level.on('lost', function(reason) {
+      if (reason == null) {
+        reason = 'You have been absorbed by a bigger particle.';
+      }
       $('.level-progress').fadeOut('slow');
-      $('.level-complete').text('You lost');
-      return $('.level-complete-detail').text('You have been absorbed');
+      $('.level-complete').text('You lost').fadeIn('slow');
+      return $('.level-complete-detail').text(reason).fadeIn('slow');
     });
     this.generateParticles();
     this.loadLevel();
@@ -54,6 +61,18 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       }
     });
   }
+
+  GameScene.prototype.unloadLevel = function() {
+    var _this = this;
+    this.level.terminate();
+    $('.level-complete').fadeOut('slow');
+    return $('canvas').fadeOut('slow', function() {
+      _this.running = false;
+      _this.levelNum++;
+      _this.level = new LD24.Levels['Level' + _this.levelNum](_this.game, _this, _this.screen);
+      return _this.loadLevel();
+    });
+  };
 
   GameScene.prototype.loadLevel = function() {
     var _this = this;
