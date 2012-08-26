@@ -15,33 +15,15 @@ window.LD24.Levels.LevelEndless = LevelEndless = (function(_super) {
 
   __extends(LevelEndless, _super);
 
-  LevelEndless.prototype.name = 'Endless Game';
+  LevelEndless.prototype.subname = 'Endless Game Mode';
 
-  LevelEndless.prototype.subname = 'Absorb ALL the Particles!';
-
-  function LevelEndless(game, scene, screen) {
-    var i, scale, _i, _j, _k, _l;
+  function LevelEndless(game, scene, screen, level) {
     this.game = game;
     this.scene = scene;
     this.screen = screen;
     LevelEndless.__super__.constructor.call(this, this.game, this.scene, this.screen);
+    this.name = 'Level ' + level;
     this.levelNumDisplayer.text(this.name);
-    for (i = _i = 0; _i < 30; i = ++_i) {
-      scale = 0.01 + Math.random() * 0.03;
-      this.addNormalMobs(1, scale);
-    }
-    for (i = _j = 0; _j < 30; i = ++_j) {
-      scale = 0.01 + Math.random() * 0.1;
-      this.addNormalMobs(1, scale);
-    }
-    for (i = _k = 0; _k < 5; i = ++_k) {
-      scale = 0.01 + Math.random() * 0.1;
-      this.addBadMobs(1, scale);
-    }
-    for (i = _l = 0; _l < 3; i = ++_l) {
-      scale = 0.03 + Math.random() * 0.1;
-      this.addAttractionPowerUps(1, scale);
-    }
   }
 
   return LevelEndless;
