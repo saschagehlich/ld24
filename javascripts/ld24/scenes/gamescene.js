@@ -31,9 +31,21 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
           return _this.zoomOut();
         case 187:
           return _this.zoomIn();
+        case 27:
+          return _this.pause();
       }
     });
   }
+
+  GameScene.prototype.pause = function() {
+    if (!this.game.paused) {
+      this.game.pause();
+      return $('.ingame-menu').fadeIn('slow');
+    } else {
+      this.game.unpause();
+      return $('.ingame-menu').fadeOut('slow');
+    }
+  };
 
   GameScene.prototype.reset = function() {
     var _this = this;
@@ -77,7 +89,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       $('.level-progress').fadeOut('slow');
       $('.level-complete').text('You lost').fadeIn('slow');
       $('.level-complete-detail').text(reason).fadeIn('slow');
-      $('.continue').fadeIn('slow');
+      $('div.continue').fadeIn('slow');
       _this.canReset = true;
       return jwerty.key('enter', function() {
         if (_this.canReset) {
@@ -95,7 +107,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.level.terminate();
     $('.level-complete').fadeOut('slow');
     $('.level-complete-detail').fadeOut('slow');
-    $('.continue').fadeOut('slow');
+    $('div.continue').fadeOut('slow');
     $('.level-progress .done').css({
       width: '0'
     });

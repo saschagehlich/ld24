@@ -241,7 +241,7 @@ body {
   text-align: center;
   display: none;
 }
-.canvas-wrapper .continue {
+.canvas-wrapper div.continue {
   font: bold 20px 'Enriqueta', serif;
   position: absolute;
   top: 350px;
@@ -365,5 +365,68 @@ body {
   text-decoration: none;
 }
 .splash .copyright a:hover {
+  color: #6d7ec2;
+}
+.ingame-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 640px;
+  height: 480px;
+  display: none;
+  background: rgba(0,0,0,0.3);
+}
+.ingame-menu .paused {
+  position: absolute;
+  top: 170px;
+  text-align: center;
+  width: 640px;
+  font: bold 35px 'Enriqueta', sans;
+  color: #e8e8e8;
+  text-shadow: 0 0 9px rgba(0,0,0,0.41);
+  -webkit-text-shadow: 0 0 9px rgba(0,0,0,0.41);
+  -moz-text-shadow: 0 0 9px rgba(0,0,0,0.41);
+  -o-text-shadow: 0 0 9px rgba(0,0,0,0.41);
+  -ms-text-shadow: 0 0 9px rgba(0,0,0,0.41);
+}
+.ingame-menu ul.menu {
+  width: 300px;
+  text-align: center;
+  position: absolute;
+  top: 250px;
+  left: 50%;
+  margin-left: -150px;
+}
+.ingame-menu ul.menu li {
+  font: bold 24px 'Enriqueta', sans;
+  color: #fff;
+  cursor: pointer;
+}
+.ingame-menu ul.menu li.about {
+  margin-top: 30px;
+  font-size: 18px;
+}
+.ingame-menu ul.menu li.active {
+  color: #a8b4e3;
+  text-shadow: 0 0 7px rgba(35,56,130,0.75);
+  -webkit-text-shadow: 0 0 7px rgba(35,56,130,0.75);
+  -moz-text-shadow: 0 0 7px rgba(35,56,130,0.75);
+  -o-text-shadow: 0 0 7px rgba(35,56,130,0.75);
+  -ms-text-shadow: 0 0 7px rgba(35,56,130,0.75);
+}
+.ingame-menu .copyright {
+  font: bold 12px 'Enriqueta', sans;
+  text-align: center;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+}
+.ingame-menu .copyright a {
+  color: #a8b4e3;
+  text-decoration: none;
+}
+.ingame-menu .copyright a:hover {
   color: #6d7ec2;
 }

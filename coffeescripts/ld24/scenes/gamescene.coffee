@@ -12,10 +12,22 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
 
     $(document).keydown (e) =>
       switch e.keyCode
-        when 189
+        when 189 # +
           @zoomOut()
-        when 187
+        when 187 # -
           @zoomIn()
+        when 27 #escape
+          @pause()
+
+  pause: ->
+    unless @game.paused
+      @game.pause()
+
+      $('.ingame-menu').fadeIn 'slow'
+    else
+      @game.unpause()
+
+      $('.ingame-menu').fadeOut 'slow'
 
   reset: ->
     @player   = new LD24.Mobs.Player @game, this, @screen
@@ -56,7 +68,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       $('.level-progress').fadeOut 'slow'
       $('.level-complete').text('You lost').fadeIn 'slow'
       $('.level-complete-detail').text(reason).fadeIn 'slow'
-      $('.continue').fadeIn 'slow'
+      $('div.continue').fadeIn 'slow'
 
       @canReset = true
 
@@ -73,7 +85,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
 
     $('.level-complete').fadeOut 'slow'
     $('.level-complete-detail').fadeOut 'slow'
-    $('.continue').fadeOut 'slow'
+    $('div.continue').fadeOut 'slow'
     $('.level-progress .done').css width: '0'
     $('canvas').fadeOut 'slow', =>
       @reset()
@@ -240,7 +252,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
             spriteY = 32
           else if mob instanceof LD24.Mobs.PowerUpAttraction
             spriteY = 32 + 25*2
-          
+
           @screen.render 768, spriteY, 38, 25, arrowX, arrowY, null, null, arrowRotation
 
 

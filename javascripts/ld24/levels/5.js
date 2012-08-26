@@ -26,7 +26,7 @@ window.LD24.Levels.Level5 = Level5 = (function(_super) {
     this.screen = screen;
     Level5.__super__.constructor.call(this, this.game, this.scene, this.screen);
     this.levelNumDisplayer.text(this.name);
-    this.game.showInfoBox('Blue power ups are attraction power ups. Your dust particle attracts good mobs for some time.');
+    this.game.showInfoBox('Blue power ups are attraction power ups. They let your dust particle attract other particles for some time.');
     for (i = _i = 0; _i < 30; i = ++_i) {
       scale = 0.01 + Math.random() * 0.03;
       this.addNormalMobs(1, scale);
