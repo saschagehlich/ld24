@@ -34,6 +34,7 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
     this.player.speedRotation = 0.5;
     this.particles = [];
     this.generateParticles();
+    this.mobs = [this.player];
     $('canvas, .splash').fadeIn('slow');
     this.game.unpause();
     this.selectedMenuItem = $('.menu .active');
@@ -58,7 +59,27 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
     $('.endless').click(function() {
       return _this.game.loadEndless();
     });
-    jwerty.key('↑,↑,↓,↓,←,→,←,→,B,A', function() {});
+    jwerty.key('↑,↑,↓,↓,←,→,←,→,B,A', function() {
+      var i, mob, _i, _results;
+      _results = [];
+      for (i = _i = 0; _i < 100; i = ++_i) {
+        mob = new LD24.Mob(_this.game, _this, _this.screen);
+        mob.x = _this.screen.width * Math.random();
+        mob.y = _this.screen.height * Math.random();
+        mob.scale = 0.0001;
+        mob.toScale = 0.1 + Math.random() * 0.3;
+        mob.toSpeedX = Math.random();
+        if (Math.round(Math.random()) === 0) {
+          mob.toSpeedX *= -1;
+        }
+        mob.toSpeedY = Math.random();
+        if (Math.round(Math.random()) === 0) {
+          mob.toSpeedY *= -1;
+        }
+        _results.push(_this.mobs.push(mob));
+      }
+      return _results;
+    });
   }
 
   SplashScene.prototype.selectNextItem = function() {
@@ -107,26 +128,65 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
   };
 
   SplashScene.prototype.tick = function() {
-    var particle, _i, _len, _ref2, _results;
-    this.player.tick();
+    var dist, distX, distY, mob, mobRadius, otherMob, otherMobRadius, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
     _ref2 = this.particles;
-    _results = [];
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
       particle = _ref2[_i];
-      _results.push(particle.tick());
+      particle.tick();
+    }
+    _ref3 = this.mobs;
+    _results = [];
+    for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+      mob = _ref3[_j];
+      if (mob.removed) {
+        this.mobs = _.without(this.mobs, mob);
+      } else {
+        mob.tick();
+      }
+      _results.push((function() {
+        var _k, _len2, _ref4, _results1;
+        _ref4 = this.mobs;
+        _results1 = [];
+        for (_k = 0, _len2 = _ref4.length; _k < _len2; _k++) {
+          otherMob = _ref4[_k];
+          if (mob.intersects(otherMob) && otherMob !== mob && !otherMob.absorbed) {
+            mob.absorb(otherMob);
+          }
+          if (otherMob !== mob && !otherMob.absorbed && mob.attraction > 0 && !(otherMob instanceof LD24.Mobs.PowerUp) && !(otherMob instanceof LD24.Mobs.Bad)) {
+            mobRadius = mob.spriteW / 2 * mob.scale;
+            otherMobRadius = otherMob.spriteW / 2 * otherMob.scale;
+            distX = mob.x - otherMob.x;
+            distY = mob.y - otherMob.y;
+            dist = Math.sqrt(Math.pow(Math.abs(distX), 2) + Math.pow(Math.abs(distY), 2)) - mobRadius - otherMobRadius;
+            if (dist < 100) {
+              otherMob.speedX = distX / 50;
+              _results1.push(otherMob.speedY = distY / 50);
+            } else {
+              _results1.push(void 0);
+            }
+          } else {
+            _results1.push(void 0);
+          }
+        }
+        return _results1;
+      }).call(this));
     }
     return _results;
   };
 
   SplashScene.prototype.render = function() {
-    var particle, _i, _len, _ref2, _results;
+    var mob, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
     this.renderBackground();
-    this.player.render();
     _ref2 = this.particles;
-    _results = [];
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
       particle = _ref2[_i];
-      _results.push(particle.render());
+      particle.render();
+    }
+    _ref3 = this.mobs;
+    _results = [];
+    for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+      mob = _ref3[_j];
+      _results.push(mob.render());
     }
     return _results;
   };

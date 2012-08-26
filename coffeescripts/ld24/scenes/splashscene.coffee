@@ -17,6 +17,8 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
     @particles = []
     @generateParticles()
 
+    @mobs = [@player]
+
     $('canvas, .splash').fadeIn 'slow'
     @game.unpause()
 
@@ -41,6 +43,22 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
     $('.endless').click  => @game.loadEndless()
 
     jwerty.key '↑,↑,↓,↓,←,→,←,→,B,A', =>
+      for i in [0...100]
+        mob = new LD24.Mob @game, this, @screen
+        mob.x = @screen.width * Math.random()
+        mob.y = @screen.height * Math.random()
+
+        mob.scale = 0.0001
+        mob.toScale =  0.1 + Math.random() * 0.3
+
+        mob.toSpeedX = Math.random()
+        if Math.round(Math.random()) is 0
+          mob.toSpeedX *= -1
+        mob.toSpeedY = Math.random()
+        if Math.round(Math.random()) is 0
+          mob.toSpeedY *= -1
+
+        @mobs.push mob
       # gimmick: spawn 100 mobs automatically moving to the player and make him explode
 
   selectNextItem: =>
@@ -83,16 +101,45 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
       @particles.push particle
   
   tick: ->
-    @player.tick()
     for particle in @particles
       particle.tick()
 
+    for mob in @mobs
+      if mob.removed
+        @mobs = _.without @mobs, mob
+      else
+        mob.tick()
+
+      for otherMob in @mobs
+        # Intersection / Absorption
+        if mob.intersects(otherMob) and otherMob isnt mob and not otherMob.absorbed
+          mob.absorb otherMob
+
+        # Attraction
+        if otherMob isnt mob and 
+          not otherMob.absorbed and 
+          mob.attraction > 0 and 
+          not (otherMob instanceof LD24.Mobs.PowerUp) and
+          not (otherMob instanceof LD24.Mobs.Bad)
+            mobRadius      = (mob.spriteW / 2 * mob.scale)
+            otherMobRadius = (otherMob.spriteW / 2 * otherMob.scale)
+
+            distX = mob.x - otherMob.x
+            distY = mob.y - otherMob.y
+            dist  = Math.sqrt(Math.pow(Math.abs(distX), 2) + Math.pow(Math.abs(distY), 2)) - mobRadius - otherMobRadius
+
+            if dist < 100
+              otherMob.speedX = distX / 50
+              otherMob.speedY = distY / 50
+
   render: ->
     @renderBackground()
-    @player.render()
 
     for particle in @particles
       particle.render()
+
+    for mob in @mobs
+      mob.render()
 
   renderBackground: ->
     @screen.save()
