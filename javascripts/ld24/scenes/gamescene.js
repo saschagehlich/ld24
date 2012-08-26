@@ -113,6 +113,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       this.level.once('win', function() {
         $('.level-progress').fadeOut('slow');
         $('.level-complete').text('Level complete').fadeIn('slow');
+        $(document).off('.jwerty');
         _this.levelNum++;
         return after(2000, function() {
           return _this.unloadLevel();

@@ -21,13 +21,13 @@ window.LD24.Particle = class Particle
 
     # Make the particles endless
     if @x > @screen.width
-      @x = 0
-    if @x < 0
+      @x = -32 * @scale
+    if @x < -32 * @scale
       @x = @screen.width
 
     if @y > @screen.height
-      @y = 0
-    if @y < 0
+      @y = -32 * @scale
+    if @y < -32 * @scale / 2
       @y = @screen.height
 
   render: ->

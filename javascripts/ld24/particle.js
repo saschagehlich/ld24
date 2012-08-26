@@ -29,15 +29,15 @@ window.LD24.Particle = Particle = (function() {
     this.x += this.speedX;
     this.y += this.speedY;
     if (this.x > this.screen.width) {
-      this.x = 0;
+      this.x = -32 * this.scale;
     }
-    if (this.x < 0) {
+    if (this.x < -32 * this.scale) {
       this.x = this.screen.width;
     }
     if (this.y > this.screen.height) {
-      this.y = 0;
+      this.y = -32 * this.scale;
     }
-    if (this.y < 0) {
+    if (this.y < -32 * this.scale / 2) {
       return this.y = this.screen.height;
     }
   };

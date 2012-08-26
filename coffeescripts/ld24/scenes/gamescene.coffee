@@ -89,6 +89,8 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
         $('.level-progress').fadeOut 'slow'
         $('.level-complete').text('Level complete').fadeIn 'slow'
 
+        $(document).off '.jwerty'
+
         @levelNum++
         after 2000, =>
           @unloadLevel()
