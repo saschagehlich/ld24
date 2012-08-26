@@ -8,7 +8,7 @@ window.LD24.Levels.Level5 = class Level5 extends LD24.Level
 
     @levelNumDisplayer.text @name
 
-    @game.showInfoBox 'Blue power ups are attraction power ups. They let your dust particle attract other particles for some time.'
+    @game.showInfoBox 'Blue power ups are attraction power ups. They let your dust particle attract smaller particles for some time.'
 
     # Only normal mobs, but also bigger ones
     for i in [0...30]

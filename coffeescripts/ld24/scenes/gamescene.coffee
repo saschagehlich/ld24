@@ -7,7 +7,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @boundaryOffset = 480 / 3
 
     if @endless
-      @levelNum       = 1
+      @levelNum       = 4
       @levelsCount    = 999 # It's not endless. YES, I'M A LIAR!
     else
       @levelNum       = 1
@@ -248,7 +248,8 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
           not otherMob.absorbed and 
           mob.attraction > 0 and 
           not (otherMob instanceof LD24.Mobs.PowerUp) and
-          not (otherMob instanceof LD24.Mobs.Bad)
+          not (otherMob instanceof LD24.Mobs.Bad) and
+          otherMob.scale < mob.scale
             mobRadius      = (mob.spriteW / 2 * mob.scale)
             otherMobRadius = (otherMob.spriteW / 2 * otherMob.scale)
 
@@ -316,14 +317,18 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
 
 
   renderPowerUpIcons: ->
+    x = 89
     if @player.isAttractive()
-      @screen.render 0, 768, 28, 28, 89, 410
+      @screen.render 0, 768, 28, 28, x, 410
+      x += 28 + 5
 
-    if @player.isSpeedy()
-      if @player.isAttractive()      
-        @screen.render 28, 768, 28, 28, 89 + 28 + 5, 410
-      else
-        @screen.render 28, 768, 28, 28, 89, 410
+    if @player.isSpeedy()    
+      @screen.render 28, 768, 28, 28, x, 410
+      x += 28 + 5
+
+    if @player.isProtected()
+      @screen.render 56, 768, 28, 28, x, 410
+      x += 28 + 5
 
 
   renderBackground: ->

@@ -23,7 +23,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.running = false;
     this.boundaryOffset = 480 / 3;
     if (this.endless) {
-      this.levelNum = 1;
+      this.levelNum = 4;
       this.levelsCount = 999;
     } else {
       this.levelNum = 1;
@@ -276,7 +276,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
           if (mob.intersects(otherMob) && otherMob !== mob && !otherMob.absorbed) {
             mob.absorb(otherMob);
           }
-          if (otherMob !== mob && !otherMob.absorbed && mob.attraction > 0 && !(otherMob instanceof LD24.Mobs.PowerUp) && !(otherMob instanceof LD24.Mobs.Bad)) {
+          if (otherMob !== mob && !otherMob.absorbed && mob.attraction > 0 && !(otherMob instanceof LD24.Mobs.PowerUp) && !(otherMob instanceof LD24.Mobs.Bad) && otherMob.scale < mob.scale) {
             mobRadius = mob.spriteW / 2 * mob.scale;
             otherMobRadius = otherMob.spriteW / 2 * otherMob.scale;
             distX = mob.x - otherMob.x;
@@ -347,15 +347,19 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
   };
 
   GameScene.prototype.renderPowerUpIcons = function() {
+    var x;
+    x = 89;
     if (this.player.isAttractive()) {
-      this.screen.render(0, 768, 28, 28, 89, 410);
+      this.screen.render(0, 768, 28, 28, x, 410);
+      x += 28 + 5;
     }
     if (this.player.isSpeedy()) {
-      if (this.player.isAttractive()) {
-        return this.screen.render(28, 768, 28, 28, 89 + 28 + 5, 410);
-      } else {
-        return this.screen.render(28, 768, 28, 28, 89, 410);
-      }
+      this.screen.render(28, 768, 28, 28, x, 410);
+      x += 28 + 5;
+    }
+    if (this.player.isProtected()) {
+      this.screen.render(56, 768, 28, 28, x, 410);
+      return x += 28 + 5;
     }
   };
 

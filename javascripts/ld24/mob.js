@@ -40,6 +40,7 @@ window.LD24.Mob = Mob = (function(_super) {
     this.powerupAttractionEndTick = 0;
     this.attraction = 0;
     this.tickCount = 0;
+    this["protected"] = false;
     this.opacity = this.toOpacity = 0.9;
   }
 
@@ -49,6 +50,10 @@ window.LD24.Mob = Mob = (function(_super) {
 
   Mob.prototype.isSpeedy = function() {
     return this.powerupSpeed;
+  };
+
+  Mob.prototype.isProtected = function() {
+    return this["protected"];
   };
 
   Mob.prototype.tick = function() {

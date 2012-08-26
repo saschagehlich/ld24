@@ -30,10 +30,13 @@ window.LD24.Mob = class Mob extends EventEmitter
 
     @tickCount = 0
 
+    @protected = false
+    
     @opacity = @toOpacity = 0.9
 
   isAttractive: -> @powerupAttraction
   isSpeedy:     -> @powerupSpeed
+  isProtected:  -> @protected
 
   tick: ->
     @opacity += (@toOpacity - @opacity) / 5
