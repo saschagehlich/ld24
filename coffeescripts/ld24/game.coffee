@@ -4,10 +4,9 @@ window.LD24.Game = class Game
   version: "0.4RC1"
   constructor: (@canvas) ->
     @screen = new LD24.Screen @canvas
-    unless $.cookie('abs_intro_seen') is '1'
-      @scene  = new LD24.Scenes.IntroScene this, @screen
-    else
-      @scene  = new LD24.Scenes.SplashScene this, @screen
+    @scene  = new LD24.Scenes.IntroScene this, @screen
+    
+    # @scene  = new LD24.Scenes.SplashScene this, @screen
     @sounds = new LD24.Sounds this
 
     @sounds.on 'loaded', =>
