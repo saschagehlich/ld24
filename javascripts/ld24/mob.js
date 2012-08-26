@@ -78,6 +78,10 @@ window.LD24.Mob = Mob = (function(_super) {
       this.remove();
     }
     this.rotation += this.speedRotation;
+    if (this.powerupAttraction && this.tickCount > this.powerupAttractionEndTick) {
+      this.attraction = 0;
+      this.powerupAttraction = false;
+    }
     return this.tickCount++;
   };
 

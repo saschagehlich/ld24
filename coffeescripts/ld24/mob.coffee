@@ -70,6 +70,10 @@ window.LD24.Mob = class Mob extends EventEmitter
 
     @rotation += @speedRotation
 
+    if @powerupAttraction and @tickCount > @powerupAttractionEndTick
+      @attraction = 0
+      @powerupAttraction = false
+
     @tickCount++
 
   render: ->
