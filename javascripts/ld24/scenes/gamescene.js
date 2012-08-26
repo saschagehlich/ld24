@@ -62,6 +62,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       this.level.once('win', function() {
         $('.level-progress').fadeOut('slow');
         $('.level-complete').text('Level complete').fadeIn('slow');
+        _this.levelNum++;
         return after(2000, function() {
           return _this.unloadLevel();
         });
@@ -76,7 +77,14 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       $('.level-progress').fadeOut('slow');
       $('.level-complete').text('You lost').fadeIn('slow');
       $('.level-complete-detail').text(reason).fadeIn('slow');
-      return $('.continue').fadeIn('slow');
+      $('.continue').fadeIn('slow');
+      _this.canReset = true;
+      return jwerty.key('enter', function() {
+        if (_this.canReset) {
+          _this.unloadLevel();
+          return _this.canReset = false;
+        }
+      });
     });
     this.generateParticles();
     return this.loadLevel();
@@ -86,10 +94,14 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     var _this = this;
     this.level.terminate();
     $('.level-complete').fadeOut('slow');
+    $('.level-complete-detail').fadeOut('slow');
+    $('.continue').fadeOut('slow');
+    $('.level-progress .done').css({
+      width: '0'
+    });
     return $('canvas').fadeOut('slow', function() {
       _this.reset();
       _this.running = false;
-      _this.levelNum++;
       return _this.reset();
     });
   };
@@ -102,7 +114,6 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     return $('.level-complete-detail').fadeIn('slow', function() {
       return after(2000, function() {
         $('.level-complete').fadeOut('slow');
-        $('.continue').fadeOut('slow');
         return $('.level-complete-detail').fadeOut('slow', function() {
           _this.running = true;
           $('canvas').fadeIn('slow');

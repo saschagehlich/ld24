@@ -46,6 +46,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
         $('.level-progress').fadeOut 'slow'
         $('.level-complete').text('Level complete').fadeIn 'slow'
 
+        @levelNum++
         after 2000, =>
           @unloadLevel()
     else
@@ -57,6 +58,13 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       $('.level-complete-detail').text(reason).fadeIn 'slow'
       $('.continue').fadeIn 'slow'
 
+      @canReset = true
+
+      jwerty.key 'enter', =>
+        if @canReset
+          @unloadLevel()
+          @canReset = false
+
     @generateParticles()
     @loadLevel()
 
@@ -64,12 +72,14 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @level.terminate()
 
     $('.level-complete').fadeOut 'slow'
+    $('.level-complete-detail').fadeOut 'slow'
+    $('.continue').fadeOut 'slow'
+    $('.level-progress .done').css width: '0'
     $('canvas').fadeOut 'slow', =>
       @reset()
 
       @running = false
 
-      @levelNum++
       @reset()
 
   loadLevel: ->
@@ -80,7 +90,6 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     $('.level-complete-detail').fadeIn 'slow', =>
       after 2000, =>
         $('.level-complete').fadeOut 'slow'
-        $('.continue').fadeOut 'slow'
         $('.level-complete-detail').fadeOut 'slow', =>
 
           @running = true
