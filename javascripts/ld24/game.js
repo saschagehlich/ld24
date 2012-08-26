@@ -33,19 +33,23 @@ window.LD24.Game = Game = (function() {
   }
 
   Game.prototype.showInfoBox = function(message) {
+    var _this = this;
     $('.info-box .text').text(message);
     $('.info-box').css({
       marginTop: -5,
       opacity: 0,
       display: 'block'
     });
-    return $('.info-box').animate({
+    $('.info-box').animate({
       marginTop: 0,
       opacity: 0.8
     }, 'slow');
+    return $('.info-box .close').click(function() {
+      return _this.hideInfoBox();
+    });
   };
 
-  Game.prototype.hideInfoBox = function(message) {
+  Game.prototype.hideInfoBox = function() {
     return $('.info-box').fadeOut('fast');
   };
 

@@ -26,7 +26,9 @@ window.LD24.Game = class Game
     $('.info-box').css marginTop: -5, opacity: 0, display: 'block'
     $('.info-box').animate marginTop: 0, opacity: 0.8, 'slow'
 
-  hideInfoBox: (message) ->
+    $('.info-box .close').click => @hideInfoBox()
+
+  hideInfoBox: ->
     $('.info-box').fadeOut 'fast'
 
   loadCampaign: ->
