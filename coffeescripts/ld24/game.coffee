@@ -4,7 +4,7 @@ window.LD24.Game = class Game
   version: "0.1"
   constructor: (@canvas) ->
     @screen = new LD24.Screen @canvas
-    @scene  = new LD24.Scenes.SplashScene this, @screen
+    @scene  = new LD24.Scenes.IntroScene this, @screen
     @sounds = new LD24.Sounds this
 
     @sounds.on 'loaded', =>

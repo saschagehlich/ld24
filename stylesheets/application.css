@@ -169,6 +169,7 @@ body {
   margin-top: -240px;
   border: 3px solid rgba(255,255,255,0.2);
   background: url("../assets/images/background.png") no-repeat center center;
+  overflow: hidden;
 }
 .canvas-wrapper canvas {
   width: 640px;
@@ -330,6 +331,7 @@ body {
   left: 0;
   width: 640px;
   height: 480px;
+  display: none;
 }
 .splash .logo {
   position: absolute;
@@ -447,4 +449,38 @@ body {
 }
 .ingame-menu .copyright a:hover {
   color: #6d7ec2;
+}
+.intro {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 640px;
+  height: 480px;
+  background: url("../assets/images/background.png") no-repeat center;
+}
+.intro .filsh-media {
+  display: none;
+}
+.intro .filsh-media .logo {
+  position: absolute;
+  top: 170px;
+  left: 120px;
+}
+.intro .filsh-media .text {
+  position: absolute;
+  left: 300px;
+  top: 220px;
+}
+.intro .mob {
+  position: absolute;
+  top: 175px;
+  left: 125px;
+  width: 130px;
+  opacity: 0;
+}
+.intro .ld {
+  position: absolute;
+  top: 200px;
+  left: 100px;
+  display: none;
 }
