@@ -35,12 +35,16 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
       if @selectedMenuItem.hasClass 'endless'
         @game.loadEndless()
 
+      if @selectedMenuItem.hasClass 'about'
+        @showAbout()
+
     $('.menu li').mouseenter ->
       $('.menu li').removeClass 'active'
       $(this).addClass 'active'
 
     $('.campaign').click => @game.loadCampaign()
     $('.endless').click  => @game.loadEndless()
+    $('li.about').click  => @showAbout()
 
     jwerty.key '↑,↑,↓,↓,←,→,←,→,B,A', =>
       for i in [0...100]
@@ -155,3 +159,15 @@ window.LD24.Scenes.SplashScene = class SplashScene extends EventEmitter
     $('canvas').fadeOut 'slow'
     $('.splash').fadeOut 'slow', =>
       callback?()
+
+  showAbout: ->
+    @player.toOpacity = 0
+    $('.splash').fadeOut 'slow', =>
+      $('div.about').fadeIn 'slow'
+
+    $('div.about .back').click => @hideAbout()
+
+  hideAbout: ->
+    $('div.about').fadeOut 'slow', =>
+      @player.toOpacity = 1
+      $('.splash').fadeIn 'slow'

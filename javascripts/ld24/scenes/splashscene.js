@@ -46,7 +46,10 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
         _this.game.loadCampaign();
       }
       if (_this.selectedMenuItem.hasClass('endless')) {
-        return _this.game.loadEndless();
+        _this.game.loadEndless();
+      }
+      if (_this.selectedMenuItem.hasClass('about')) {
+        return _this.showAbout();
       }
     });
     $('.menu li').mouseenter(function() {
@@ -58,6 +61,9 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
     });
     $('.endless').click(function() {
       return _this.game.loadEndless();
+    });
+    $('li.about').click(function() {
+      return _this.showAbout();
     });
     jwerty.key('↑,↑,↓,↓,←,→,←,→,B,A', function() {
       var i, mob, _i, _results;
@@ -204,6 +210,25 @@ window.LD24.Scenes.SplashScene = SplashScene = (function(_super) {
     $('canvas').fadeOut('slow');
     return $('.splash').fadeOut('slow', function() {
       return typeof callback === "function" ? callback() : void 0;
+    });
+  };
+
+  SplashScene.prototype.showAbout = function() {
+    var _this = this;
+    this.player.toOpacity = 0;
+    $('.splash').fadeOut('slow', function() {
+      return $('div.about').fadeIn('slow');
+    });
+    return $('div.about .back').click(function() {
+      return _this.hideAbout();
+    });
+  };
+
+  SplashScene.prototype.hideAbout = function() {
+    var _this = this;
+    return $('div.about').fadeOut('slow', function() {
+      _this.player.toOpacity = 1;
+      return $('.splash').fadeIn('slow');
     });
   };
 

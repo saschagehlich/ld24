@@ -485,3 +485,56 @@ body {
   left: 100px;
   display: none;
 }
+div.about {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 540px;
+  height: 330px;
+  margin-left: -270px;
+  margin-top: -165px;
+  display: none;
+}
+div.about h3 {
+  font: bold 30px 'Enriqueta', serif;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 40px;
+}
+div.about p,
+div.about ul li {
+  font: normal 14px 'Enriqueta', serif;
+  line-height: 15px;
+  color: #fff;
+}
+div.about ul {
+  margin-bottom: 15px;
+}
+div.about p {
+  margin-bottom: 15px;
+}
+div.about strong {
+  font-weight: bold;
+}
+div.about a {
+  color: #a8b4e3;
+  text-decoration: none;
+}
+div.about a:hover {
+  color: #6d7ec2;
+}
+div.about .back {
+  font: bold 20px 'Enriqueta', serif;
+  text-align: center;
+  width: 100%;
+  color: #a8b4e3;
+  text-shadow: 0 0 7px rgba(35,56,130,0.75);
+  -webkit-text-shadow: 0 0 7px rgba(35,56,130,0.75);
+  -moz-text-shadow: 0 0 7px rgba(35,56,130,0.75);
+  -o-text-shadow: 0 0 7px rgba(35,56,130,0.75);
+  -ms-text-shadow: 0 0 7px rgba(35,56,130,0.75);
+  cursor: pointer;
+  text-transform: uppercase;
+  margin-top: 20px;
+}

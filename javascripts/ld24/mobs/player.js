@@ -48,7 +48,12 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     finalH = this.spriteH * this.scale * this.scene.zoom;
     finalX = (this.x * this.scene.zoom - finalW / 2) - this.scene.scrollX;
     finalY = (this.y * this.scene.zoom - finalH / 2) - this.scene.scrollY;
-    return this.screen.render(0, 256, 256, 256, finalX - this.speedX * 2 * this.scene.zoom, finalY - this.speedY * 2 * this.scene.zoom, finalW, finalH);
+    this.screen.save();
+    if (this.opacity !== 1) {
+      this.screen.context.globalAlpha = this.opacity;
+    }
+    this.screen.render(0, 256, 256, 256, finalX - this.speedX * 2 * this.scene.zoom, finalY - this.speedY * 2 * this.scene.zoom, finalW, finalH);
+    return this.screen.restore();
   };
 
   Player.prototype.absorb = function(mob) {

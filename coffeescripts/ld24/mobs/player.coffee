@@ -36,7 +36,13 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
     finalX = (@x * @scene.zoom - finalW / 2) - @scene.scrollX
     finalY = (@y * @scene.zoom - finalH / 2) - @scene.scrollY
 
+    @screen.save()
+    if @opacity isnt 1
+      @screen.context.globalAlpha = @opacity
+
     @screen.render 0, 256, 256, 256, finalX - @speedX * 2 * @scene.zoom, finalY - @speedY * 2 * @scene.zoom, finalW, finalH
+
+    @screen.restore()
 
   absorb: (mob) ->
     if not @absorbing and mob.canBeAbsorbedBy(@)
