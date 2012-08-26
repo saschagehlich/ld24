@@ -49,6 +49,13 @@ window.LD24.Mobs.Bad = BadMob = (function(_super) {
     return false;
   };
 
+  BadMob.prototype.absorb = function(mob) {
+    if (!(mob instanceof LD24.Mobs.Player)) {
+      return;
+    }
+    return BadMob.__super__.absorb.call(this, mob);
+  };
+
   return BadMob;
 
 })(LD24.Mobs.Mote);

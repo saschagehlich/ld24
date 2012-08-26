@@ -22,8 +22,13 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.endless = endless != null ? endless : false;
     this.running = false;
     this.boundaryOffset = 480 / 3;
-    this.levelNum = 1;
-    this.levelsCount = 5;
+    if (this.endless) {
+      this.levelNum = 1;
+      this.levelsCount = 999;
+    } else {
+      this.levelNum = 1;
+      this.levelsCount = 5;
+    }
     this.defaultZoom = 5;
     this.reset();
     $(document).keydown(function(e) {
@@ -116,28 +121,28 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.particles = [];
     if (!this.endless) {
       this.level = new LD24.Levels['Level' + this.levelNum](this.game, this, this.screen);
-      this.level.once('win', function() {
-        $('.level-progress').fadeOut('slow');
-        _this.levelNum++;
-        if (_this.levelNum > _this.levelsCount) {
-          $('.level-complete').text('Well done!').fadeIn('slow');
-          $('.level-complete-detail').text('You have completed all campaign levels.').fadeIn('slow');
-          $('div.continue').text('Press [ENTER] to go to the main menu.').fadeIn('slow');
-          $(document).off('.jwerty');
-          return jwerty.key('enter', function() {
-            return _this.game.loadSplash();
-          });
-        } else {
-          $('.level-complete').text('Level complete').fadeIn('slow');
-          $(document).off('.jwerty');
-          return after(2000, function() {
-            return _this.unloadLevel();
-          });
-        }
-      });
     } else {
-      this.level = new LD24.Levels.LevelEndless(this.game, this, this.screen);
+      this.level = new LD24.Levels.LevelEndless(this.game, this, this.screen, this.levelNum);
     }
+    this.level.once('win', function() {
+      $('.level-progress').fadeOut('slow');
+      _this.levelNum++;
+      if (_this.levelNum > _this.levelsCount) {
+        $('.level-complete').text('Well done!').fadeIn('slow');
+        $('.level-complete-detail').text('You have completed all campaign levels.').fadeIn('slow');
+        $('div.continue').text('Press [ENTER] to go to the main menu.').fadeIn('slow');
+        $(document).off('.jwerty');
+        return jwerty.key('enter', function() {
+          return _this.game.loadSplash();
+        });
+      } else {
+        $('.level-complete').text('Level complete').fadeIn('slow');
+        $(document).off('.jwerty');
+        return after(2000, function() {
+          return _this.unloadLevel();
+        });
+      }
+    });
     this.level.on('lost', function(reason) {
       if (reason == null) {
         reason = 'You have been absorbed by a bigger particle.';

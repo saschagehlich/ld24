@@ -34,3 +34,8 @@ window.LD24.Mobs.Bad = class BadMob extends LD24.Mobs.Mote
 
   canBeAbsorbedBy: (mob) ->
     return false
+
+  absorb: (mob) ->
+    unless mob instanceof LD24.Mobs.Player
+      return
+    super mob

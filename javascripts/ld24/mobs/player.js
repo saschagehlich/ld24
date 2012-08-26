@@ -20,7 +20,7 @@ window.LD24.Mobs.Player = Player = (function(_super) {
     this.scene = scene;
     this.screen = screen;
     Player.__super__.constructor.call(this, this.game, this.scene, this.screen);
-    this.maxSpeed = 1;
+    this.totalMaxSpeed = this.maxSpeed = 3;
     this.powerupSpeed = false;
     this.powerupSpeedEndTick = 0;
     this.handleKeyboard();
@@ -32,7 +32,7 @@ window.LD24.Mobs.Player = Player = (function(_super) {
   Player.prototype.tick = function() {
     Player.__super__.tick.call(this);
     if (this.powerupSpeed && this.tickCount > this.powerupSpeedEndTick) {
-      this.maxSpeed = 1;
+      this.maxSpeed = this.totalMaxSpeed;
       this.powerupSpeed = false;
     }
     if (this["protected"] && this.tickCount > this.protectedEndTick) {

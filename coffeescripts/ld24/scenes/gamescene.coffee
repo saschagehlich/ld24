@@ -5,8 +5,14 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @running = false
 
     @boundaryOffset = 480 / 3
-    @levelNum       = 1
-    @levelsCount    = 5
+
+    if @endless
+      @levelNum       = 1
+      @levelsCount    = 999 # It's not endless. YES, I'M A LIAR!
+    else
+      @levelNum       = 1
+      @levelsCount    = 5
+
     @defaultZoom    = 5
 
     @reset()
@@ -90,26 +96,27 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
 
     unless @endless
       @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
-      @level.once 'win', =>
-        $('.level-progress').fadeOut 'slow'
-
-        @levelNum++
-        if @levelNum > @levelsCount
-          $('.level-complete').text('Well done!').fadeIn 'slow'
-          $('.level-complete-detail').text('You have completed all campaign levels.').fadeIn 'slow'          
-          $('div.continue').text('Press [ENTER] to go to the main menu.').fadeIn 'slow'          
-          $(document).off '.jwerty'
-
-          jwerty.key 'enter', =>
-            @game.loadSplash()
-        else
-          $('.level-complete').text('Level complete').fadeIn 'slow'
-          $(document).off '.jwerty'
-
-          after 2000, =>
-            @unloadLevel()
     else
-      @level = new LD24.Levels.LevelEndless @game, this, @screen
+      @level = new LD24.Levels.LevelEndless @game, this, @screen, @levelNum
+
+    @level.once 'win', =>
+      $('.level-progress').fadeOut 'slow'
+
+      @levelNum++
+      if @levelNum > @levelsCount
+        $('.level-complete').text('Well done!').fadeIn 'slow'
+        $('.level-complete-detail').text('You have completed all campaign levels.').fadeIn 'slow'          
+        $('div.continue').text('Press [ENTER] to go to the main menu.').fadeIn 'slow'          
+        $(document).off '.jwerty'
+
+        jwerty.key 'enter', =>
+          @game.loadSplash()
+      else
+        $('.level-complete').text('Level complete').fadeIn 'slow'
+        $(document).off '.jwerty'
+
+        after 2000, =>
+          @unloadLevel()
 
     @level.on 'lost', (reason='You have been absorbed by a bigger particle.') =>
       $('.level-progress').fadeOut 'slow'
