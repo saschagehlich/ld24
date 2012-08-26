@@ -148,7 +148,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
         reason = 'You have been absorbed by a bigger particle.';
       }
       $('.level-progress').fadeOut('slow');
-      $('.level-complete').text('You lost').fadeIn('slow');
+      $('.level-complete').text('Game Over!').fadeIn('slow');
       $('.level-complete-detail').text(reason).fadeIn('slow');
       $('div.continue').fadeIn('slow');
       _this.canReset = true;
