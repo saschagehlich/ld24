@@ -164,7 +164,9 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
         }
       });
     });
-    this.generateParticles();
+    if (!navigator.userAgent.match(/Firefox/)) {
+      this.generateParticles();
+    }
     return this.loadLevel();
   };
 

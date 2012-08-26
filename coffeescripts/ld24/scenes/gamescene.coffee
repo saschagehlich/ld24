@@ -104,7 +104,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       @player.absorbable = false
 
       @levelNum++
-      
+
       if @endless
         $.cookie 'abs_el_lvl', @levelNum
       else
@@ -138,7 +138,9 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
           @unloadLevel()
           @canReset = false
 
-    @generateParticles()
+
+    unless navigator.userAgent.match /Firefox/
+      @generateParticles()
     @loadLevel()
 
   unloadLevel: ->
