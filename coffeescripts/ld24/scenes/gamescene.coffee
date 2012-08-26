@@ -4,14 +4,16 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
   constructor: (@game, @screen) ->
     @running = false
 
-    @player = new LD24.Mobs.Player @game, this, @screen
+    @boundaryOffset = 100
+    @levelNum       = 5
+    @zoom           = 5
+
+    @player   = new LD24.Mobs.Player @game, this, @screen
     @player.x = @screen.width / 2
     @player.y = @screen.height / 2
 
-    @player.scale = 0.04
-    @player.toScale = @player.scale
+    @player.scale = @player.toScale = 0.04
 
-    @zoom = 5
     @toZoom = @zoom
     @scrollX = @screen.width / 2 * @zoom - @screen.width / 2
     @toScrollX = @scrollX
@@ -21,7 +23,6 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @mobs = [@player]
     @particles = []
 
-    @levelNum = 4
     @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
     @level.on 'win', =>
       $('.level-progress').fadeOut 'slow'
@@ -120,15 +121,15 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       particle.tick()
 
     # boundary scrolling
-    if @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale < @scrollY + 50
-      @toScrollY = @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale - 50
-    else if @player.y * @zoom + @player.spriteH / 2 * @zoom * @player.scale > @scrollY + @screen.height - 50
-      @toScrollY = @player.y * @zoom - @screen.height + @player.spriteH / 2 * @zoom * @player.scale + 50
+    if @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale < @scrollY + @boundaryOffset
+      @toScrollY = @player.y * @zoom - @player.spriteH / 2 * @zoom * @player.scale - @boundaryOffset
+    else if @player.y * @zoom + @player.spriteH / 2 * @zoom * @player.scale > @scrollY + @screen.height - @boundaryOffset
+      @toScrollY = @player.y * @zoom - @screen.height + @player.spriteH / 2 * @zoom * @player.scale + @boundaryOffset
 
-    if @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale < @scrollX + 50
-      @toScrollX = @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale - 50
-    else if @player.x * @zoom + @player.spriteW / 2 * @zoom * @player.scale > @scrollX + @screen.width - 50
-      @toScrollX = @player.x * @zoom - @screen.width + @player.spriteW / 2 * @zoom * @player.scale + 50
+    if @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale < @scrollX + @boundaryOffset
+      @toScrollX = @player.x * @zoom - @player.spriteW / 2 * @zoom * @player.scale - @boundaryOffset
+    else if @player.x * @zoom + @player.spriteW / 2 * @zoom * @player.scale > @scrollX + @screen.width - @boundaryOffset
+      @toScrollX = @player.x * @zoom - @screen.width + @player.spriteW / 2 * @zoom * @player.scale + @boundaryOffset
 
     @toScrollX = Math.min @toScrollX, @screen.width * @zoom - @screen.width
     @toScrollX = Math.max @toScrollX, 0
@@ -144,8 +145,23 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
         mob.tick()
 
       for otherMob in @mobs
+        # Intersection / Absorption
         if mob.intersects(otherMob) and otherMob isnt mob and not otherMob.absorbed
           mob.absorb otherMob
+
+        # Attraction
+        if otherMob isnt mob and 
+          not otherMob.absorbed and 
+          mob.attraction > 0 and 
+          not (otherMob instanceof LD24.Mobs.PowerUp) and
+          not (otherMob instanceof LD24.Mobs.Bad)
+            distX = mob.x - otherMob.x
+            distY = mob.y - otherMob.y
+            dist  = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2))
+
+            if dist < 100
+              otherMob.speedX = distX / 50
+              otherMob.speedY = distY / 50
 
   render: ->
     unless @running

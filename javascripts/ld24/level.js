@@ -77,11 +77,32 @@ window.LD24.Level = Level = (function(_super) {
     return _results;
   };
 
-  Level.prototype.addPowerUps = function(count, scale) {
+  Level.prototype.addSpeedPowerUps = function(count, scale) {
     var i, mob, _i, _results;
     _results = [];
     for (i = _i = 0; 0 <= count ? _i < count : _i > count; i = 0 <= count ? ++_i : --_i) {
-      mob = new LD24.Mobs.PowerUp(this.game, this.scene, this.screen);
+      mob = new LD24.Mobs.PowerUpSpeed(this.game, this.scene, this.screen);
+      mob.x = Math.random() * this.screen.width;
+      mob.y = Math.random() * this.screen.height;
+      mob.scale = mob.toScale = scale;
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedX *= -1;
+      }
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed;
+      if (Math.round(Math.random()) === 0) {
+        mob.speedY *= -1;
+      }
+      _results.push(this.scene.mobs.push(mob));
+    }
+    return _results;
+  };
+
+  Level.prototype.addAttractionPowerUps = function(count, scale) {
+    var i, mob, _i, _results;
+    _results = [];
+    for (i = _i = 0; 0 <= count ? _i < count : _i > count; i = 0 <= count ? ++_i : --_i) {
+      mob = new LD24.Mobs.PowerUpAttraction(this.game, this.scene, this.screen);
       mob.x = Math.random() * this.screen.width;
       mob.y = Math.random() * this.screen.height;
       mob.scale = mob.toScale = scale;

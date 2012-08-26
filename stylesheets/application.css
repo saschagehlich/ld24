@@ -156,6 +156,9 @@ body {
   height: 100%;
   background: #000;
 }
+* {
+  -webkit-font-smoothing: antialiased;
+}
 .canvas-wrapper {
   width: 640px;
   height: 480px;

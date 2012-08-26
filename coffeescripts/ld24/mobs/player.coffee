@@ -42,12 +42,6 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
       @emit 'absorb', @toScale
       @game.sounds.playSound 'absorb'
 
-      if mob instanceof LD24.Mobs.PowerUp
-        @powerupSpeed = true
-        @powerupSpeedEndTick = @tickCount + 60 * 10
-
-        @maxSpeed = 3
-
 
   canBeAbsorbedBy: (mob) ->
     if mob instanceof LD24.Mobs.Bad

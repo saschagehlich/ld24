@@ -25,7 +25,7 @@ window.LD24.Levels.Level4 = class Level4 extends LD24.Level
 
     for i in [0...3]
       scale = 0.03 + Math.random() * 0.1
-      @addPowerUps 1, scale
+      @addSpeedPowerUps 1, scale
 
     # Calculate maximum reachable scale
     @goalScale = 0

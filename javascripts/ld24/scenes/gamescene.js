@@ -20,12 +20,13 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.game = game;
     this.screen = screen;
     this.running = false;
+    this.boundaryOffset = 100;
+    this.levelNum = 5;
+    this.zoom = 5;
     this.player = new LD24.Mobs.Player(this.game, this, this.screen);
     this.player.x = this.screen.width / 2;
     this.player.y = this.screen.height / 2;
-    this.player.scale = 0.04;
-    this.player.toScale = this.player.scale;
-    this.zoom = 5;
+    this.player.scale = this.player.toScale = 0.04;
     this.toZoom = this.zoom;
     this.scrollX = this.screen.width / 2 * this.zoom - this.screen.width / 2;
     this.toScrollX = this.scrollX;
@@ -33,7 +34,6 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.toScrollY = this.scrollY;
     this.mobs = [this.player];
     this.particles = [];
-    this.levelNum = 4;
     this.level = new LD24.Levels['Level' + this.levelNum](this.game, this, this.screen);
     this.level.on('win', function() {
       $('.level-progress').fadeOut('slow');
@@ -126,7 +126,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
   };
 
   GameScene.prototype.tick = function() {
-    var mob, otherMob, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
+    var dist, distX, distY, mob, otherMob, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
     if (!this.running) {
       return;
     }
@@ -138,15 +138,15 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       particle = _ref2[_i];
       particle.tick();
     }
-    if (this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale < this.scrollY + 50) {
-      this.toScrollY = this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale - 50;
-    } else if (this.player.y * this.zoom + this.player.spriteH / 2 * this.zoom * this.player.scale > this.scrollY + this.screen.height - 50) {
-      this.toScrollY = this.player.y * this.zoom - this.screen.height + this.player.spriteH / 2 * this.zoom * this.player.scale + 50;
+    if (this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale < this.scrollY + this.boundaryOffset) {
+      this.toScrollY = this.player.y * this.zoom - this.player.spriteH / 2 * this.zoom * this.player.scale - this.boundaryOffset;
+    } else if (this.player.y * this.zoom + this.player.spriteH / 2 * this.zoom * this.player.scale > this.scrollY + this.screen.height - this.boundaryOffset) {
+      this.toScrollY = this.player.y * this.zoom - this.screen.height + this.player.spriteH / 2 * this.zoom * this.player.scale + this.boundaryOffset;
     }
-    if (this.player.x * this.zoom - this.player.spriteW / 2 * this.zoom * this.player.scale < this.scrollX + 50) {
-      this.toScrollX = this.player.x * this.zoom - this.player.spriteW / 2 * this.zoom * this.player.scale - 50;
-    } else if (this.player.x * this.zoom + this.player.spriteW / 2 * this.zoom * this.player.scale > this.scrollX + this.screen.width - 50) {
-      this.toScrollX = this.player.x * this.zoom - this.screen.width + this.player.spriteW / 2 * this.zoom * this.player.scale + 50;
+    if (this.player.x * this.zoom - this.player.spriteW / 2 * this.zoom * this.player.scale < this.scrollX + this.boundaryOffset) {
+      this.toScrollX = this.player.x * this.zoom - this.player.spriteW / 2 * this.zoom * this.player.scale - this.boundaryOffset;
+    } else if (this.player.x * this.zoom + this.player.spriteW / 2 * this.zoom * this.player.scale > this.scrollX + this.screen.width - this.boundaryOffset) {
+      this.toScrollX = this.player.x * this.zoom - this.screen.width + this.player.spriteW / 2 * this.zoom * this.player.scale + this.boundaryOffset;
     }
     this.toScrollX = Math.min(this.toScrollX, this.screen.width * this.zoom - this.screen.width);
     this.toScrollX = Math.max(this.toScrollX, 0);
@@ -168,7 +168,18 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
         for (_k = 0, _len2 = _ref4.length; _k < _len2; _k++) {
           otherMob = _ref4[_k];
           if (mob.intersects(otherMob) && otherMob !== mob && !otherMob.absorbed) {
-            _results1.push(mob.absorb(otherMob));
+            mob.absorb(otherMob);
+          }
+          if (otherMob !== mob && !otherMob.absorbed && mob.attraction > 0 && !(otherMob instanceof LD24.Mobs.PowerUp) && !(otherMob instanceof LD24.Mobs.Bad)) {
+            distX = mob.x - otherMob.x;
+            distY = mob.y - otherMob.y;
+            dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+            if (dist < 100) {
+              otherMob.speedX = distX / 50;
+              _results1.push(otherMob.speedY = distY / 50);
+            } else {
+              _results1.push(void 0);
+            }
           } else {
             _results1.push(void 0);
           }

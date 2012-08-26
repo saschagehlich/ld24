@@ -25,6 +25,10 @@ window.LD24.Mob = class Mob extends EventEmitter
     @rotation = 0
     @speedRotation = Math.random() * 0.5
 
+    @powerupAttraction = false
+    @powerupAttractionEndTick = 0
+    @attraction = 0
+
     @tickCount = 0
 
     @opacity = 0.9

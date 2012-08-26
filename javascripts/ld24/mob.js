@@ -37,6 +37,9 @@ window.LD24.Mob = Mob = (function(_super) {
     this.absorbingMob = null;
     this.rotation = 0;
     this.speedRotation = Math.random() * 0.5;
+    this.powerupAttraction = false;
+    this.powerupAttractionEndTick = 0;
+    this.attraction = 0;
     this.tickCount = 0;
     this.opacity = 0.9;
   }

@@ -41,7 +41,7 @@ window.LD24.Levels.Level4 = Level4 = (function(_super) {
     }
     for (i = _l = 0; _l < 3; i = ++_l) {
       scale = 0.03 + Math.random() * 0.1;
-      this.addPowerUps(1, scale);
+      this.addSpeedPowerUps(1, scale);
     }
     this.goalScale = 0;
     _ref2 = this.scene.mobs;
