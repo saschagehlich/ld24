@@ -43,6 +43,7 @@ window.LD24.Scenes.IntroScene = IntroScene = (function(_super) {
                   return _this.intro.find('.ld').fadeIn('slow', function() {
                     return after(1500, function() {
                       return _this.intro.find('.ld').fadeOut('slow', function() {
+                        $.cookie('abs_intro_seen', '1');
                         return _this.game.loadSplash();
                       });
                     });

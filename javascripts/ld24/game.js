@@ -9,13 +9,17 @@ window.LD24.Game = Game = (function() {
 
   Game.prototype.framesPerSecond = 60;
 
-  Game.prototype.version = "0.1";
+  Game.prototype.version = "0.2";
 
   function Game(canvas) {
     var _this = this;
     this.canvas = canvas;
     this.screen = new LD24.Screen(this.canvas);
-    this.scene = new LD24.Scenes.IntroScene(this, this.screen);
+    if ($.cookie('abs_intro_seen') !== '1') {
+      this.scene = new LD24.Scenes.IntroScene(this, this.screen);
+    } else {
+      this.scene = new LD24.Scenes.SplashScene(this, this.screen);
+    }
     this.sounds = new LD24.Sounds(this);
     this.sounds.on('loaded', function() {
       return _this.sounds.playSoundtrack();

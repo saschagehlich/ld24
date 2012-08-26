@@ -5,24 +5,23 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @running = false
 
     @boundaryOffset = 480 / 3
-
-    if @endless
-      @levelNum       = 1
-      @levelsCount    = 999 # It's not endless. YES, I'M A LIAR!
-    else
-      @levelNum       = 1
-      @levelsCount    = 5
-
     @defaultZoom    = 5
 
-    @reset()
+    if @endless
+      if $.cookie('abs_el_lvl')?
+        @levelNum = parseInt($.cookie('abs_el_lvl'))
+      else
+        @levelNum       = 1
 
-    $(document).keydown (e) =>
-      switch e.keyCode
-        when 189 # +
-          @zoomOut()
-        when 187 # -
-          @zoomIn()
+      @levelsCount    = 999 # It's not endless. YES, I'M A LIAR!
+    else
+      if $.cookie('abs_tt_lvl')?
+        @levelNum = parseInt($.cookie('abs_tt_lvl'))
+      else
+        @levelNum       = 1
+      @levelsCount    = 5
+
+    @reset()
 
   pause: ->
     unless @game.paused
@@ -105,6 +104,12 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       @player.absorbable = false
 
       @levelNum++
+      
+      if @endless
+        $.cookie 'abs_el_lvl', @levelNum
+      else
+        $.cookie 'abs_tt_lvl', @levelNum
+
       if @levelNum > @levelsCount
         $('.level-complete').text('Well done!').fadeIn 'slow'
         $('.level-complete-detail').text('You have completed all campaign levels.').fadeIn 'slow'          

@@ -15,6 +15,9 @@ window.LD24.Scenes.IntroScene = class IntroScene extends EventEmitter
                   @intro.find('.ld').fadeIn 'slow', =>
                     after 1500, =>
                       @intro.find('.ld').fadeOut 'slow', =>
+
+                        $.cookie 'abs_intro_seen', '1'
+
                         @game.loadSplash()
 
   terminate: (callback) ->

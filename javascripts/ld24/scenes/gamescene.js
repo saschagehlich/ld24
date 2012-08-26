@@ -16,29 +16,28 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
   __extends(GameScene, _super);
 
   function GameScene(game, screen, endless) {
-    var _this = this;
     this.game = game;
     this.screen = screen;
     this.endless = endless != null ? endless : false;
     this.running = false;
     this.boundaryOffset = 480 / 3;
+    this.defaultZoom = 5;
     if (this.endless) {
-      this.levelNum = 1;
+      if ($.cookie('abs_el_lvl') != null) {
+        this.levelNum = parseInt($.cookie('abs_el_lvl'));
+      } else {
+        this.levelNum = 1;
+      }
       this.levelsCount = 999;
     } else {
-      this.levelNum = 1;
+      if ($.cookie('abs_tt_lvl') != null) {
+        this.levelNum = parseInt($.cookie('abs_tt_lvl'));
+      } else {
+        this.levelNum = 1;
+      }
       this.levelsCount = 5;
     }
-    this.defaultZoom = 5;
     this.reset();
-    $(document).keydown(function(e) {
-      switch (e.keyCode) {
-        case 189:
-          return _this.zoomOut();
-        case 187:
-          return _this.zoomIn();
-      }
-    });
   }
 
   GameScene.prototype.pause = function() {
@@ -128,6 +127,11 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       $('.level-progress').fadeOut('slow');
       _this.player.absorbable = false;
       _this.levelNum++;
+      if (_this.endless) {
+        $.cookie('abs_el_lvl', _this.levelNum);
+      } else {
+        $.cookie('abs_tt_lvl', _this.levelNum);
+      }
       if (_this.levelNum > _this.levelsCount) {
         $('.level-complete').text('Well done!').fadeIn('slow');
         $('.level-complete-detail').text('You have completed all campaign levels.').fadeIn('slow');
