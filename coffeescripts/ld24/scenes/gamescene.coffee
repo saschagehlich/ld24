@@ -305,6 +305,19 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
 
           @screen.render 768, spriteY, 38, 25, arrowX, arrowY, null, null, arrowRotation
 
+    @renderPowerUpIcons()
+
+
+  renderPowerUpIcons: ->
+    if @player.isAttractive()
+      @screen.render 0, 768, 28, 28, 89, 410
+
+    if @player.isSpeedy()
+      if @player.isAttractive()      
+        @screen.render 28, 768, 28, 28, 89 + 28 + 5, 410
+      else
+        @screen.render 28, 768, 28, 28, 89, 410
+
 
   renderBackground: ->
     @screen.save()

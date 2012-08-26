@@ -43,6 +43,14 @@ window.LD24.Mob = Mob = (function(_super) {
     this.opacity = this.toOpacity = 0.9;
   }
 
+  Mob.prototype.isAttractive = function() {
+    return this.powerupAttraction;
+  };
+
+  Mob.prototype.isSpeedy = function() {
+    return this.powerupSpeed;
+  };
+
   Mob.prototype.tick = function() {
     this.opacity += (this.toOpacity - this.opacity) / 5;
     if (this.absorbingMob == null) {

@@ -25,7 +25,7 @@ window.LD24.Mobs.PowerUpAttraction = PowerUpAttractionMob = (function(_super) {
   PowerUpAttractionMob.prototype.absorbedBy = function(mob) {
     PowerUpAttractionMob.__super__.absorbedBy.call(this, mob);
     mob.powerupAttraction = true;
-    mob.powerupAttractionEndTick = mob.tick + 60 * 10;
+    mob.powerupAttractionEndTick = mob.tickCount + 60 * 10;
     return mob.attraction = 10;
   };
 

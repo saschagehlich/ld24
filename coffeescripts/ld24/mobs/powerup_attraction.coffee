@@ -8,7 +8,7 @@ window.LD24.Mobs.PowerUpAttraction = class PowerUpAttractionMob extends LD24.Mob
     super mob
 
     mob.powerupAttraction = true
-    mob.powerupAttractionEndTick = mob.tick + 60 * 10
+    mob.powerupAttractionEndTick = mob.tickCount + 60 * 10
     mob.attraction = 10
 
   render: ->

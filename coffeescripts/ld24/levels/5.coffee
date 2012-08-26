@@ -25,7 +25,7 @@ window.LD24.Levels.Level5 = class Level5 extends LD24.Level
 
     for i in [0...2]
       scale = 0.03 + Math.random() * 0.1
-      @addAttractionPowerUps 1, scale
+      @addSpeedPowerUps 1, scale
 
     # spawn power up nearby
     scale = 0.03 + Math.random() * 0.1

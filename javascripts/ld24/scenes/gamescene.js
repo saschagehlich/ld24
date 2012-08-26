@@ -294,7 +294,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
   };
 
   GameScene.prototype.render = function() {
-    var arrowRotation, arrowX, arrowY, distX, distY, distanceMax, distanceMin, mob, particle, spriteY, _i, _j, _len, _len1, _ref2, _ref3, _results;
+    var arrowRotation, arrowX, arrowY, distX, distY, distanceMax, distanceMin, mob, particle, spriteY, _i, _j, _len, _len1, _ref2, _ref3;
     if (!this.running) {
       return;
     }
@@ -307,7 +307,6 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       }
     }
     _ref3 = this.mobs;
-    _results = [];
     for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
       mob = _ref3[_j];
       if (mob.x * this.zoom - (mob.spriteW * mob.scale * this.zoom) / 2 < this.scrollX + this.screen.width && mob.x * this.zoom + (mob.spriteW * mob.scale * this.zoom) / 2 > this.scrollX && mob.y * this.zoom + (mob.spriteH * mob.scale * this.zoom) / 2 > this.scrollY && mob.y * this.zoom - (mob.spriteH * mob.scale * this.zoom) / 2 < this.scrollY + this.screen.height) {
@@ -335,15 +334,24 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
           } else if (mob instanceof LD24.Mobs.PowerUpAttraction) {
             spriteY = 32 + 25 * 2;
           }
-          _results.push(this.screen.render(768, spriteY, 38, 25, arrowX, arrowY, null, null, arrowRotation));
-        } else {
-          _results.push(void 0);
+          this.screen.render(768, spriteY, 38, 25, arrowX, arrowY, null, null, arrowRotation);
         }
-      } else {
-        _results.push(void 0);
       }
     }
-    return _results;
+    return this.renderPowerUpIcons();
+  };
+
+  GameScene.prototype.renderPowerUpIcons = function() {
+    if (this.player.isAttractive()) {
+      this.screen.render(0, 768, 28, 28, 89, 410);
+    }
+    if (this.player.isSpeedy()) {
+      if (this.player.isAttractive()) {
+        return this.screen.render(28, 768, 28, 28, 89 + 28 + 5, 410);
+      } else {
+        return this.screen.render(28, 768, 28, 28, 89, 410);
+      }
+    }
   };
 
   GameScene.prototype.renderBackground = function() {
