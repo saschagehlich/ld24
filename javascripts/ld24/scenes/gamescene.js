@@ -33,7 +33,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.toScrollY = this.scrollY;
     this.mobs = [this.player];
     this.particles = [];
-    this.levelNum = 2;
+    this.levelNum = 4;
     this.level = new LD24.Levels['Level' + this.levelNum](this.game, this, this.screen);
     this.level.on('win', function() {
       $('.level-progress').fadeOut('slow');
@@ -202,7 +202,6 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       if (mob instanceof LD24.Mobs.Bad || mob instanceof LD24.Mobs.PowerUp) {
         distX = Math.abs(mob.x - (this.scrollX + this.screen.width / 2) / this.zoom);
         distY = Math.abs(mob.y - (this.scrollY + this.screen.height / 2) / this.zoom);
-        this.game.debug(Math.round(distX) + ',' + Math.round(distY) + ' // ' + Math.round(this.screen.width / 2) + ',' + Math.round(this.screen.height / 2));
         distanceMin = distX < this.screen.width / 2 / this.zoom + mob.spriteW * mob.scale && distY < this.screen.height / 2 / this.zoom + mob.spriteW * mob.scale;
         distanceMax = distX < this.screen.width / this.zoom + mob.spriteW * mob.scale && distY < this.screen.height / this.zoom + mob.spriteW * mob.scale;
         if (!distanceMin && distanceMax) {

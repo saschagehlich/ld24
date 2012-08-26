@@ -27,31 +27,3 @@ window.LD24.Levels.Level3 = class Level3 extends LD24.Level
     @goalScale = 0
     for mob in @scene.mobs
       @goalScale += mob.scale / 5
-
-    @scene.player.on 'absorb', @playerAbsorbedMob
-    @scene.player.on 'absorbed', @playerGotAbsorbed
-
-  playerAbsorbedMob: (scale) =>
-    percentDone = Math.round(100 / @goalScale * scale)
-    percentDone = Math.min percentDone, 100
-
-    @progressDoneDisplayer.stop().animate width: percentDone + '%', 'fast'
-
-    if percentDone >= 100
-      @won()
-
-  playerGotAbsorbed: (absorbingMob) =>
-    @lost absorbingMob
-
-  won: ->
-    @game.hideInfoBox()
-    @emit 'win'
-
-  lost: (absorbingMob) ->
-    @game.hideInfoBox()
-
-    if absorbingMob instanceof LD24.Mobs.Bad
-      @emit 'lost', 'You ran into a red particle. It absorbed you.'
-
-  terminate: ->
-    @scene.player.removeListener 'absorb', @playerAbsorbedMob

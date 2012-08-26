@@ -277,7 +277,7 @@ body {
   border-top-left-radius: 5px;
 }
 .canvas-wrapper .info-box .text {
-  padding: 10px 5px;
+  padding: 10px 5px 15px 5px;
   font: bold 12px 'Enriqueta', sans;
   color: #fff;
   text-shadow: -1px -1px 0 rgba(0,0,0,0.5);

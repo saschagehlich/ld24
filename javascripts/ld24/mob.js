@@ -123,7 +123,7 @@ window.LD24.Mob = Mob = (function(_super) {
 
   Mob.prototype.absorb = function(mob) {
     var _this = this;
-    if (!this.absorbing && mob.canBeAbsorbedBy(this)) {
+    if (!this.absorbing && mob.canBeAbsorbedBy(this) && !this.absorbed) {
       this.toScale = this.scale + mob.scale / 2;
       this.absorbing = true;
       mob.once('absorbed', function() {

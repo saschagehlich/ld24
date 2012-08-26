@@ -108,7 +108,7 @@ window.LD24.Mob = class Mob extends EventEmitter
     @removed = true
 
   absorb: (mob) ->
-    if not @absorbing and mob.canBeAbsorbedBy(@)
+    if not @absorbing and mob.canBeAbsorbedBy(@) and !@absorbed
       @toScale = @scale + mob.scale / 2
       @absorbing = true
 

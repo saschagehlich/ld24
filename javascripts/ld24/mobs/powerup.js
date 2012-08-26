@@ -21,7 +21,13 @@ window.LD24.Mobs.PowerUp = PowerUpMob = (function(_super) {
     this.screen = screen;
     PowerUpMob.__super__.constructor.call(this, this.game, this.scene, this.screen);
     this.opacity = 1.0;
+    this.borderRotation = 0;
   }
+
+  PowerUpMob.prototype.tick = function() {
+    PowerUpMob.__super__.tick.call(this);
+    return this.borderRotation += 0.8;
+  };
 
   PowerUpMob.prototype.render = function() {
     var finalH, finalW, finalX, finalY;
@@ -31,7 +37,8 @@ window.LD24.Mobs.PowerUp = PowerUpMob = (function(_super) {
     finalY = (this.y * this.scene.zoom - finalH / 2) - this.scene.scrollY;
     this.screen.render(256, 256, 256, 256, finalX, finalY, finalW, finalH);
     this.screen.render(256 * 2, 256, 256, 256, finalX - this.speedX * 10, finalY - this.speedY * 10, finalW, finalH, this.rotation * (Math.PI / 180));
-    return this.screen.render(256 * 3, 256, 256, 256, finalX - this.speedX * 10, finalY - this.speedY * 10, finalW, finalH, this.rotation * (Math.PI / 180));
+    this.screen.render(256 * 3, 256, 256, 256, finalX - this.speedX * 10, finalY - this.speedY * 10, finalW, finalH, this.rotation * (Math.PI / 180));
+    return this.screen.render(0, 512, 256, 256, finalX - this.speedX * 10, finalY - this.speedY * 10, finalW, finalH, this.borderRotation * (Math.PI / 180));
   };
 
   PowerUpMob.prototype.canBeAbsorbedBy = function(mob) {

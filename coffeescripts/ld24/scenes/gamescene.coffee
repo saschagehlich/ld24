@@ -21,7 +21,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @mobs = [@player]
     @particles = []
 
-    @levelNum = 2
+    @levelNum = 4
     @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
     @level.on 'win', =>
       $('.level-progress').fadeOut 'slow'
@@ -168,12 +168,10 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
         mob.y * @zoom - (mob.spriteH * mob.scale * @zoom) / 2 < @scrollY + @screen.height
           mob.render()
 
-      # is there a bad mob around? draw an arrow for him
+      # is there a special mob around? draw an arrow for him
       if mob instanceof LD24.Mobs.Bad or mob instanceof LD24.Mobs.PowerUp
         distX = Math.abs(mob.x - (@scrollX + @screen.width / 2) / @zoom)
         distY = Math.abs(mob.y - (@scrollY + @screen.height / 2) / @zoom)
-
-        @game.debug Math.round(distX) + ',' + Math.round(distY) + ' // ' + Math.round(@screen.width / 2) + ',' + Math.round(@screen.height / 2)
 
         distanceMin = (distX < @screen.width / 2 / @zoom + mob.spriteW * mob.scale and distY < @screen.height / 2 / @zoom + mob.spriteW * mob.scale)
         distanceMax = distX < @screen.width / @zoom + mob.spriteW * mob.scale and distY < @screen.height / @zoom + mob.spriteW * mob.scale
