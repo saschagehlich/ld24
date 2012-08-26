@@ -168,11 +168,11 @@ body {
   margin-left: -320px;
   margin-top: -240px;
   border: 3px solid rgba(255,255,255,0.2);
+  background: url("../assets/images/background.png") no-repeat center center;
 }
 .canvas-wrapper canvas {
   width: 640px;
   height: 480px;
-  image-rendering: optimizeQuality;
 }
 .canvas-wrapper .debug {
   position: absolute;

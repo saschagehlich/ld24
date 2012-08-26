@@ -49,12 +49,12 @@ window.LD24.Level = class Level extends EventEmitter
 
       @scene.mobs.push mob
 
-  addSpeedPowerUps: (count, scale) ->
+  addSpeedPowerUps: (count, scale, x, y) ->
     # Power ups
     for i in [0...count]
       mob = new LD24.Mobs.PowerUpSpeed @game, @scene, @screen
-      mob.x = Math.random() * @screen.width
-      mob.y = Math.random() * @screen.height
+      mob.x = x || (Math.random() * @screen.width)
+      mob.y = y || (Math.random() * @screen.height)
 
       mob.scale = mob.toScale = scale
 
@@ -67,12 +67,12 @@ window.LD24.Level = class Level extends EventEmitter
 
       @scene.mobs.push mob
 
-  addAttractionPowerUps: (count, scale) ->
+  addAttractionPowerUps: (count, scale, x, y) ->
     # Power ups
     for i in [0...count]
       mob = new LD24.Mobs.PowerUpAttraction @game, @scene, @screen
-      mob.x = Math.random() * @screen.width
-      mob.y = Math.random() * @screen.height
+      mob.x = x || (Math.random() * @screen.width)
+      mob.y = y || (Math.random() * @screen.height)
 
       mob.scale = mob.toScale = scale
 

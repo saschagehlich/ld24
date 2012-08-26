@@ -20,7 +20,7 @@ window.LD24.Levels.Level4 = Level4 = (function(_super) {
   Level4.prototype.subname = 'Currere Velocius';
 
   function Level4(game, scene, screen) {
-    var i, mob, scale, _i, _j, _k, _l, _len, _m, _ref2;
+    var i, mob, powerupX, powerupY, scale, _i, _j, _k, _l, _len, _m, _ref2;
     this.game = game;
     this.scene = scene;
     this.screen = screen;
@@ -39,10 +39,15 @@ window.LD24.Levels.Level4 = Level4 = (function(_super) {
       scale = 0.01 + Math.random() * 0.1;
       this.addBadMobs(1, scale);
     }
-    for (i = _l = 0; _l < 3; i = ++_l) {
+    for (i = _l = 0; _l < 2; i = ++_l) {
       scale = 0.03 + Math.random() * 0.1;
       this.addSpeedPowerUps(1, scale);
     }
+    scale = 0.03 + Math.random() * 0.1;
+    powerupX = this.scene.scrollX / this.scene.zoom + Math.random() * this.screen.width / this.scene.zoom;
+    powerupY = this.scene.scrollY / this.scene.zoom + Math.random() * this.screen.height / this.scene.zoom;
+    console.log(powerupX, powerupY);
+    this.addSpeedPowerUps(1, scale, powerupX, powerupY);
     this.goalScale = 0;
     _ref2 = this.scene.mobs;
     for (_m = 0, _len = _ref2.length; _m < _len; _m++) {

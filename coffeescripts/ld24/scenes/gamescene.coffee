@@ -5,7 +5,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @running = false
 
     @boundaryOffset = 100
-    @levelNum       = 1
+    @levelNum       = 5
     @levelsCount    = 5
     @defaultZoom    = 5
 
