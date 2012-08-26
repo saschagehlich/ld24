@@ -4,7 +4,7 @@ window.LD24.Mobs.Player = class Player extends LD24.Mob
   constructor: (@game, @scene, @screen) ->
     super @game, @scene, @screen
 
-    @totalMaxSpeed = @maxSpeed = 3
+    @totalMaxSpeed = @maxSpeed = 1
 
     @powerupSpeed = false
     @powerupSpeedEndTick = 0
