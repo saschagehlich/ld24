@@ -58,4 +58,4 @@ window.LD24.Mobs.Bad = BadMob = (function(_super) {
 
   return BadMob;
 
-})(LD24.Mobs.Mote);
+})(LD24.Mob);

@@ -34,7 +34,7 @@ window.LD24.Level = class Level extends EventEmitter
   addNormalMobs: (count, scale) ->
     # Normal mobs
     for i in [0...count]
-      mob = new LD24.Mobs.Mote @game, @scene, @screen
+      mob = new LD24.Mob @game, @scene, @screen
       mob.x = Math.random() * @screen.width
       mob.y = Math.random() * @screen.height
 
@@ -71,6 +71,24 @@ window.LD24.Level = class Level extends EventEmitter
     # Power ups
     for i in [0...count]
       mob = new LD24.Mobs.PowerUpAttraction @game, @scene, @screen
+      mob.x = x || (Math.random() * @screen.width)
+      mob.y = y || (Math.random() * @screen.height)
+
+      mob.scale = mob.toScale = scale
+
+      mob.speedX = mob.toSpeedX = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedX *= -1
+      mob.speedY = mob.toSpeedY = Math.random() * mob.maxSpeed
+      if Math.round(Math.random()) is 0
+        mob.speedY *= -1
+
+      @scene.mobs.push mob
+
+  addProtectionPowerUp: (count, scale, x, y) ->
+    # Power ups
+    for i in [0...count]
+      mob = new LD24.Mobs.PowerUpProtection @game, @scene, @screen
       mob.x = x || (Math.random() * @screen.width)
       mob.y = y || (Math.random() * @screen.height)
 

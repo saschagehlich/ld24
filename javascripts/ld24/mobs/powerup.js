@@ -50,4 +50,4 @@ window.LD24.Mobs.PowerUp = PowerUpMob = (function(_super) {
 
   return PowerUpMob;
 
-})(LD24.Mobs.Mote);
+})(LD24.Mob);

@@ -19,7 +19,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
         @levelNum = parseInt($.cookie('abs_tt_lvl'))
       else
         @levelNum       = 1
-      @levelsCount    = 5
+      @levelsCount    = 6
 
     @reset()
 

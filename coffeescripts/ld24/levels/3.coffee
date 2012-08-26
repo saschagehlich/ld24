@@ -8,7 +8,7 @@ window.LD24.Levels.Level3 = class Level3 extends LD24.Level
 
     @levelNumDisplayer.text @name
 
-    @game.showInfoBox 'Red particles are bad! They absorb you, even if it\'s smaller than you.'
+    @game.showInfoBox 'Red particles are bad! They absorb you, even if they\'re smaller than you.'
 
     # Only normal mobs, but also bigger ones
     for i in [0...30]

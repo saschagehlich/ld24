@@ -35,7 +35,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
       } else {
         this.levelNum = 1;
       }
-      this.levelsCount = 5;
+      this.levelsCount = 6;
     }
     this.reset();
   }
