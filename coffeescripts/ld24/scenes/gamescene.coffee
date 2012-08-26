@@ -1,11 +1,11 @@
 window.LD24 ?= {}
 window.LD24.Scenes ?= {}
 window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
-  constructor: (@game, @screen) ->
+  constructor: (@game, @screen, @endless=false) ->
     @running = false
 
     @boundaryOffset = 100
-    @levelNum       = 1
+    @levelNum       = 2
     @defaultZoom    = 5
 
     @reset()
@@ -40,18 +40,22 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @mobs = [@player]
     @particles = []
 
-    @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
-    @level.once 'win', =>
-      $('.level-progress').fadeOut 'slow'
-      $('.level-complete').text('Level complete').fadeIn 'slow'
+    unless @endless
+      @level = new LD24.Levels['Level' + @levelNum] @game, this, @screen
+      @level.once 'win', =>
+        $('.level-progress').fadeOut 'slow'
+        $('.level-complete').text('Level complete').fadeIn 'slow'
 
-      after 2000, =>
-        @unloadLevel()
+        after 2000, =>
+          @unloadLevel()
+    else
+      @level = new LD24.Levels.LevelEndless @game, this, @screen
 
     @level.on 'lost', (reason='You have been absorbed by a bigger particle.') =>
       $('.level-progress').fadeOut 'slow'
       $('.level-complete').text('You lost').fadeIn 'slow'
       $('.level-complete-detail').text(reason).fadeIn 'slow'
+      $('.continue').fadeIn 'slow'
 
     @generateParticles()
     @loadLevel()
@@ -76,6 +80,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     $('.level-complete-detail').fadeIn 'slow', =>
       after 2000, =>
         $('.level-complete').fadeOut 'slow'
+        $('.continue').fadeOut 'slow'
         $('.level-complete-detail').fadeOut 'slow', =>
 
           @running = true

@@ -17,8 +17,15 @@ window.LD24.Game = Game = (function() {
     this.sounds = new LD24.Sounds(this);
     this.setupTickLoop();
     this.setupRenderLoop();
-    jwerty.key('p', function() {
-      return _this.pause();
+    this.paused = false;
+    $(document).keydown(function(e) {
+      if (e.keyCode === 80) {
+        if (!_this.paused) {
+          return _this.pause();
+        } else {
+          return _this.unpause();
+        }
+      }
     });
   }
 
@@ -46,6 +53,13 @@ window.LD24.Game = Game = (function() {
     });
   };
 
+  Game.prototype.loadEndless = function() {
+    var _this = this;
+    return this.scene.terminate(function() {
+      return _this.scene = new LD24.Scenes.GameScene(_this, _this.screen, true);
+    });
+  };
+
   Game.prototype.setupTickLoop = function() {
     var _this = this;
     return this.tickLoop = every(1000 / this.framesPerSecond, function() {
@@ -70,8 +84,15 @@ window.LD24.Game = Game = (function() {
   };
 
   Game.prototype.pause = function() {
+    this.paused = true;
     clearInterval(this.tickLoop);
     return clearInterval(this.renderLoop);
+  };
+
+  Game.prototype.unpause = function() {
+    this.paused = false;
+    this.setupTickLoop();
+    return this.setupRenderLoop();
   };
 
   Game.prototype.debug = function(msg) {

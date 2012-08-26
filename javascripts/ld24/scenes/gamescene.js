@@ -15,13 +15,14 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
 
   __extends(GameScene, _super);
 
-  function GameScene(game, screen) {
+  function GameScene(game, screen, endless) {
     var _this = this;
     this.game = game;
     this.screen = screen;
+    this.endless = endless != null ? endless : false;
     this.running = false;
     this.boundaryOffset = 100;
-    this.levelNum = 1;
+    this.levelNum = 2;
     this.defaultZoom = 5;
     this.reset();
     $(document).keydown(function(e) {
@@ -56,21 +57,26 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.toScrollY = this.scrollY;
     this.mobs = [this.player];
     this.particles = [];
-    this.level = new LD24.Levels['Level' + this.levelNum](this.game, this, this.screen);
-    this.level.once('win', function() {
-      $('.level-progress').fadeOut('slow');
-      $('.level-complete').text('Level complete').fadeIn('slow');
-      return after(2000, function() {
-        return _this.unloadLevel();
+    if (!this.endless) {
+      this.level = new LD24.Levels['Level' + this.levelNum](this.game, this, this.screen);
+      this.level.once('win', function() {
+        $('.level-progress').fadeOut('slow');
+        $('.level-complete').text('Level complete').fadeIn('slow');
+        return after(2000, function() {
+          return _this.unloadLevel();
+        });
       });
-    });
+    } else {
+      this.level = new LD24.Levels.LevelEndless(this.game, this, this.screen);
+    }
     this.level.on('lost', function(reason) {
       if (reason == null) {
         reason = 'You have been absorbed by a bigger particle.';
       }
       $('.level-progress').fadeOut('slow');
       $('.level-complete').text('You lost').fadeIn('slow');
-      return $('.level-complete-detail').text(reason).fadeIn('slow');
+      $('.level-complete-detail').text(reason).fadeIn('slow');
+      return $('.continue').fadeIn('slow');
     });
     this.generateParticles();
     return this.loadLevel();
@@ -96,6 +102,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     return $('.level-complete-detail').fadeIn('slow', function() {
       return after(2000, function() {
         $('.level-complete').fadeOut('slow');
+        $('.continue').fadeOut('slow');
         return $('.level-complete-detail').fadeOut('slow', function() {
           _this.running = true;
           $('canvas').fadeIn('slow');

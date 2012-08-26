@@ -6,17 +6,17 @@ window.LD24.Game = class Game
     @scene  = new LD24.Scenes.SplashScene this, @screen
     @sounds = new LD24.Sounds this
 
-    # @scene.on 'win', =>
-    #   console.log 'player won'
-
-    # @scene.on 'lose', =>
-    #   console.log 'player lost'
-
     @setupTickLoop()
     @setupRenderLoop()
 
-    jwerty.key 'p', =>
-      @pause()
+    @paused = false
+
+    $(document).keydown (e) =>
+      if e.keyCode is 80
+        unless @paused
+          @pause()
+        else
+          @unpause()
 
   showInfoBox: (message) ->
     $('.info-box .text').text message
@@ -29,6 +29,10 @@ window.LD24.Game = class Game
   loadCampaign: ->
     @scene.terminate =>
       @scene = new LD24.Scenes.GameScene this, @screen
+
+  loadEndless: ->
+    @scene.terminate =>
+      @scene = new LD24.Scenes.GameScene this, @screen, true
 
   setupTickLoop: ->
     @tickLoop = every 1000 / @framesPerSecond, =>
@@ -46,8 +50,16 @@ window.LD24.Game = class Game
     @scene.render()
 
   pause: ->
+    @paused = true
+
     clearInterval @tickLoop
     clearInterval @renderLoop
+
+  unpause: ->
+    @paused = false
+
+    @setupTickLoop()
+    @setupRenderLoop()
 
   debug: (msg) ->
     $('.debug').show().text msg
