@@ -457,6 +457,7 @@ body {
   width: 640px;
   height: 480px;
   background: url("../assets/images/background.png") no-repeat center;
+  display: none;
 }
 .intro .filsh-media {
   display: none;

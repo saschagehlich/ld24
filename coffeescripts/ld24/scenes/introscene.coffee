@@ -4,6 +4,8 @@ window.LD24.Scenes.IntroScene = class IntroScene extends EventEmitter
   constructor: (@game, @screen) ->
     @intro = $('.intro')
 
+    @intro.show()
+
     after 1000, =>
       @intro.find('.filsh-media').fadeIn 'slow', =>
         @intro.find('.filsh-media .logo').animate width: 130, opacity: 0, left: '+=5', top: '+=5', "fast", =>

@@ -20,6 +20,7 @@ window.LD24.Scenes.IntroScene = IntroScene = (function(_super) {
     this.game = game;
     this.screen = screen;
     this.intro = $('.intro');
+    this.intro.show();
     after(1000, function() {
       return _this.intro.find('.filsh-media').fadeIn('slow', function() {
         return _this.intro.find('.filsh-media .logo').animate({
