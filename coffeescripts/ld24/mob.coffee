@@ -31,9 +31,10 @@ window.LD24.Mob = class Mob extends EventEmitter
 
     @tickCount = 0
 
-    @opacity = 0.9
+    @opacity = @toOpacity = 0.9
 
   tick: ->
+    @opacity += (@toOpacity - @opacity) / 10
     unless @absorbingMob?
       @speedX += (@toSpeedX - @speedX) / 20
       @speedY += (@toSpeedY - @speedY) / 20
@@ -106,6 +107,7 @@ window.LD24.Mob = class Mob extends EventEmitter
     @absorbed = true
     @absorbingMob = mob
     @toScale = 0
+    @toOpacity = 0
 
   canBeAbsorbedBy: (mob) ->
     if @scale > mob.scale

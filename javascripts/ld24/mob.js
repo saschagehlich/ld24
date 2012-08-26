@@ -41,10 +41,11 @@ window.LD24.Mob = Mob = (function(_super) {
     this.powerupAttractionEndTick = 0;
     this.attraction = 0;
     this.tickCount = 0;
-    this.opacity = 0.9;
+    this.opacity = this.toOpacity = 0.9;
   }
 
   Mob.prototype.tick = function() {
+    this.opacity += (this.toOpacity - this.opacity) / 10;
     if (this.absorbingMob == null) {
       this.speedX += (this.toSpeedX - this.speedX) / 20;
       this.speedY += (this.toSpeedY - this.speedY) / 20;
@@ -114,7 +115,8 @@ window.LD24.Mob = Mob = (function(_super) {
   Mob.prototype.absorbedBy = function(mob) {
     this.absorbed = true;
     this.absorbingMob = mob;
-    return this.toScale = 0;
+    this.toScale = 0;
+    return this.toOpacity = 0;
   };
 
   Mob.prototype.canBeAbsorbedBy = function(mob) {
