@@ -65,6 +65,11 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
         if (_this.selectedItem.hasClass('continue')) {
           _this.pause();
         }
+        if (_this.selectedItem.hasClass('retry')) {
+          _this.unloadLevel();
+          _this.game.unpause();
+          $('.ingame-menu').fadeOut('slow');
+        }
         if (_this.selectedItem.hasClass('quit')) {
           _this.game.loadSplash();
           return $('.ingame-menu').fadeOut('slow');
@@ -156,6 +161,8 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
   GameScene.prototype.unloadLevel = function() {
     var _this = this;
     this.level.terminate();
+    $(document).off('.jwerty');
+    $(document).off('keydown');
     $('.level-complete').fadeOut('slow');
     $('.level-complete-detail').fadeOut('slow');
     $('div.continue').fadeOut('slow');
@@ -164,8 +171,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     });
     return $('canvas').fadeOut('slow', function() {
       _this.reset();
-      _this.running = false;
-      return _this.reset();
+      return _this.running = false;
     });
   };
 

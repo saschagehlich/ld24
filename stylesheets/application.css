@@ -378,7 +378,7 @@ body {
 }
 .ingame-menu .paused {
   position: absolute;
-  top: 170px;
+  top: 120px;
   text-align: center;
   width: 640px;
   font: bold 35px 'Enriqueta', sans;
@@ -393,7 +393,7 @@ body {
   width: 300px;
   text-align: center;
   position: absolute;
-  top: 250px;
+  top: 210px;
   left: 50%;
   margin-left: -150px;
 }

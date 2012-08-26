@@ -43,6 +43,10 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
       jwerty.key 'enter', =>
         if @selectedItem.hasClass 'continue'
           @pause()
+        if @selectedItem.hasClass 'retry'
+          @unloadLevel()
+          @game.unpause()
+          $('.ingame-menu').fadeOut 'slow'
         if @selectedItem.hasClass 'quit'
           @game.loadSplash()
           $('.ingame-menu').fadeOut 'slow'
@@ -126,16 +130,16 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
   unloadLevel: ->
     @level.terminate()
 
+    $(document).off '.jwerty'
+    $(document).off 'keydown'
+
     $('.level-complete').fadeOut 'slow'
     $('.level-complete-detail').fadeOut 'slow'
     $('div.continue').fadeOut 'slow'
     $('.level-progress .done').css width: '0'
     $('canvas').fadeOut 'slow', =>
       @reset()
-
       @running = false
-
-      @reset()
 
   loadLevel: ->
     $('.level-complete').text @level.name
