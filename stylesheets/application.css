@@ -172,6 +172,7 @@ body {
 .canvas-wrapper canvas {
   width: 640px;
   height: 480px;
+  image-rendering: optimizeQuality;
 }
 .canvas-wrapper .debug {
   position: absolute;

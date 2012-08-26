@@ -20,7 +20,7 @@ window.LD24.Levels.Level5 = Level5 = (function(_super) {
   Level5.prototype.subname = 'Quite Attractive';
 
   function Level5(game, scene, screen) {
-    var i, mob, scale, _i, _j, _k, _len, _ref2;
+    var i, mob, scale, _i, _j, _k, _l, _len, _m, _ref2;
     this.game = game;
     this.scene = scene;
     this.screen = screen;
@@ -31,14 +31,22 @@ window.LD24.Levels.Level5 = Level5 = (function(_super) {
       scale = 0.01 + Math.random() * 0.03;
       this.addNormalMobs(1, scale);
     }
-    for (i = _j = 0; _j < 3; i = ++_j) {
+    for (i = _j = 0; _j < 30; i = ++_j) {
+      scale = 0.01 + Math.random() * 0.1;
+      this.addNormalMobs(1, scale);
+    }
+    for (i = _k = 0; _k < 5; i = ++_k) {
+      scale = 0.01 + Math.random() * 0.1;
+      this.addBadMobs(1, scale);
+    }
+    for (i = _l = 0; _l < 3; i = ++_l) {
       scale = 0.03 + Math.random() * 0.1;
       this.addAttractionPowerUps(1, scale);
     }
     this.goalScale = 0;
     _ref2 = this.scene.mobs;
-    for (_k = 0, _len = _ref2.length; _k < _len; _k++) {
-      mob = _ref2[_k];
+    for (_m = 0, _len = _ref2.length; _m < _len; _m++) {
+      mob = _ref2[_m];
       this.goalScale += mob.scale / 5;
     }
   }

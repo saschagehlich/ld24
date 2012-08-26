@@ -15,13 +15,13 @@ window.LD24.Levels.Level5 = class Level5 extends LD24.Level
       scale = 0.01 + Math.random() * 0.03
       @addNormalMobs 1, scale
 
-    # for i in [0...30]
-    #   scale = 0.01 + Math.random() * 0.1
-    #   @addNormalMobs 1, scale
+    for i in [0...30]
+      scale = 0.01 + Math.random() * 0.1
+      @addNormalMobs 1, scale
 
-    # for i in [0...5]
-    #   scale = 0.01 + Math.random() * 0.1
-    #   @addBadMobs 1, scale
+    for i in [0...5]
+      scale = 0.01 + Math.random() * 0.1
+      @addBadMobs 1, scale
 
     for i in [0...3]
       scale = 0.03 + Math.random() * 0.1
