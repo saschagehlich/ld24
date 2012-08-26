@@ -22,7 +22,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
     this.endless = endless != null ? endless : false;
     this.running = false;
     this.boundaryOffset = 100;
-    this.levelNum = 2;
+    this.levelNum = 5;
     this.defaultZoom = 5;
     this.reset();
     $(document).keydown(function(e) {
@@ -158,7 +158,7 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
   };
 
   GameScene.prototype.tick = function() {
-    var dist, distX, distY, mob, otherMob, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
+    var dist, distX, distY, mob, mobRadius, otherMob, otherMobRadius, particle, _i, _j, _len, _len1, _ref2, _ref3, _results;
     if (!this.running) {
       return;
     }
@@ -203,9 +203,11 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
             mob.absorb(otherMob);
           }
           if (otherMob !== mob && !otherMob.absorbed && mob.attraction > 0 && !(otherMob instanceof LD24.Mobs.PowerUp) && !(otherMob instanceof LD24.Mobs.Bad)) {
+            mobRadius = mob.spriteW / 2 * mob.scale;
+            otherMobRadius = otherMob.spriteW / 2 * otherMob.scale;
             distX = mob.x - otherMob.x;
             distY = mob.y - otherMob.y;
-            dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+            dist = Math.sqrt(Math.pow(Math.abs(distX), 2) + Math.pow(Math.abs(distY), 2)) - mobRadius - otherMobRadius;
             if (dist < 100) {
               otherMob.speedX = distX / 50;
               _results1.push(otherMob.speedY = distY / 50);
@@ -259,8 +261,10 @@ window.LD24.Scenes.GameScene = GameScene = (function(_super) {
           arrowRotation = Math.atan2(distY, distX);
           if (mob instanceof LD24.Mobs.Bad) {
             spriteY = 32 + 25;
-          } else if (mob instanceof LD24.Mobs.PowerUp) {
+          } else if (mob instanceof LD24.Mobs.PowerUpSpeed) {
             spriteY = 32;
+          } else if (mob instanceof LD24.Mobs.PowerUpAttraction) {
+            spriteY = 32 + 25 * 2;
           }
           _results.push(this.screen.render(768, spriteY, 38, 25, arrowX, arrowY, null, null, arrowRotation));
         } else {

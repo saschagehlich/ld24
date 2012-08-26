@@ -5,7 +5,7 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
     @running = false
 
     @boundaryOffset = 100
-    @levelNum       = 2
+    @levelNum       = 5
     @defaultZoom    = 5
 
     @reset()
@@ -180,9 +180,12 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
           mob.attraction > 0 and 
           not (otherMob instanceof LD24.Mobs.PowerUp) and
           not (otherMob instanceof LD24.Mobs.Bad)
+            mobRadius      = (mob.spriteW / 2 * mob.scale)
+            otherMobRadius = (otherMob.spriteW / 2 * otherMob.scale)
+
             distX = mob.x - otherMob.x
             distY = mob.y - otherMob.y
-            dist  = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2))
+            dist  = Math.sqrt(Math.pow(Math.abs(distX), 2) + Math.pow(Math.abs(distY), 2)) - mobRadius - otherMobRadius
 
             if dist < 100
               otherMob.speedX = distX / 50
@@ -233,8 +236,11 @@ window.LD24.Scenes.GameScene = class GameScene extends EventEmitter
 
           if mob instanceof LD24.Mobs.Bad
             spriteY = 32 + 25
-          else if mob instanceof LD24.Mobs.PowerUp
+          else if mob instanceof LD24.Mobs.PowerUpSpeed
             spriteY = 32
+          else if mob instanceof LD24.Mobs.PowerUpAttraction
+            spriteY = 32 + 25*2
+          
           @screen.render 768, spriteY, 38, 25, arrowX, arrowY, null, null, arrowRotation
 
 
