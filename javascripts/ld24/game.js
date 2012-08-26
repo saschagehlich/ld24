@@ -15,6 +15,9 @@ window.LD24.Game = Game = (function() {
     this.screen = new LD24.Screen(this.canvas);
     this.scene = new LD24.Scenes.SplashScene(this, this.screen);
     this.sounds = new LD24.Sounds(this);
+    this.sounds.on('loaded', function() {
+      return _this.sounds.playSoundtrack();
+    });
     this.setupTickLoop();
     this.setupRenderLoop();
     this.paused = false;

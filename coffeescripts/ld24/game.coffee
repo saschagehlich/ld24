@@ -6,6 +6,9 @@ window.LD24.Game = class Game
     @scene  = new LD24.Scenes.SplashScene this, @screen
     @sounds = new LD24.Sounds this
 
+    @sounds.on 'loaded', =>
+      @sounds.playSoundtrack()
+
     @setupTickLoop()
     @setupRenderLoop()
 
